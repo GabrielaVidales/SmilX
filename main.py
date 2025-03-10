@@ -9,14 +9,16 @@ def main():
     a = initial_parameters()
 
     b = chemical_space(a)
+    
+    with open(f"{a.filename_output_smi}", "r") as file:
+        st.download_button(
+            label="Download SMILES",
+            data=file,
+            file_name=f"{a.filename_output_smi}",
+            mime="text/smi",
+        )
 
 if __name__ == "__main__":
     main()
 
-with open("logo_smilx.jpg", "rb") as file:
-    st.download_button(
-        label="Download image",
-        data=file,
-        file_name="logo.jpg",
-        mime="image/jpg",
-    )
+
