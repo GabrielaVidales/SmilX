@@ -10,6 +10,9 @@ def main():
 
     b = chemical_space(a)
 
+if __name__ == "__main__":
+    main()
+
 with open("logo_smilx.jpg", "rb") as file:
     st.download_button(
         label="Download image",
@@ -17,6 +20,3 @@ with open("logo_smilx.jpg", "rb") as file:
         file_name="logo.jpg",
         mime="image/jpg",
     )
-
-if __name__ == "__main__":
-    main()
