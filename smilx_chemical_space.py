@@ -147,7 +147,7 @@ def copy_file_pkl(path_src, path_dest, delete_sourse = False):
 
 class smilx_hydrocarbons:
     def __init__(self, cycle_pi_system, parameters):
-        self.folder_src = f'dependencies/valence_4/{parameters.n_heavy_atoms}'
+        self.folder_src = f'dependences/valence_4/{parameters.n_heavy_atoms}'
         self.src_file_target = f'{cycle_pi_system.double_bonds}-{cycle_pi_system.triple_bonds}-{cycle_pi_system.cycles}.pkl'
         self.path_src_target = f'{self.folder_src}/{self.src_file_target}'
         self.code_target = np.array([cycle_pi_system.double_bonds, cycle_pi_system.triple_bonds, cycle_pi_system.cycles])
