@@ -109,6 +109,17 @@ def delete_file(file_to_delete):
   except FileNotFoundError:
     pass
 
+def get_smiles_from_pickle_file(file_name, name_output):
+    """Carga y recorre todas las estructuras de un archivo pickle almacenadas en secuencia."""
+    with open(file_name, 'rb') as file, open(name_output, 'w', encoding='utf-8') as file2:
+        while True:
+            try:
+                datos = pickle.load(file)  # Cargar la siguiente estructura
+                file2.write(f"{datos.smiles}\n")
+            except EOFError:
+                break
+    delete_file(file_name)
+
 def create_file_pkl(filename):
     with open(filename, "wb") as file:
         pass  # No se escribe nada, el archivo queda vacío
@@ -466,4 +477,6 @@ class chemical_space:
                     smilx_atom_substitution(self.smx_dehydrogenation, 
                                             parameters.molecular_formula, 
                                             parameters)
-        st.write(f"******************************Exploration completed: {size_pickle_file_closed(parameters.filename_output_pkl)} found******************************")
+        count_smiles = size_pickle_file_closed(parameters.filename_output_pkl)
+        self.get_smiles_from_pickle_file(parameters.filename_output_pkl, parameters.filename_output_smi)
+        st.write(f"******************************Exploration completed: {count_smiles} found******************************")
