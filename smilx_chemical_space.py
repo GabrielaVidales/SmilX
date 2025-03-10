@@ -478,5 +478,5 @@ class chemical_space:
                                             parameters.molecular_formula, 
                                             parameters)
         count_smiles = size_pickle_file_closed(parameters.filename_output_pkl)
-        self.get_smiles_from_pickle_file(parameters.filename_output_pkl, parameters.filename_output_smi)
+        get_smiles_from_pickle_file(parameters.filename_output_pkl, parameters.filename_output_smi)
         st.write(f"******************************Exploration completed: {count_smiles} found******************************")
