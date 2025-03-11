@@ -4,7 +4,7 @@ from rdkit import Chem
 import streamlit as st
 
 st.set_page_config(
-    page_title = "SmilX"
+    page_title = "SmilX",
     layout = wide
 )
 
