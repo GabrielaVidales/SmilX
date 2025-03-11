@@ -16,7 +16,7 @@ class initial_parameters:
         </style>
     """, unsafe_allow_html=True)
     st.markdown('<div class="centered-image">', unsafe_allow_html=True)
-    st.image('logo_smilx.png', use_container_width=True, width=200)
+    st.image('logo_smilx.png', use_container_width=True, width=100)
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.write('                 CENTRO DE INVESTIGACIÓN Y ESTUDIOS AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV)                    \n'+
