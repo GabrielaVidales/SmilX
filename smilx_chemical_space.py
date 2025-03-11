@@ -7,6 +7,7 @@ from tqdm import tqdm
 from smilx_chemistry_tools import standard_smiles
 from rdkit import Chem
 import streamlit as st
+import pandas as pd
 
 def list_files(path_folder):
     """
