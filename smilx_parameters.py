@@ -16,6 +16,7 @@ class initial_parameters:
       <div style="text-align: center;">
         CENTRO DE INVESTIGACIÓN Y ESTUDIOS AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV) <br>
         THEOCHEM MÉRICA YUCATÁN <br>
+        Luis Armando Gonzalez-Ortiz, Gabriel Merino, Amilcar Meneses, Lisset Noriega, and Filiberto Ortiz. <br>
         GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation <br>
           <br>
       </div>
