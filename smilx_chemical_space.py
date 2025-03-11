@@ -110,15 +110,25 @@ def delete_file(file_to_delete):
     pass
 
 def get_smiles_from_pickle_file(file_name, name_output):
-    """Carga y recorre todas las estructuras de un archivo pickle almacenadas en secuencia."""
     with open(file_name, 'rb') as file, open(name_output, 'w', encoding='utf-8') as file2:
         while True:
             try:
-                datos = pickle.load(file)  # Cargar la siguiente estructura
+                datos = pickle.load(file)
                 file2.write(f"{datos.smiles}\n")
             except EOFError:
                 break
     delete_file(file_name)
+
+def get_list_smiles_from_pickle_file(file_name):
+    list_smiles = []
+    with open(file_name, 'rb') as file:
+        while True:
+            try:
+                datos = pickle.load(file)
+                list_smiles.append(datos.smiles)
+            except EOFError:
+                break
+    return list_smiles
 
 def create_file_pkl(filename):
     with open(filename, "wb") as file:
@@ -478,5 +488,10 @@ class chemical_space:
                                             parameters.molecular_formula, 
                                             parameters)
         count_smiles = size_pickle_file_closed(parameters.filename_output_pkl)
+        list_smiles = get_list_smiles_from_pickle_file(parameters.filename_output_pkl)
         get_smiles_from_pickle_file(parameters.filename_output_pkl, parameters.filename_output_smi)
-        st.write(f"******************************Exploration completed: {count_smiles} found******************************")
+        st.write(f"******************************Exploration completed: {count_smiles} isomers found******************************")
+        df = pd.DataFrame({"smi": list_smiles,
+                           "id": range(1, len(list_smiles) + 1)})
+        mg = mols2grid.MolGrid(df, smiles_col="smi", size=(120, 100))
+        mg.display(subset=["id", "img","smi"], n_cols=11, n_rows=10)
