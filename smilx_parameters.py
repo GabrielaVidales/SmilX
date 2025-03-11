@@ -9,16 +9,8 @@ class initial_parameters:
 
     col1, col2, col3 = st.columns(3)
     with col2:
-      st.image('logo_smilx.png', width=300)
+      st.image('logo_smilx.png', use_column_width=True)
     
-    st.markdown(
-      """
-      <div style="text-align: center:">
-        <img src="logo_smilx.png" width="600">
-      </div>
-      """,
-      unsafe_allow_html=True
-    )
     st.markdown(
       """
       <div style="text-align: center;">
