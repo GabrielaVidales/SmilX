@@ -25,9 +25,6 @@ class initial_parameters:
       """,
       unsafe_allow_html=True
     )
-    st.write('                 CENTRO DE INVESTIGACIÓN Y ESTUDIOS AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV)                    \n'+
-             '                                                  THEOCHEM MÉRICA YUCATÁN                                                       \n'+
-             '                  GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation                  ')
     self.ask_molecular_formula()       # Enter molecular formula               e.g. C6H6, C2H5NO2
     self.write_name_output_file()      # Write name output file                "C6H6_Structural_isomers_without_carbenes"
     self.get_syntax_rules()            # Get syntax_rules                      [[0], [0],[0, 1], [0, 1], [0]]
