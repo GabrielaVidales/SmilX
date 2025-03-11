@@ -9,7 +9,7 @@ class initial_parameters:
 
     col1, col2, col3 = st.columns(3)
     with col2:
-      st.image('logo_smilx.png', use_column_width=True)
+      st.image('logo_smilx.png', use_container_width=True)
     
     st.markdown(
       """
