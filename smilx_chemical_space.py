@@ -9,7 +9,7 @@ from rdkit import Chem
 from rdkit.Chem import AllChem
 import streamlit as st
 import pandas as pd
-#import mols2grid
+import mols2grid
 
 def list_files(path_folder):
     """
