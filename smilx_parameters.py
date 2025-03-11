@@ -7,20 +7,9 @@ class initial_parameters:
   def __init__(self):
     import streamlit as st
 
-    st.markdown("""
-        <style>
-            .centered-image {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                min-height: 300px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-    st.markdown('<div class="centered-image">', unsafe_allow_html=True)
-    st.image('logo_smilx.png', width=300)
-    st.markdown('</div>', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3)
+    with col2:
+        st.image('logo_smilx.png', width=300)
 
     st.write('                 CENTRO DE INVESTIGACIÓN Y ESTUDIOS AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV)                    \n'+
              '                                                  THEOCHEM MÉRICA YUCATÁN                                                       \n'+
