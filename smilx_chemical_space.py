@@ -495,6 +495,5 @@ class chemical_space:
         get_smiles_from_pickle_file(parameters.filename_output_pkl, parameters.filename_output_smi)
         st.write(f"******************************Exploration completed: {count_smiles} isomers found******************************")
         df = pd.DataFrame({"smi": list_smiles, "id": range(1, len(list_smiles) + 1)})
-        mg = mols2grid.MolGrid(df, smiles_col="smi", size=(120, 100))
-        html_grid = mg.display(subset=["id", "img", "smi"], n_cols=11, n_rows=10)._repr_html_()
-        st.markdown(html_grid, unsafe_allow_html=True)
+        html_grid = mols2grid.display(df, smiles_col="smi", subset=["id", "img", "smi"], n_cols=3).repr_html()
+        st.components.v1.html(html_grid, height=400, scrolling=True)
