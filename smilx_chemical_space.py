@@ -495,12 +495,12 @@ class chemical_space:
         get_smiles_from_pickle_file(parameters.filename_output_pkl, parameters.filename_output_smi)
         st.write(f"******************************Exploration completed: {count_smiles} isomers found******************************")
         with open(f"{parameters.filename_output_smi}", "r") as file:
-        st.download_button(
-            label="Download SMILES",
-            data=file,
-            file_name=f"{parameters.filename_output_smi}",
-            mime="text/smi",
-        )
+            st.download_button(
+                label="Download SMILES",
+                data=file,
+                file_name=f"{parameters.filename_output_smi}",
+                mime="text/smi",
+                )
         df = pd.DataFrame({"smi": list_smiles, "id": range(1, len(list_smiles) + 1)})
         mg = mols2grid.display(df, smiles_col="smi", subset=["id", "img", "smi"], n_cols=6, size = (130, 90))
         html_grid = mg.data
