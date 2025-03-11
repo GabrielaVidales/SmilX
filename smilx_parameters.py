@@ -7,10 +7,15 @@ class initial_parameters:
   def __init__(self):
     import streamlit as st
 
-    col1, col2, col3 = st.columns(3)
-    with col2:
-        st.image('logo_smilx.png', width=1000)
-
+	st.markdown(
+		"""
+		<div style="text-align: center;">
+			<img src="logo_smilx.png" width="600">
+		</div>
+		""", 
+		unsafe_allow_html=True
+	)
+	  
     st.write('                 CENTRO DE INVESTIGACIÓN Y ESTUDIOS AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV)                    \n'+
              '                                                  THEOCHEM MÉRICA YUCATÁN                                                       \n'+
              '                  GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation                  ')
