@@ -3,6 +3,11 @@ from smilx_chemical_space import chemical_space
 from rdkit import Chem
 import streamlit as st
 
+st.set_page_config(
+    page_title = "SmilX"
+    layout = wide
+)
+
 def main():
       
     # Inicializar parámetros
