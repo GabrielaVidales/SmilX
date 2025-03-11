@@ -1,5 +1,6 @@
-tqdm==4.67.1
+tqdm == 4.67.1
 mols2grid == 2.0.0
+rdkit == 2024.9.5
 opencv-python-headless
 PyOpenGL
 PyOpenGL_accelerate
