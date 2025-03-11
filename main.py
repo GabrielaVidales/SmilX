@@ -12,6 +12,7 @@ def main():
       
     # Inicializar parámetros
     a = initial_parameters()
+    
     with st.spinner("Please wait...", show_time=True):
         b = chemical_space(a)
 
