@@ -10,9 +10,11 @@ class initial_parameters:
     st.markdown("""
         <style>
             .centered-image {
-        	    display: flex;
-        	    justify-content: center;
-        	}
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%
+                }
         </style>
     """, unsafe_allow_html=True)
     st.markdown('<div class="centered-image">', unsafe_allow_html=True)
