@@ -1,5 +1,4 @@
 tqdm==4.67.1
-rdkit==2024.9.5
 mols2grid == 2.0.0
 opencv-python-headless
 PyOpenGL
