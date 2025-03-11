@@ -7,6 +7,10 @@ class initial_parameters:
   def __init__(self):
     import streamlit as st
 
+    col1, col2, col3 = st.columns(3)
+    with col2:
+      st.image('logo_smilx.png', width=300)
+    
     st.markdown(
       """
       <div style="text-align: center:">
