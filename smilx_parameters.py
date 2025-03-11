@@ -8,11 +8,12 @@ class initial_parameters:
     import streamlit as st
 
     st.markdown(
-      """
-      <div style="text-align: center:">
-        <img src="logo_smilx.png" width="600">
-      </div>
-      """
+        """
+        <div style="text-align: center:">
+            <img src="logo_smilx.png" width="600">
+        </div>
+        """,
+        unsafe_allow_html=True
     )
   
     st.write('                 CENTRO DE INVESTIGACIÓN Y ESTUDIOS AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV)                    \n'+
