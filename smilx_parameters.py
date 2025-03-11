@@ -15,7 +15,16 @@ class initial_parameters:
       """,
       unsafe_allow_html=True
     )
-  
+    st.markdown(
+      """
+      <div style="text-align: center;">
+        CENTRO DE INVESTIGACIÓN Y ESTUDIOS AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV) <br>
+        THEOCHEM MÉRICA YUCATÁN <br>
+        GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation
+      </div>
+      """,
+      unsafe_allow_html=True
+    )
     st.write('                 CENTRO DE INVESTIGACIÓN Y ESTUDIOS AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV)                    \n'+
              '                                                  THEOCHEM MÉRICA YUCATÁN                                                       \n'+
              '                  GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation                  ')
