@@ -5,7 +5,7 @@ import streamlit as st
 class initial_parameters:
 #----------------------------------------------------------------------------------- Section 0
   def __init__(self):
-    st.image('logo_smilx.jpg')
+    st.image('logo_smilx.png')
     st.write('                 CENTRO DE INVESTIGACIÓN Y ESTUDIOS AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV)                    \n'+
              '                                                  THEOCHEM MÉRICA YUCATÁN                                                       \n'+
              '                  GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation                  ')
