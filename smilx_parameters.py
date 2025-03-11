@@ -13,7 +13,8 @@ class initial_parameters:
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 100%
+                width: 100%;
+                min-height: 300px;
             }
         </style>
     """, unsafe_allow_html=True)
