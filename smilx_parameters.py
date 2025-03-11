@@ -5,7 +5,20 @@ import streamlit as st
 class initial_parameters:
 #----------------------------------------------------------------------------------- Section 0
   def __init__(self):
-    st.image('logo_smilx.png')
+    import streamlit as st
+
+		st.markdown("""
+		    <style>
+		        .centered-image {
+		            display: flex;
+		            justify-content: center;
+		        }
+		    </style>
+		""", unsafe_allow_html=True)
+		st.markdown('<div class="centered-image">', unsafe_allow_html=True)
+		st.image('logo_smilx.png', use_column_width=True)
+		st.markdown('</div>', unsafe_allow_html=True)
+
     st.write('                 CENTRO DE INVESTIGACIÓN Y ESTUDIOS AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV)                    \n'+
              '                                                  THEOCHEM MÉRICA YUCATÁN                                                       \n'+
              '                  GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation                  ')
