@@ -9,7 +9,7 @@ class initial_parameters:
 
     col1, col2, col3 = st.columns(3)
     with col2:
-        st.image('logo_smilx.png', width=300)
+        st.image('logo_smilx.png', width=1000)
 
     st.write('                 CENTRO DE INVESTIGACIÓN Y ESTUDIOS AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV)                    \n'+
              '                                                  THEOCHEM MÉRICA YUCATÁN                                                       \n'+
