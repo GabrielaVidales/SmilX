@@ -6,6 +6,7 @@ import copy
 from tqdm import tqdm
 from smilx_chemistry_tools import standard_smiles
 from rdkit import Chem
+from rdkit.Chem import AllChem
 import streamlit as st
 import pandas as pd
 import mols2grid
