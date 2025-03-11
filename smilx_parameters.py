@@ -14,7 +14,7 @@ class initial_parameters:
                 justify-content: center;
                 align-items: center;
                 width: 100%
-                }
+            }
         </style>
     """, unsafe_allow_html=True)
     st.markdown('<div class="centered-image">', unsafe_allow_html=True)
