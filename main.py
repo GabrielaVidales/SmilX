@@ -16,6 +16,16 @@ def main():
     with st.spinner("Please wait...", show_time=True):
         b = chemical_space(a)
 
+    st.markdown("<br>"*5, unsafe_allow_html=True)
+    footer = st.container()
+    with footer:
+        st.divider()
+        st.markdown(
+            """
+            **Designed by Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres**
+            """,
+            unsafe_allow_html=True
+        )
 if __name__ == "__main__":
     main()
 
