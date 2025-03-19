@@ -22,7 +22,7 @@ def main():
         st.divider()
         st.markdown(
             """
-            **Designed by Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres**
+            **Web Designers: Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres**
             """,
             unsafe_allow_html=True
         )
