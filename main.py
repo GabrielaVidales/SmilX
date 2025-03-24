@@ -19,17 +19,24 @@ st.markdown("""
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 10px 0 10px 20px;
+            height: 50px; /* Altura reducida */
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); /* Sombra más pronunciada abajo */
+            display: flex;
+            align-items: center;
+            padding: 0 0 0 20px; /* Padding solo a la izquierda */
             margin: 0;
+            border-bottom: 1px solid #f0f0f0; /* Línea sutil inferior */
         }
         
         .navbar-container {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             align-items: center;
             width: 100%;
+            max-width: 1200px; /* Ancho máximo del contenido */
+            margin: 0 auto;
+            padding: 0;
         }
         
         .navbar a {
@@ -38,10 +45,13 @@ st.markdown("""
             padding: 12px 16px;
             text-decoration: none;
             font-size: 16px;
-            font-weight: 700; /* Texto en negrita */
+            font-weight: 700;
             transition: all 0.3s ease;
             border-radius: 4px;
             white-space: nowrap;
+            height: 100%;
+            display: flex;
+            align-items: center;
         }
         
         .navbar a:hover {
@@ -53,8 +63,15 @@ st.markdown("""
             background-color: #f0f0f0;
         }
         
-        .content {
-            margin-top: 70px;
+        /* Ajuste del contenido principal */
+        .main .block-container {
+            padding-top: 50px !important; /* Igual a la altura del navbar */
+        }
+        
+        /* Eliminar todos los espacios innecesarios */
+        .stApp {
+            margin: 0;
+            padding: 0;
         }
         
         /* Ocultar el menú por defecto de Streamlit */
@@ -62,22 +79,16 @@ st.markdown("""
         footer {visibility: hidden;}
         header {visibility: hidden;}
         
-        /* Eliminar márgenes por defecto */
-        .stApp {
-            margin: 0;
-            padding: 0;
-        }
-        
-        /* Eliminar padding del contenedor principal */
-        .main .block-container {
-            padding-top: 0;
+        /* Ajustar el footer para que quede pegado */
+        .footer {
+            margin-top: 0 !important;
         }
     </style>
 """, unsafe_allow_html=True)
 
 # HTML para el menú de navegación
 st.markdown("""
-    <div class="navbar">
+    <nav class="navbar">
         <div class="navbar-container">
             <a href="/" target="_self">Home</a>
             <a href="#about" target="_self">Sobre nosotros</a>
@@ -85,8 +96,7 @@ st.markdown("""
             <a href="#publications" target="_self">Publicaciones</a>
             <a href="#support" target="_self">Soporte técnico</a>
         </div>
-    </div>
-    <div class="content"></div>
+    </nav>
 """, unsafe_allow_html=True)
 
 def main():
@@ -96,7 +106,8 @@ def main():
     with st.spinner("Please wait...", show_time=True):
         b = chemical_space(a)
 
-    st.markdown("<br>"*5, unsafe_allow_html=True)
+    # Footer pegado al contenido
+    st.markdown("<br>", unsafe_allow_html=True)
     footer = st.container()
     with footer:
         st.divider()
@@ -109,4 +120,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
