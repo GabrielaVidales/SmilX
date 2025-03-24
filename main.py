@@ -19,14 +19,14 @@ st.markdown("""
             top: 0;
             left: 0;
             width: 100%;
-            height: 50px; /* Altura reducida */
+            height: 70px;
             z-index: 1000;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); /* Sombra más pronunciada abajo */
+            box-shadow: 0 8px 10px -1px rgba(0,0,0,0.1); /* Sombra más pronunciada abajo */
             display: flex;
             align-items: center;
-            padding: 0 0 0 20px; /* Padding solo a la izquierda */
+            padding: 0 0 0 20px; 
             margin: 0;
-            border-bottom: 1px solid #f0f0f0; /* Línea sutil inferior */
+            border-bottom: 10px solid #f0f0f0; 
         }
         
         .navbar-container {
@@ -34,7 +34,7 @@ st.markdown("""
             gap: 15px;
             align-items: center;
             width: 100%;
-            max-width: 1200px; /* Ancho máximo del contenido */
+            max-width: 1200px; 
             margin: 0 auto;
             padding: 0;
         }
@@ -65,7 +65,7 @@ st.markdown("""
         
         /* Ajuste del contenido principal */
         .main .block-container {
-            padding-top: 50px !important; /* Igual a la altura del navbar */
+            padding-top: 70px !important; 
         }
         
         /* Eliminar todos los espacios innecesarios */
@@ -94,7 +94,6 @@ st.markdown("""
             <a href="#about" target="_self">Sobre nosotros</a>
             <a href="#program" target="_self">Programa</a>
             <a href="#publications" target="_self">Publicaciones</a>
-            <a href="#support" target="_self">Soporte técnico</a>
         </div>
     </nav>
 """, unsafe_allow_html=True)
