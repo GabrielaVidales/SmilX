@@ -17,28 +17,31 @@ st.markdown("""
             overflow: hidden;
             position: fixed;
             top: 0;
-            width: 120%;
+            left: 0;
+            width: 100%;
             z-index: 100;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 0;
+            padding: 10px 0 10px 20px;
+            margin: 0;
         }
         
         .navbar-container {
-            max-width: 1200px;
-            margin: 0 auto;
             display: flex;
-            justify-content: space-around;
+            gap: 20px;
+            align-items: center;
+            width: 100%;
         }
         
         .navbar a {
             color: black;
-            text-align: center;
+            text-align: left;
             padding: 12px 16px;
             text-decoration: none;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 700; /* Texto en negrita */
             transition: all 0.3s ease;
             border-radius: 4px;
+            white-space: nowrap;
         }
         
         .navbar a:hover {
@@ -48,7 +51,6 @@ st.markdown("""
         
         .navbar a.active {
             background-color: #f0f0f0;
-            font-weight: bold;
         }
         
         .content {
@@ -59,6 +61,17 @@ st.markdown("""
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
+        
+        /* Eliminar márgenes por defecto */
+        .stApp {
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Eliminar padding del contenedor principal */
+        .main .block-container {
+            padding-top: 0;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -96,5 +109,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
