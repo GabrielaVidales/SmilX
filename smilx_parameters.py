@@ -14,7 +14,7 @@ class initial_parameters:
     st.markdown(
       """
       <div style="text-align: center;">
-        Centro de Investigación y Estudios Avanzados del Instituto Politécnico Nacional (CINVESTAV) Mérida Yucatán<br>
+        Centro de Investigación y Estudios Avanzados del Instituto Politécnico Nacional (Cinvestav) Mérida Yucatán<br>
         Luis Armando Gonzalez-Ortiz, Gabriel Merino, Amilcar Meneses, Lisset Noriega, and Filiberto Ortiz <br>
         GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation <br>
           <br>
