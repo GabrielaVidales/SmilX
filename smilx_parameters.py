@@ -17,6 +17,7 @@ class initial_parameters:
         "Grammar-Driven SMILES Standardization with TokenSMILES" by Luis Armando Gonzalez-Ortiz, Lisset Noriega,<br>
         Filiberto Ortiz, Gabriela Vidales-Ayala, Emmanuel Soberanis, Amilcar Meneses, Alan Aspuru-Guzik, and Gabriel Merino.<br>
         GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation <br>
+        Centro de Investigación y Estudios Avanzados (Cinvestav) Mérida<br>
           <br>
       </div>
       """,
