@@ -16,11 +16,21 @@ class initial_parameters:
       <div style="text-align: center;">
         "Grammar-Driven SMILES Standardization with TokenSMILES" by Luis Armando Gonzalez-Ortiz, Lisset Noriega,<br>
         Filiberto Ortiz, Gabriela Vidales-Ayala, Emmanuel Soberanis, Amilcar Meneses, Alan Aspuru-Guzik, and Gabriel Merino.<br>
-        GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation <br>
         Centro de Investigación y Estudios Avanzados (Cinvestav) Mérida<br>
+        GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation <br>
           <br>
       </div>
       """,
+      
+        st.markdown(
+      """
+      <div style="text-align: center;">
+        By integrating five syntactic constraints—including branch limitations, balanced parentheses, and aromaticity exclusion—TokenSMILES minimizes redundant enumerations for alkanes<be>
+        and ensures valence and octet rule compliance through semantic parsing. Implemented in SmilX, an open-source tool, TokenSMILES successfully generates SMILES for classical organic systems
+          <br>
+      </div>
+      """,
+          
       unsafe_allow_html=True
     )
     self.ask_molecular_formula()       # Enter molecular formula               e.g. C6H6, C2H5NO2
