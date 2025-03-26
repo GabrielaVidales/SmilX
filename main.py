@@ -8,7 +8,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# CSS personalizado para el menú
+# CSS personalizado para el menú y el footer
 st.markdown("""
     <style>
         /* Estilos del navbar */
@@ -24,9 +24,9 @@ st.markdown("""
             box-shadow: 0 8px 10px -1px rgba(0,0,0,0.1); /* Sombra más pronunciada abajo */
             display: flex;
             align-items: center;
-            padding: 0 0 0 20px; 
+            padding: 0 20px; 
             margin: 0;
-            border-bottom: 10px solid #f0f0f0; 
+            border-bottom: 1px solid #f0f0f0; 
         }
         
         .navbar-container {
@@ -37,6 +37,7 @@ st.markdown("""
             max-width: 1200px; 
             margin: 0 auto;
             padding: 0;
+            justify-content: flex-start; /* Alinea el contenido a la izquierda */
         }
         
         .navbar a {
@@ -72,6 +73,9 @@ st.markdown("""
         .stApp {
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         
         /* Ocultar el menú por defecto de Streamlit */
@@ -79,23 +83,34 @@ st.markdown("""
         footer {visibility: hidden;}
         header {visibility: hidden;}
         
-        /* Ajustar el footer para que quede pegado */
+        /* Estilos del footer */
         .footer {
-            margin-top: 0 !important;
+            background-color: white;
+            text-align: center;
+            padding: 10px 20px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-top: 1px solid #f0f0f0;
+            box-shadow: 0 -8px 10px -1px rgba(0,0,0,0.1); /* Sombra más pronunciada arriba */
         }
     </style>
 """, unsafe_allow_html=True)
 
-# HTML para el menú de navegación
+# HTML para el menú de navegación y el footer
 st.markdown("""
     <nav class="navbar">
         <div class="navbar-container">
             <a href="/" target="_self">Home</a>
-            <a href="#about" target="_self">Sobre nosotros</a>
-            <a href="#program" target="_self">Programa</a>
-            <a href="#publications" target="_self">Publicaciones</a>
+            <a href="#about" target="_self">About Us</a>
+            <a href="#program" target="_self">Program</a>
+            <a href="#publications" target="_self">Publications</a>
         </div>
     </nav>
+    <div class="footer">
+        <p>Web Designers: Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres</p>
+    </div>
 """, unsafe_allow_html=True)
 
 def main():
@@ -104,18 +119,6 @@ def main():
     
     with st.spinner("Please wait...", show_time=True):
         b = chemical_space(a)
-
-    # Footer pegado al contenido
-    st.markdown("<br>", unsafe_allow_html=True)
-    footer = st.container()
-    with footer:
-        st.divider()
-        st.markdown(
-            """
-            **Web Designers: Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres**
-            """,
-            unsafe_allow_html=True
-        )
 
 if __name__ == "__main__":
     main()
