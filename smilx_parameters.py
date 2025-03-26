@@ -14,8 +14,8 @@ class initial_parameters:
     st.markdown(
       """
       <div style="text-align: center;">
-        Centro de Investigación y Estudios Avanzados del Instituto Politécnico Nacional (Cinvestav) Mérida Yucatán<br>
-        Luis Armando Gonzalez-Ortiz, Gabriel Merino, Amilcar Meneses, Lisset Noriega, and Filiberto Ortiz <br>
+        "Grammar-Driven SMILES Standardization with TokenSMILES" by Luis Armando Gonzalez-Ortiz, Lisset Noriega,<br>
+        Filiberto Ortiz, Gabriela Vidales-Ayala, Emmanuel Soberanis, Amilcar Meneses, Alan Aspuru-Guzik, and Gabriel Merino.<br>
         GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation <br>
           <br>
       </div>
