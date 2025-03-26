@@ -91,9 +91,9 @@ st.markdown("""
     <nav class="navbar">
         <div class="navbar-container">
             <a href="/" target="_self">Home</a>
-            <a href="#about" target="_self">Sobre nosotros</a>
-            <a href="#program" target="_self">Programa</a>
-            <a href="#publications" target="_self">Publicaciones</a>
+            <a href="#about" target="_self">About us</a>
+            <a href="#program" target="_self">Program</a>
+            <a href="#publications" target="_self">Publications</a>
         </div>
     </nav>
 """, unsafe_allow_html=True)
