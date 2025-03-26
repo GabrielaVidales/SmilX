@@ -22,7 +22,7 @@ class initial_parameters:
       </div>
       """,
       
-        st.markdown(
+    st.markdown(
       """
       <div style="text-align: center;">
         By integrating five syntactic constraints—including branch limitations, balanced parentheses, and aromaticity exclusion—TokenSMILES minimizes redundant enumerations for alkanes<be>
