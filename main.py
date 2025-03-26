@@ -107,8 +107,8 @@ def main():
 
     # Agregar el párrafo después de las moléculas que se muestran
     st.markdown("""
-    By integrating five syntactic constraints—including branch limitations, balanced parentheses, and aromaticity exclusion—TokenSMILES minimizes redundant enumerations <br>
-    for alkanes and ensures valence and octet rule compliance through semantic parsing. Implemented in SmilX, an open-source tool, TokenSMILES successfully generates SMILES for classical organic systems.<br>
+    By integrating five syntactic constraints—including branch limitations, balanced parentheses, and aromaticity exclusion—TokenSMILES minimizes redundant enumerations
+    for alkanes and ensures valence and octet rule compliance through semantic parsing. Implemented in SmilX, an open-source tool, TokenSMILES successfully generates SMILES for classical organic systems.
     """)
 
     # Footer pegado al contenido
