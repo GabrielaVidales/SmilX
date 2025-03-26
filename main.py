@@ -85,15 +85,12 @@ st.markdown("""
         
         /* Estilos del footer */
         .footer {
-            background-color: white;
+            background-color: black;
+            color: white;
             text-align: center;
             padding: 10px 20px;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
             border-top: 1px solid #f0f0f0;
-            box-shadow: 0 -8px 10px -1px rgba(0,0,0,0.1); /* Sombra más pronunciada arriba */
+            margin-top: auto;
         }
     </style>
 """, unsafe_allow_html=True)
