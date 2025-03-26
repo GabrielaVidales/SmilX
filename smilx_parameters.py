@@ -21,16 +21,7 @@ class initial_parameters:
           <br>
       </div>
       """,
-      
-    st.markdown(
-      """
-      <div style="text-align: center;">
-        By integrating five syntactic constraints—including branch limitations, balanced parentheses, and aromaticity exclusion—TokenSMILES minimizes redundant enumerations for alkanes<be>
-        and ensures valence and octet rule compliance through semantic parsing. Implemented in SmilX, an open-source tool, TokenSMILES successfully generates SMILES for classical organic systems
-          <br>
-      </div>
-      """,
-          
+
       unsafe_allow_html=True
     )
     self.ask_molecular_formula()       # Enter molecular formula               e.g. C6H6, C2H5NO2
