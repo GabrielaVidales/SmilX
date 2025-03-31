@@ -242,11 +242,11 @@ class smilx_hydrocarbons:
                       for i_smiles in new_smiles:
                         pickle.dump(i_smiles, dest_file)
                     
-                      progress_bar.update(1)
+                      #progress_bar.update(1)
                     
                     except EOFError:
                       break
-              progress_bar.close()
+              #progress_bar.close()
               clear_picke_file(src_filename)
               src_filename, dest_filename = dest_filename, src_filename
 
@@ -387,10 +387,10 @@ class smilx_dehydrogenation:
               if canon_smiles not in reg_canon_smiles:
                 reg_canon_smiles.add(canon_smiles)
                 pickle.dump(new_smile, dest_file)
-            progress_bar.update(1)
+            #progress_bar.update(1)
           except EOFError:
             break
-        progress_bar.close()
+        #progress_bar.close()
 
     def save_path_src_file_nearest(self, dest_filename):
       with open(self.path_src_file_nearest, 'rb') as src_file, open(dest_filename, 'ab') as dest_file:
@@ -402,10 +402,10 @@ class smilx_dehydrogenation:
           try:
             smiles = pickle.load(src_file)
             pickle.dump(smiles, dest_file)
-            progress_bar.update(1)
+            #progress_bar.update(1)
           except EOFError:
             break
-        progress_bar.close()
+        #progress_bar.close()
 
 #----------------------------------------------------------------------------------------------
 class smilx_atom_substitution:
@@ -464,10 +464,10 @@ class smilx_atom_substitution:
               if canon_smiles not in reg_canon_smiles:
                 reg_canon_smiles.add(canon_smiles)
                 pickle.dump(new_smile, dest_file)
-            progress_bar.update(1)
+            #progress_bar.update(1)
           except EOFError:
             break
-        progress_bar.close()
+        #progress_bar.close()
           
 #----------------------------------------------------------------------------------------------
 class chemical_space:
