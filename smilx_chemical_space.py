@@ -502,7 +502,6 @@ class chemical_space:
                 mime="text/smi",
                 )
         df = pd.DataFrame({"smi": list_smiles, "id": range(1, len(list_smiles) + 1)})
-        mg = mols2grid.display(df, smiles_col="smi", subset=["id", "img", "smi"], n_cols=6, size = (130, 90))
-        
+        mg = mols2grid.display(df, smiles_col="smi", subset=["id", "img", "smi"], n_cols=6, size = (130, 90))        
         html_grid = mg.data
         st.components.v1.html(html_grid, height=600, scrolling=True)
