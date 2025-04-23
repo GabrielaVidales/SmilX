@@ -31,7 +31,7 @@ st.markdown("""
         
         .navbar-container {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             align-items: center;
             width: 100%;
             max-width: 1200px; 
@@ -42,12 +42,13 @@ st.markdown("""
         .navbar a {
             color: black;
             text-align: left;
+            marging-left: -40px;
             padding: 12px 16px;
             text-decoration: none;
             font-size: 16px;
             font-weight: 700;
             transition: all 0.3s ease;
-            border-radius: 4px;
+            border-radius: 10px;
             white-space: nowrap;
             height: 100%;
             display: flex;
@@ -68,11 +69,12 @@ st.markdown("""
             padding: 12px 16px;
         }
         .github-icon img {
-            height: 24px;
+            height: 40px;
             transition: transform 0.3s ease;
         }
         .github-icon img:hover {
             transform: scale(1.1);
+            border-radius: 200px;
         }
         
         /* Ajuste del contenido principal */
