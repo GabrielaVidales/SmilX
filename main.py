@@ -19,7 +19,7 @@ st.markdown("""
             top: 0;
             left: 0;
             width: 100%;
-            height: 70px;
+            height: 60px;
             z-index: 1000;
             box-shadow: 0 8px 10px -1px rgba(0,0,0,0.1); /* Sombra más pronunciada abajo */
             display: flex;
@@ -31,7 +31,7 @@ st.markdown("""
         
         .navbar-container {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             align-items: center;
             width: 100%;
             max-width: 1200px; 
@@ -61,6 +61,18 @@ st.markdown("""
         
         .navbar a.active {
             background-color: #f0f0f0;
+        }
+
+        .github-icon {
+            margin-left: auto;
+            padding: 12px 16px;
+        }
+        .github-icon img {
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+        .github-icon img:hover {
+            transform: scale(1.1);
         }
         
         /* Ajuste del contenido principal */
@@ -94,6 +106,11 @@ st.markdown("""
             <a href="#about" target="_self">About us</a>
             <a href="#program" target="_self">Program</a>
             <a href="#publications" target="_self">Publications</a>
+            <div class="github-icon">
+                <a href="https://github.com/tu-usuario/tu-repositorio" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+                </a>
+            </div>
         </div>
     </nav>
 """, unsafe_allow_html=True)
