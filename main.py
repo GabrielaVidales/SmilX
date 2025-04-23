@@ -24,7 +24,7 @@ st.markdown("""
             box-shadow: 0 8px 10px -1px rgba(0,0,0,0.1); /* Sombra más pronunciada abajo */
             display: flex;
             align-items: center;
-            padding: 0 20px; 
+            padding: 0 10px; 
             margin: 0;
             border-bottom: 1px solid #f0f0f0; 
         }
@@ -42,7 +42,7 @@ st.markdown("""
         .navbar a {
             color: black;
             text-align: left;
-            marging-left: -40px;
+            marging-left: -400px;
             padding: 12px 16px;
             text-decoration: none;
             font-size: 16px;
@@ -73,6 +73,11 @@ st.markdown("""
             transition: transform 0.3s ease;
         }
         .github-icon img:hover {
+            transform: scale(1.1);
+            border-radius: 200px;
+        }
+
+        .github-icon:hover{
             transform: scale(1.1);
             border-radius: 200px;
         }
