@@ -69,7 +69,7 @@ st.markdown("""
             padding: 12px 16px;
         }
         .github-icon img {
-            height: 40px;
+            height: 30px;
             transition: transform 0.3s ease;
         }
         .github-icon img:hover {
@@ -114,7 +114,7 @@ st.markdown("""
             <a href="#program" target="_self">Program</a>
             <a href="#publications" target="_self">Publications</a>
             <div class="github-icon">
-                <a href="https://github.com/tu-usuario/tu-repositorio" target="_blank">
+                <a href="https://github.com/LuisOrz/SmilX" target="_blank">
                     <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
                 </a>
             </div>
