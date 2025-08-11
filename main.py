@@ -92,7 +92,18 @@ st.markdown("""
             margin: 0;
             padding: 0;
         }
+
+        .main .block-container {
+            max-width: 100% !important;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
         
+        /* Evitar que los elementos internos tengan límites */
+        .st-emotion-cache-1r6slb0, .st-emotion-cache-16txtl3 {
+            max-width: 100% !important;
+        }
+
         /* Ocultar el menú por defecto de Streamlit */
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
