@@ -17,7 +17,7 @@ st.markdown("""
     max-width: 100% !important;
     padding-left: 1rem !important;
     padding-right: 1rem !important;
-    padding-top: 60px !important; /* Reducido de 70px a 60px */
+    padding-top: 40px !important; /* menos espacio negro */
 }
 
 .stApp [data-testid="stVerticalBlock"],
@@ -52,14 +52,13 @@ st.markdown("""
     top: 0;
     left: 0;
     width: 100%;
-    height: 50px; /* un poco más delgado */
+    height: 50px; /* delgada */
     z-index: 1000;
     box-shadow: 0 8px 10px -1px rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
     padding: 0 10px;
-    margin: 0;
-    margin-bottom: -30px;
+    margin: 0; /* quitado margen negativo */
     border-bottom: 1px solid #f0f0f0;
 }
 
@@ -93,22 +92,30 @@ st.markdown("""
     background-color: #f0f0f0;
 }
 
-/* ====== GitHub a la derecha y más pequeño ====== */
+/* ====== GitHub a la derecha y pequeño ====== */
 .github-icon{
-    margin-left: auto;
+    margin-left: auto;           /* empuja a la derecha */
+    display: flex;
+    align-items: center;
     padding: 0;
 }
 
-.github-icon img{
-    height: 24px; /* reducido */
-    width: 24px
-    transition: transform .3s ease;
+.github-icon a{
+    display: inline-flex;
+    align-items: center;
+    padding: 6px;                /* clic cómodo sin verse grande */
+    border-radius: 8px;
 }
 
-.github-icon img:hover,
-.github-icon:hover{
+.github-icon img{
+    height: 20px;                /* tamaño */
+    width: 20px;                 /* <- faltaba ; */
+    transition: transform .3s ease;
+    display: block;
+}
+
+.github-icon img:hover{
     transform: scale(1.1);
-    border-radius: 200px;
 }
 
 /* ====== Grid moléculas ====== */
@@ -149,7 +156,6 @@ st.markdown("""
 </nav>
 """, unsafe_allow_html=True)
 
-
 def main():
     a = initial_parameters()
 
@@ -168,7 +174,6 @@ By integrating five syntactic constraints—including branch limitations, balanc
             "**Web Designers: Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres**",
             unsafe_allow_html=True
         )
-
 
 if __name__ == "__main__":
     main()
