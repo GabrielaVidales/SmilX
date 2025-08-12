@@ -11,6 +11,7 @@ st.set_page_config(
 
 # CSS global
 st.markdown("""
+<script defer src="https://cloud.umami.is/script.js" data-website-id="bae529d6-c60a-4e59-965e-701a9bdaeae9"></script>
 <style>
 /* ====== Layout ancho completo ====== */
 .stApp > div[data-testid="block-container"]{
