@@ -59,6 +59,7 @@ st.markdown("""
     align-items: center;
     padding: 0 10px;
     margin: 0;
+    margin-bottom: -30px;
     border-bottom: 1px solid #f0f0f0;
 }
 
@@ -100,6 +101,7 @@ st.markdown("""
 
 .github-icon img{
     height: 24px; /* reducido */
+    width: 24px
     transition: transform .3s ease;
 }
 
