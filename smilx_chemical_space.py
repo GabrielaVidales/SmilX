@@ -438,14 +438,7 @@ class smilx_atom_substitution:
             while True:
               try:
                 smiles = pickle.load(src_file)
-                  
-                # Verify valid stoichiometry
-                out_fm = []
-                for i_element in 'C', 'H', 'N', 'O', 'S', 'B', 'P', 'F', 'I', 'Cl', 'Br':
-                    out_fm.append(smiles.atoms.count(i_element))
-                if out_fm == parameters.out_fm:
-                    pickle.dump(smiles, dest_file)
-                    
+                pickle.dump(smiles, dest_file)
               except EOFError:
                 break
 
