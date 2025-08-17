@@ -63,7 +63,7 @@ class initial_parameters:
       
     # Get output vector elements
     self.out_fm = []
-    for i_element in 'C','H','N','O','S','B','P','F','Cl','Br','I':
+    for i_element in 'C','N','O','S','B','P','F','Cl','Br','I':
         self.out_fm.append(self.molecular_formula[i_element])
 
   def reorder_molecular_formula(self):
