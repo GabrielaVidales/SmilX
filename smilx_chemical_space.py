@@ -433,17 +433,21 @@ class smilx_atom_substitution:
 
         if not is_file_empty(path_dest_filename):
             path_src_filename = path_dest_filename
-            
+
+        reg_canon_smiles = {}
         with open(path_src_filename, 'rb') as src_file, open(path_out_filename, 'ab') as dest_file:
             while True:
               try:
                 smiles = pickle.load(src_file)
-                  
+                canon_smiles = Chem.CanonSmiles(smiles.smiles)
+
                 # Verify valid stoichiometry
                 out_fm = []
                 for i_element in 'C', 'N', 'O', 'S', 'B', 'P', 'F', 'I', 'Cl', 'Br':
                     out_fm.append(smiles.atoms.count(i_element))
-                if out_fm == parameters.out_fm:
+
+                if canon_smiles not in reg_canon_smiles and out_fm == parameters.out_fm:
+                    reg_canon_smiles[canon_smiles] = 0
                     pickle.dump(smiles, dest_file)
                     
               except EOFError:
