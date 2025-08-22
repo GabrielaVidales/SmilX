@@ -134,7 +134,8 @@ st.markdown("""
 /* ====== Texto descriptivo ====== */
 .description-text {
     max-width: 900px;
-    margin: 40px auto 20px auto; /* espacio extra arriba */
+    margin: 40px auto 20px auto;
+    margin-top: 100px;
     padding: 12px;
     font-size: 16px;
     line-height: 1.6;
