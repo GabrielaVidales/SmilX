@@ -131,6 +131,17 @@ st.markdown("""
     width: 100% !important;
 }
 
+/* ====== Texto descriptivo responsivo ====== */
+.description-text {
+    max-width: 900px;        /* ancho legible */
+    margin: 20px auto;       /* centrado con separación */
+    padding: 10px;           /* respiro interno */
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: justify;     /* justificado para mejor lectura */
+    word-wrap: break-word;   /* evita desbordes */
+}
+
 /* Ocultar menús de Streamlit */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
@@ -163,9 +174,11 @@ def main():
     with st.spinner("Please wait..."):
         _ = chemical_space(a)
 
-    st.markdown("""
+        st.markdown("""
+<div class="description-text">
 By integrating five syntactic constraints—including branch limitations, balanced parentheses, and aromaticity exclusion—TokenSMILES minimizes redundant enumerations for alkanes and ensures valence and octet rule compliance through semantic parsing. Implemented in SmilX, an open-source tool, TokenSMILES successfully generates SMILES for classical organic systems.
-""")
+</div>
+""", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
     footer = st.container()
