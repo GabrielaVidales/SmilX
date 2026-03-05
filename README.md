@@ -47,7 +47,7 @@ This repository contains the **official implementation** of the SMILX / TokenSMI
 
 ---
 
-### Installation
+## Installation
 
 # Clone the repository
 git clone https://github.com/LuisOrz/SmilX.git
@@ -62,28 +62,7 @@ pip install -r requirements.txt
 
 ---
 
-### Example Molecular Formulas
-
-# Try these in the Streamlit interface
-C6H6     # Benzene
-C2H5NO2  # Glycine / Nitroethane
-C7H8O    # Cresol / Benzyl alcohol
-C4H4N2   # Pyrimidine
-C8H10N4O2 # Caffeine
-
-# Tipical Workflow
-
-graph LR
-    A[Input Formula] --> B[Parse Formula]
-    B --> C[Compute HDI]
-    C --> D[Generate Unsaturation Patterns]
-    D --> E[Build Carbon Skeletons]
-    E --> F[Apply Transformations]
-    F --> G[Output SMILES]
-
-### Citation
-
-If you use this software in academic work, please cite:
+## Citation
 
 Gonzalez-Ortiz, L. A.; Noriega, L.; Ortiz-Chi, F.; Vidales-Ayala, G.; Soberanis-Cáceres, E.; Meneses-Viveros, A.; Aspuru-Guzik, A.; Merino, G.
 Grammar-driven SMILES standardization with TokenSMILES. Chemical Science, 2026, 17, 1666–1675.
