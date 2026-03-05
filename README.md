@@ -1,24 +1,18 @@
 <p align="center">
-  <img src="https://github.com/LuisOrz/SmilX/blob/main/logo_smilx.png" width="220">
+  <img src="https://github.com/LuisOrz/SmilX/blob/main/logo_smilx.png" width="240">
 </p>
 
 <h1 align="center">
-SMILX
+SMILX (TokenSMILES Framework)
 </h1>
 
 <p align="center">
-<b>Grammar-Driven SMILES Standardization and Molecular Structure Generation</b>
+<b>Grammar-Constrained Chemical Space Exploration for Isomers using SMILES</b>
 </p>
 
 <p align="center">
-Computational Chemistry • Cheminformatics • Molecular Enumeration
-</p>
 
----
-
-<p align="center">
-
-![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![RDKit](https://img.shields.io/badge/RDKit-Compatible-green)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
 ![License](https://img.shields.io/badge/License-GPLv3-orange)
@@ -28,67 +22,32 @@ Computational Chemistry • Cheminformatics • Molecular Enumeration
 
 ---
 
-# SMILX (TokenSMILES Framework)
+## What is SMILX?
 
-Repositorio oficial del proyecto:
+**SMILX is a software to explore the chemical space of isomers using the SMILES language under grammar constraints.**  
+Given a **molecular formula**, SMILX systematically constructs chemically valid molecular graphs by applying a **grammar-driven generation process**, ensuring consistent structural rules (valence, connectivity, unsaturation, and ring closures) while enumerating candidate isomers.
 
-### Grammar-Driven SMILES Standardization with TokenSMILES
-
-Desarrollado en:
+This repository contains the **official implementation** of the SMILX / TokenSMILES framework, developed at:
 
 **Centro de Investigación y Estudios Avanzados (CINVESTAV) Mérida**
 
 ---
 
-<p align="center">
+## Key Features
 
-Desarrollado por  
-
-<span style="background:#ff4d88;color:white;padding:4px 10px;border-radius:6px;">Luis Armando Gonzalez-Ortiz</span>  
-<span style="background:#ff4d88;color:white;padding:4px 10px;border-radius:6px;">Lisset Noriega</span>  
-<span style="background:#ff4d88;color:white;padding:4px 10px;border-radius:6px;">Filiberto Ortiz</span>  
-<span style="background:#ff4d88;color:white;padding:4px 10px;border-radius:6px;">Gabriela Vidales-Ayala</span>  
-<span style="background:#ff4d88;color:white;padding:4px 10px;border-radius:6px;">Emmanuel Soberanis</span>  
-<span style="background:#ff4d88;color:white;padding:4px 10px;border-radius:6px;">Amilcar Meneses</span>  
-<span style="background:#ff4d88;color:white;padding:4px 10px;border-radius:6px;">Alan Aspuru-Guzik</span>  
-<span style="background:#ff4d88;color:white;padding:4px 10px;border-radius:6px;">Gabriel Merino</span>
-
-</p>
+- Molecular formula parsing (e.g., `C6H6`, `C2H5NO2`)
+- Hydrogen Deficiency Index (HDI) computation
+- Enumeration of valid unsaturation patterns (double bonds, triple bonds, rings)
+- Grammar-based construction of carbon skeletons and branching
+- Cycle formation (ring closures) with validity checks
+- Heteroatom substitution under valence constraints  
+  Supported: `N O S P B F Cl Br I`
+- Interactive exploration via **Streamlit**
+- RDKit-friendly workflow for downstream cheminformatics tasks
 
 ---
 
-# Overview
-
-**SMILX** is a grammar-driven framework for generating and standardizing molecular structures using the **SMILES chemical representation**.
-
-The system constructs chemically valid molecules directly from **molecular formulas**, using algorithmic rules that simulate chemical grammar.
-
-The approach ensures:
-
-• valid valence states  
-• correct unsaturation patterns  
-• cycle detection  
-• controlled heteroatom substitution  
-• systematic enumeration of chemical structures  
-
----
-
-# Features
-
-SMILX provides tools for:
-
-• Molecular formula parsing  
-• Hydrogen Deficiency Index (HDI) computation  
-• Unsaturation configuration generation  
-• Grammar-based SMILES construction  
-• Double and triple bond insertion  
-• Cycle detection and ring formation  
-• Heteroatom substitution (N, O, S, P, B, halogens)  
-• Streamlit interface for interactive exploration  
-
----
-
-# Installation
+## Installation
 
 Clone the repository:
 
