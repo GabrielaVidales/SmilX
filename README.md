@@ -47,108 +47,41 @@ This repository contains the **official implementation** of the SMILX / TokenSMI
 
 ---
 
-## Installation
+### Installation
 
-Clone the repository:
-
-```bash
+# Clone the repository
 git clone https://github.com/LuisOrz/SmilX.git
 cd SmilX
 
-Create and activate a virtual environment (recommended):
-
+# Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-Install dependencies:
-
+# Install dependencies
 pip install -r requirements.txt
-Run (Streamlit App)
 
-Launch the interactive interface:
+---
 
-streamlit run app.py
+### Example Molecular Formulas
 
-Example molecular formulas:
+# Try these in the Streamlit interface
+C6H6     # Benzene
+C2H5NO2  # Glycine / Nitroethane
+C7H8O    # Cresol / Benzyl alcohol
+C4H4N2   # Pyrimidine
+C8H10N4O2 # Caffeine
 
-C6H6
-C2H5NO2
-C7H8O
+# Tipical Workflow
 
-Typical workflow:
+graph LR
+    A[Input Formula] --> B[Parse Formula]
+    B --> C[Compute HDI]
+    C --> D[Generate Unsaturation Patterns]
+    D --> E[Build Carbon Skeletons]
+    E --> F[Apply Transformations]
+    F --> G[Output SMILES]
 
-Parse molecular formula
-
-Compute HDI
-
-Generate possible unsaturation configurations
-
-Construct grammar-constrained carbon skeletons
-
-Apply bond/ring transformations and substitutions
-
-Output standardized SMILES (and auxiliary formats if enabled)
-
-Project Structure
-SMILX
-│
-├── logo_smilx.png
-├── requirements.txt
-├── packages.txt
-│
-├── smilx_parameters.py
-├── smilx_chemistry_tools.py
-│
-└── app.py
-Core Modules
-
-smilx_chemistry_tools.py
-Core algorithms for unsaturation enumeration, grammar-based SMILES construction, bond transformations, cycle detection, and atom replacement.
-
-smilx_parameters.py
-Streamlit UI, molecular formula parsing, parameter initialization, and generation setup.
-
-Applications
-
-SMILX can be used for:
-
-Chemical space exploration (isomer enumeration)
-
-Computational chemistry workflows
-
-Cheminformatics research
-
-Dataset generation for machine learning
-
-Systematic structure generation from molecular formulas
-
-Authors
-
-Developed by:
-
-Luis Armando Gonzalez-Ortiz
-
-Lisset Noriega
-
-Filiberto Ortiz-Chi
-
-Gabriela Vidales-Ayala
-
-Emmanuel Soberanis-Cáceres
-
-Amilcar Meneses-Viveros
-
-Alan Aspuru-Guzik
-
-Gabriel Merino
-
-CINVESTAV Mérida
-
-License
-
-GNU General Public License v3.0
-
-Citation
+### Citation
 
 If you use this software in academic work, please cite:
 
