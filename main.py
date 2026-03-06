@@ -38,6 +38,39 @@ toggle_icon = "❮❮" if menu_open else "❯❯"
 
 
 # ==============================
+# HTML del sidebar (se construye antes del f-string para evitar SyntaxError)
+# ==============================
+if menu_open:
+    sidebar_html = """
+<div class='custom-sidebar'>
+    <div class='custom-sidebar-inner'>
+        <div class='sidebar-brand'>SmilX</div>
+        <div class='sidebar-title'>Menu</div>
+        <div class='sidebar-card'>Explore the different sections of SmilX.</div>
+        <div class='sidebar-links'>
+            <a href='/' target='_self'>Home</a>
+            <a href='#about' target='_self'>About us</a>
+            <a href='#program' target='_self'>Program</a>
+            <a href='#publications' target='_self'>Publications</a>
+            <a href='https://github.com/LuisOrz/SmilX' target='_blank'>GitHub</a>
+        </div>
+    </div>
+</div>"""
+else:
+    sidebar_html = """
+<div class='custom-sidebar'>
+    <div class='custom-sidebar-inner'>
+        <div class='sidebar-brand'>SmilX</div>
+        <div class='sidebar-collapsed'>
+            <div class='sidebar-dot'></div>
+            <div class='sidebar-dot'></div>
+            <div class='sidebar-dot'></div>
+        </div>
+    </div>
+</div>"""
+
+
+# ==============================
 # CSS + Topbar + Sidebar en UN SOLO bloque
 # (Esto evita que Streamlit muestre el HTML como texto crudo)
 # ==============================
@@ -322,33 +355,7 @@ div[data-testid="stButton"] > button:hover {{
 </div>
 
 <!-- ======== SIDEBAR ======== -->
-{"
-<div class='custom-sidebar'>
-    <div class='custom-sidebar-inner'>
-        <div class='sidebar-brand'>SmilX</div>
-        <div class='sidebar-title'>Menu</div>
-        <div class='sidebar-card'>Explore the different sections of SmilX.</div>
-        <div class='sidebar-links'>
-            <a href='/' target='_self'>Home</a>
-            <a href='#about' target='_self'>About us</a>
-            <a href='#program' target='_self'>Program</a>
-            <a href='#publications' target='_self'>Publications</a>
-            <a href='https://github.com/LuisOrz/SmilX' target='_blank'>GitHub</a>
-        </div>
-    </div>
-</div>
-" if menu_open else "
-<div class='custom-sidebar'>
-    <div class='custom-sidebar-inner'>
-        <div class='sidebar-brand'>SmilX</div>
-        <div class='sidebar-collapsed'>
-            <div class='sidebar-dot'></div>
-            <div class='sidebar-dot'></div>
-            <div class='sidebar-dot'></div>
-        </div>
-    </div>
-</div>
-"}
+{sidebar_html}
 """, unsafe_allow_html=True)
 
 
