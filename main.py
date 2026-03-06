@@ -46,7 +46,6 @@ if menu_open:
     <div class='custom-sidebar-inner'>
         <div class='sidebar-brand'>SmilX</div>
         <div class='sidebar-title'>Menu</div>
-        <div class='sidebar-card'>Explore the different sections of SmilX.</div>
         <div class='sidebar-links'>
             <a href='/' target='_self'>Home</a>
             <a href='#about' target='_self'>About us</a>
@@ -388,12 +387,6 @@ if st.button(toggle_icon, key="toggle_menu_btn"):
 # Función principal
 # ==============================
 def main():
-    st.markdown('<div class="page-title">SmilX</div>', unsafe_allow_html=True)
-    st.markdown(
-        '<div class="page-subtitle">SMILES generation and chemical space exploration platform.</div>',
-        unsafe_allow_html=True
-    )
-
     a = initial_parameters()
 
     with st.spinner("Please wait..."):
