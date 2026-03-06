@@ -33,7 +33,7 @@ def toggle_menu():
 # ==============================
 menu_open = st.session_state.menu_open
 sidebar_width = 260 if menu_open else 72
-content_margin_left = sidebar_width + 18
+content_margin_left = sidebar_width + 32  # más espacio para no solapar
 toggle_icon = "❮❮" if menu_open else "❯❯"
 
 
@@ -105,6 +105,7 @@ body {{ background: #030814; }}
     padding-right: 1.2rem !important;
     padding-bottom: 2rem !important;
     background: #030814 !important;
+    transition: padding-left 0.25s ease;
 }}
 
 .stApp svg,
@@ -213,7 +214,7 @@ body {{ background: #030814; }}
     margin: 8px 8px 10px 8px;
 }}
 .sidebar-card {{
-    margin: 0 6px 14px 6px;
+    margin: 0 6px 24px 6px;
     padding: 12px 14px;
     background: #111c30;
     border: 1px solid #1d2a44;
@@ -371,7 +372,12 @@ if st.button(toggle_icon, key="toggle_menu_btn"):
 # Función principal
 # ==============================
 def main():
-  
+    st.markdown('<div class="page-title">SmilX</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="page-subtitle">SMILES generation and chemical space exploration platform.</div>',
+        unsafe_allow_html=True
+    )
+
     a = initial_parameters()
 
     with st.spinner("Please wait..."):
