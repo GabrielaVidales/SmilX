@@ -33,7 +33,7 @@ def toggle_menu():
 # ==============================
 menu_open = st.session_state.menu_open
 sidebar_width = 260 if menu_open else 72
-content_margin_left = (sidebar_width + 24) if menu_open else (sidebar_width + 16)
+content_margin_left = 24  # padding interno fijo, el desplazamiento lo hace stMain
 toggle_icon = "❮❮" if menu_open else "❯❯"
 
 
@@ -117,10 +117,11 @@ section.main > div {{
     transition: padding-left 0.25s ease;
 }}
 
-/* Forzar también el stMain wrapper */
+/* Desplazar el contenido principal exactamente el ancho del sidebar */
 .stMain {{
     margin-left: {sidebar_width}px !important;
     transition: margin-left 0.25s ease;
+    padding-left: 0 !important;
 }}
 
 .stApp svg,
@@ -304,7 +305,7 @@ div[data-testid="stButton"] > button:hover {{
 }}
 .description-text {{
     max-width: 980px;
-    margin: 20px auto;
+    margin: 12px 0;
     padding: 16px 20px;
     font-size: 16px;
     line-height: 1.7;
@@ -316,7 +317,7 @@ div[data-testid="stButton"] > button:hover {{
 }}
 .content-card {{
     max-width: 980px;
-    margin: 20px auto;
+    margin: 12px 0;
     padding: 22px;
     background: #0b1324;
     border: 1px solid #1b263c;
