@@ -1,301 +1,251 @@
+# ==============================
+# Imports
+# ==============================
 from smilx_parameters import initial_parameters
 from smilx_chemical_space import chemical_space
+
 from rdkit import Chem  # noqa: F401
 import streamlit as st
 
-# =========================
-# Configuración de página
-# =========================
+
+# ==============================
+# Configuración de la página
+# ==============================
 st.set_page_config(
     page_title="SmilX",
-    page_icon="🧪",
     layout="wide"
 )
 
-# =========================
-# CSS mínimo necesario
-# =========================
+
+# ==============================
+# CSS Global
+# ==============================
 st.markdown("""
+<script defer src="https://cloud.umami.is/script.js"
+data-website-id="bae529d6-c60a-4e59-965e-701a9bdaeae9"></script>
+
 <style>
-/* ===== Base general ===== */
-html, body, [class*="css"] {
-    font-family: "Segoe UI", sans-serif;
-}
 
-.stApp {
-    background-color: #000000;
-    color: white;
-}
+/* ====== Layout ancho completo ====== */
 
-/* Contenedor principal */
-.stApp > div[data-testid="block-container"] {
+.stApp > div[data-testid="block-container"]{
     max-width: 100% !important;
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
-    padding-top: 90px !important;   /* espacio para navbar fija */
-    padding-bottom: 2rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-top: 40px !important;
 }
 
-/* Ocultar elementos default */
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
+.stApp [data-testid="stVerticalBlock"],
+.stApp [data-testid="stHorizontalBlock"],
+.stApp [data-testid="column"],
+.stApp [data-testid="stContainer"]{
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 auto !important;
+}
 
-/* ===== Navbar superior ===== */
-.custom-navbar {
+.stApp svg,
+.stApp canvas,
+.stApp img,
+.stApp .plot-container,
+.stApp .element-container,
+.stApp .stMarkdown div{
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.stApp{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+/* ====== Navbar fijo ====== */
+
+.navbar{
+    background-color: white;
+    overflow: hidden;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 58px;
-    background: #ffffff;
-    z-index: 9999;
+    height: 50px;
+    z-index: 1000;
+    box-shadow: 0 8px 10px -1px rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid #e9e9e9;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+    padding: 0 10px;
+    border-bottom: 1px solid #f0f0f0;
 }
 
-.custom-navbar-inner {
+.navbar-container{
+    display: flex;
+    gap: 12px;
+    align-items: center;
     width: 100%;
-    max-width: 1400px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 18px;
 }
 
-.nav-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.nav-logo-text {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #111827;
-    margin-right: 8px;
-    white-space: nowrap;
-}
-
-.nav-menu {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.nav-item {
+.navbar a{
+    color: black;
+    padding: 8px 12px;
     text-decoration: none;
-    color: #111827;
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 8px 14px;
-    border-radius: 999px;
-    transition: all 0.25s ease;
+    font-size: 15px;
+    font-weight: 700;
+    transition: all .3s ease;
+    border-radius: 8px;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
 }
 
-.nav-item:hover {
-    background-color: #f3f4f6;
-    color: #000000;
+.navbar a:hover{
+    background-color: #f0f0f0;
 }
 
-.nav-item.active {
-    background-color: #e5e7eb;
-    color: #000000;
+.navbar a.active{
+    background-color: #f0f0f0;
 }
 
-.nav-right {
+
+/* ====== GitHub icon ====== */
+
+.github-icon{
     margin-left: auto;
     display: flex;
     align-items: center;
 }
 
-.github-link {
+.github-icon a{
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    transition: all 0.25s ease;
-    text-decoration: none;
+    padding: 6px;
+    border-radius: 8px;
 }
 
-.github-link:hover {
-    background-color: #f3f4f6;
-    transform: scale(1.05);
-}
-
-.github-link img {
-    width: 21px;
-    height: 21px;
+.github-icon img{
+    height: 20px;
+    width: 20px;
+    transition: transform .3s ease;
     display: block;
 }
 
-/* ===== Hero / cabecera ===== */
-.hero-wrap {
-    text-align: center;
-    margin-top: 1.5rem;
-    margin-bottom: 1.2rem;
+.github-icon img:hover{
+    transform: scale(1.1);
 }
 
-.hero-title {
-    font-size: 4.8rem;
-    font-weight: 800;
-    color: white;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.7rem;
-    line-height: 1;
+
+/* ====== Grid moléculas ====== */
+
+.molecule-grid,
+.isomer-grid,
+.cards-grid{
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+    gap: 1rem !important;
+    width: 100% !important;
 }
 
-.hero-subtext {
-    color: white;
-    font-size: 1.15rem;
-    line-height: 1.7;
-    max-width: 1050px;
-    margin: 0 auto;
+.molecule-card,
+.isomer-card,
+.card{
+    width: 100% !important;
 }
 
-/* ===== Zona donde corre chemical_space ===== */
-.chemspace-wrap {
-    margin-top: 1.5rem;
-    margin-bottom: 2.2rem;
-}
 
-/* ===== Caja de descripción inferior ===== */
-.description-section {
+/* ====== Texto descriptivo ====== */
+
+.description-text {
+    max-width: 900px;
+    margin: 40px auto 20px auto;
+    margin-top: 100px;
+    padding: 12px;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: justify;
+    word-wrap: break-word;
     clear: both;
     display: block;
-    width: 100%;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
 }
 
-.description-card {
-    max-width: 1180px;
-    margin: 0 auto;
-    background: #111111;
-    border: 1px solid #2a2a2a;
-    color: #f3f4f6;
-    border-radius: 20px;
-    padding: 1.35rem 1.5rem;
-    line-height: 1.8;
-    font-size: 1.05rem;
-    text-align: justify;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+
+/* Ocultar menús de Streamlit */
+
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+
+.footer{
+    margin-top: 0 !important;
 }
 
-/* ===== Footer ===== */
-.footer-text {
-    text-align: center;
-    color: #cbd5e1;
-    font-size: 0.95rem;
-    padding-top: 0.4rem;
-    padding-bottom: 0.3rem;
-}
-
-/* ===== Ajustes widgets streamlit ===== */
-.stTextInput > div > div > input {
-    background-color: #1b1b1b;
-    color: white;
-    border: 1px solid #2f2f2f;
-}
-
-.stButton > button {
-    border-radius: 10px;
-    font-weight: 600;
-}
-
-/* evita que elementos queden pegados */
-.element-container {
-    margin-bottom: 0.6rem;
-}
 </style>
 """, unsafe_allow_html=True)
 
 
-# =========================
-# Navbar superior
-# =========================
+# ==============================
+# Navbar HTML
+# ==============================
 st.markdown("""
-<div class="custom-navbar">
-    <div class="custom-navbar-inner">
-        <div class="nav-left">
-            <div class="nav-logo-text">SMILX</div>
-            <div class="nav-menu">
-                <a class="nav-item active" href="/" target="_self">Home</a>
-                <a class="nav-item" href="#about" target="_self">About us</a>
-                <a class="nav-item" href="#program" target="_self">Program</a>
-                <a class="nav-item" href="#publications" target="_self">Publications</a>
-            </div>
-        </div>
+<nav class="navbar">
+<div class="navbar-container">
 
-        <div class="nav-right">
-            <a class="github-link" href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
-                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
-            </a>
-        </div>
-    </div>
+<a href="/" target="_self">Home</a>
+<a href="#about" target="_self">About us</a>
+<a href="#program" target="_self">Program</a>
+<a href="#publications" target="_self">Publications</a>
+
+<div class="github-icon">
+<a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
+<img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+</a>
 </div>
+
+</div>
+</nav>
 """, unsafe_allow_html=True)
 
 
-def render_header():
-    st.markdown("""
-    <div class="hero-wrap">
-        <div class="hero-title">SMILX</div>
-        <div class="hero-subtext">
-            "Grammar-Driven SMILES Standardization with TokenSMILES" by Luis Armando Gonzalez-Ortiz,
-            Lisset Noriega, Filiberto Ortiz, Gabriela Vidales-Ayala, Emmanuel Soberanis,
-            Amílcar Meneses, Alan Aspuru-Guzik, and Gabriel Merino.<br>
-            Centro de Investigación y Estudios Avanzados (Cinvestav) Mérida<br>
-            GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-
-def render_description():
-    st.markdown("""
-    <div class="description-section">
-        <div class="description-card">
-            By integrating five syntactic constraints—including branch limitations, balanced parentheses,
-            and aromaticity exclusion—TokenSMILES minimizes redundant enumerations for alkanes and ensures
-            valence and octet rule compliance through semantic parsing. Implemented in SmilX, an open-source
-            tool, TokenSMILES successfully generates SMILES for classical organic systems.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-
-def render_footer():
-    st.divider()
-    st.markdown("""
-    <div class="footer-text">
-        Web Designers: Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres
-    </div>
-    """, unsafe_allow_html=True)
-
-
+# ==============================
+# Función principal
+# ==============================
 def main():
-    render_header()
 
     a = initial_parameters()
 
-    st.markdown('<div class="chemspace-wrap">', unsafe_allow_html=True)
     with st.spinner("Please wait..."):
         _ = chemical_space(a)
-    st.markdown('</div>', unsafe_allow_html=True)
 
-    # descripción separada del grid
-    render_description()
+    with st.container():
 
-    render_footer()
+        st.markdown("""
+        <div class="description-text">
+
+        By integrating five syntactic constraints—including branch limitations,
+        balanced parentheses, and aromaticity exclusion—TokenSMILES minimizes
+        redundant enumerations for alkanes and ensures valence and octet rule
+        compliance through semantic parsing.
+
+        Implemented in SmilX, an open-source tool, TokenSMILES successfully
+        generates SMILES for classical organic systems.
+
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+    footer = st.container()
+
+    with footer:
+        st.divider()
+
+        st.markdown(
+            "**Web Designers: Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres**",
+            unsafe_allow_html=True
+        )
 
 
+# ==============================
+# Punto de entrada
+# ==============================
 if __name__ == "__main__":
     main()
