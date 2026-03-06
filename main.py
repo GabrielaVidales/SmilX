@@ -9,7 +9,7 @@ import streamlit as st
 
 
 # ==============================
-# Configuración de página
+# Configuración de la página
 # ==============================
 st.set_page_config(
     page_title="SmilX",
@@ -19,57 +19,62 @@ st.set_page_config(
 
 
 # ==============================
-# Estado del menú lateral
+# Estado del menú por query params
 # ==============================
-if "menu_expanded" not in st.session_state:
-    st.session_state.menu_expanded = True
+params = st.query_params
+menu_state = params.get("menu", "open")
+expanded = menu_state != "closed"
 
+sidebar_width = 260 if expanded else 72
+content_margin_left = sidebar_width + 16
 
-def toggle_menu():
-    st.session_state.menu_expanded = not st.session_state.menu_expanded
+toggle_target = "closed" if expanded else "open"
+toggle_symbol = "❮❮" if expanded else "❯❯"
 
-
-# ==============================
-# Parámetros dinámicos del layout
-# ==============================
-sidebar_width = 280 if st.session_state.menu_expanded else 70
-main_margin_left = sidebar_width + 20
-toggle_symbol = "❮❮" if st.session_state.menu_expanded else "❯❯"
-logo_text = "SmilX" if st.session_state.menu_expanded else "S"
+# textos del sidebar
+brand_text = "SmilX" if expanded else "S"
+menu_label = "Menu" if expanded else ""
 
 
 # ==============================
-# CSS + HTML global
+# CSS global
 # ==============================
-st.markdown(f"""
-<script defer src="https://cloud.umami.is/script.js"
-data-website-id="bae529d6-c60a-4e59-965e-701a9bdaeae9"></script>
-
+st.markdown(
+    f"""
 <style>
 /* =========================
-   Reset básico
+   Ocultar UI nativa
    ========================= */
-html, body, [class*="css"] {{
-    font-family: Arial, sans-serif;
+#MainMenu {{
+    visibility: hidden;
+}}
+header {{
+    visibility: hidden;
+}}
+footer {{
+    visibility: hidden;
 }}
 
 /* =========================
-   Streamlit container
+   Ajuste general de la app
    ========================= */
-.stApp > div[data-testid="block-container"] {{
-    max-width: 100% !important;
-    padding-top: 90px !important;
-    padding-left: {main_margin_left}px !important;
-    padding-right: 1rem !important;
-    padding-bottom: 2rem !important;
+html, body, [class*="css"] {{
+    font-family: Arial, Helvetica, sans-serif;
 }}
 
 .stApp {{
-    margin: 0 !important;
-    padding: 0 !important;
+    background: #ffffff;
 }}
 
-/* OJO: aquí ya NO incluimos .stApp img */
+.stApp > div[data-testid="block-container"] {{
+    max-width: 100% !important;
+    padding-top: 88px !important;
+    padding-left: {content_margin_left}px !important;
+    padding-right: 1.25rem !important;
+    padding-bottom: 2rem !important;
+}}
+
+/* muy importante: NO forzar img global */
 .stApp svg,
 .stApp canvas,
 .stApp .plot-container,
@@ -77,36 +82,33 @@ html, body, [class*="css"] {{
     max-width: 100% !important;
 }}
 
-#MainMenu {{visibility: hidden;}}
-header {{visibility: hidden;}}
-footer {{visibility: hidden;}}
-
 /* =========================
-   Navbar superior
+   Top navbar
    ========================= */
-.top-navbar {{
+.topbar {{
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
     height: 56px;
     background: #ffffff;
-    border-bottom: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e8e8e8;
+    z-index: 9999;
     display: flex;
     align-items: center;
-    z-index: 1001;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-    padding: 0 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }}
 
-.top-navbar-inner {{
-    display: flex;
-    align-items: center;
+.topbar-inner {{
     width: 100%;
+    display: flex;
+    align-items: center;
     gap: 12px;
+    padding: 0 14px;
+    box-sizing: border-box;
 }}
 
-.brand {{
+.topbar-brand {{
     font-size: 20px;
     font-weight: 800;
     color: #111111;
@@ -114,53 +116,52 @@ footer {{visibility: hidden;}}
     margin-right: 6px;
 }}
 
-.nav-links {{
+.topbar-links {{
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: nowrap;
+    min-width: 0;
 }}
 
-.nav-links a {{
+.topbar-links a {{
     color: #111111;
     text-decoration: none;
     font-size: 15px;
     font-weight: 700;
     padding: 8px 12px;
     border-radius: 8px;
-    transition: background 0.25s ease;
+    transition: background 0.2s ease;
     white-space: nowrap;
 }}
 
-.nav-links a:hover {{
-    background: #f1f1f1;
+.topbar-links a:hover {{
+    background: #f2f2f2;
 }}
 
-.nav-links a.active {{
-    background: #f1f1f1;
-}}
-
-.github-icon {{
+.github-box {{
     margin-left: auto;
     display: flex;
     align-items: center;
 }}
 
-.github-icon a {{
+.github-box a {{
     display: inline-flex;
-    align-items: center;
     justify-content: center;
-    padding: 8px;
+    align-items: center;
+    width: 38px;
+    height: 38px;
     border-radius: 10px;
-    transition: background 0.25s ease, transform 0.2s ease;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
 }}
 
-.github-icon a:hover {{
-    background: #f1f1f1;
+.github-box a:hover {{
+    background: #f2f2f2;
     transform: scale(1.04);
 }}
 
-.github-icon img {{
+.github-box img {{
     width: 22px !important;
     height: 22px !important;
     display: block;
@@ -168,263 +169,279 @@ footer {{visibility: hidden;}}
 }}
 
 /* =========================
-   Sidebar izquierdo custom
+   Sidebar izquierdo
    ========================= */
 .left-sidebar {{
     position: fixed;
     top: 56px;
     left: 0;
+    bottom: 0;
     width: {sidebar_width}px;
-    height: calc(100vh - 56px);
-    background: #ffffff;
-    border-right: 1px solid #ececec;
-    z-index: 1000;
-    transition: width 0.25s ease;
+    background: #fafafa;
+    border-right: 1px solid #e7e7e7;
+    z-index: 9998;
     overflow: hidden;
+    transition: width 0.25s ease;
 }}
 
-.sidebar-inner {{
+.left-sidebar-inner {{
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 14px 10px;
+    padding: 12px 10px;
+    box-sizing: border-box;
 }}
 
-.sidebar-header {{
+.sidebar-top {{
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }}
 
-.sidebar-logo {{
-    font-size: 20px;
+.sidebar-brand {{
+    font-size: 18px;
     font-weight: 800;
     color: #111111;
     white-space: nowrap;
     overflow: hidden;
 }}
 
-.sidebar-toggle-space {{
-    display: flex;
-    justify-content: center;
+.toggle-link {{
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 38px;
+    padding: 0 10px;
+    border-radius: 10px;
+    border: 1px solid #dddddd;
+    background: #ffffff;
+    color: #111111;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 800;
+    box-sizing: border-box;
+    transition: background 0.2s ease, border-color 0.2s ease;
 }}
 
-.sidebar-section-title {{
+.toggle-link:hover {{
+    background: #f3f3f3;
+    border-color: #cfcfcf;
+}}
+
+.sidebar-title {{
     font-size: 15px;
     font-weight: 800;
     color: #111111;
-    margin: 12px 8px 10px 8px;
+    margin: 8px 8px 10px 8px;
     white-space: nowrap;
 }}
 
 .sidebar-card {{
-    background: #f7f7f7;
-    border: 1px solid #ececec;
-    border-radius: 12px;
-    padding: 12px 14px;
     margin: 0 6px 14px 6px;
+    padding: 12px 14px;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
     color: #333333;
-    font-size: 15px;
-    line-height: 1.4;
+    font-size: 14px;
+    line-height: 1.45;
 }}
 
-.sidebar-menu {{
+.sidebar-links {{
     display: flex;
     flex-direction: column;
     gap: 4px;
-    margin-top: 6px;
 }}
 
-.sidebar-menu a {{
+.sidebar-links a {{
+    display: block;
+    margin: 0 6px;
+    padding: 12px 12px;
+    border-radius: 10px;
     text-decoration: none;
     color: #111111;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
-    padding: 12px 12px;
-    margin: 0 6px;
-    border-radius: 10px;
-    transition: background 0.2s ease;
     white-space: nowrap;
-    overflow: hidden;
+    transition: background 0.2s ease;
 }}
 
-.sidebar-menu a:hover {{
-    background: #f2f2f2;
+.sidebar-links a:hover {{
+    background: #ececec;
 }}
 
-.sidebar-collapsed-center {{
+.sidebar-collapsed {{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    margin-top: 8px;
+    gap: 14px;
+    margin-top: 14px;
 }}
 
-.sidebar-mini-dot {{
+.sidebar-dot {{
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #cfcfcf;
+    background: #c9c9c9;
 }}
 
 /* =========================
-   Botón Streamlit del toggle
+   Secciones de contenido
    ========================= */
-div.stButton > button {{
-    width: 100%;
-    border-radius: 10px;
-    border: 1px solid #d9d9d9;
-    background: white;
-    color: #111111;
-    font-weight: 700;
-    padding: 0.45rem 0.75rem;
-}}
-
-div.stButton > button:hover {{
-    border-color: #bfbfbf;
-    background: #f5f5f5;
-}}
-
-/* =========================
-   Texto descriptivo
-   ========================= */
-.description-text {{
-    max-width: 980px;
-    margin: 20px auto 24px auto;
-    padding: 14px 18px;
-    font-size: 16px;
-    line-height: 1.7;
-    text-align: justify;
-    word-wrap: break-word;
-    background: #fafafa;
-    border: 1px solid #ececec;
-    border-radius: 14px;
-}}
-
 .page-title {{
     font-size: 34px;
     font-weight: 800;
     color: #111111;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin: 0 0 8px 0;
 }}
 
 .page-subtitle {{
     font-size: 17px;
-    color: #555555;
-    margin-bottom: 22px;
+    color: #5a5a5a;
+    margin-bottom: 24px;
+}}
+
+.description-text {{
+    max-width: 980px;
+    margin: 20px auto;
+    padding: 16px 20px;
+    font-size: 16px;
+    line-height: 1.7;
+    text-align: justify;
+    background: #fafafa;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    color: #222222;
 }}
 
 .content-card {{
-    border: 1px solid #ececec;
-    border-radius: 16px;
+    max-width: 980px;
+    margin: 20px auto;
     padding: 22px;
-    background: white;
-    margin-top: 18px;
+    background: #ffffff;
+    border: 1px solid #e9e9e9;
+    border-radius: 16px;
+    color: #222222;
+}}
+
+.content-card h3 {{
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 24px;
+}}
+
+.content-card p {{
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.65;
+}}
+
+.footer-text {{
+    max-width: 980px;
+    margin: 0 auto;
 }}
 
 /* =========================
    Responsive
    ========================= */
 @media (max-width: 900px) {{
-    .nav-links {{
-        gap: 4px;
+    .topbar-links {{
         overflow-x: auto;
     }}
 
-    .nav-links a {{
+    .topbar-links a {{
         font-size: 13px;
         padding: 7px 9px;
     }}
 
-    .brand {{
+    .topbar-brand {{
         font-size: 17px;
     }}
 }}
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True
+)
 
 
 # ==============================
 # Navbar superior
 # ==============================
-st.markdown("""
-<div class="top-navbar">
-    <div class="top-navbar-inner">
-        <div class="brand">SmilX</div>
+st.markdown(
+    """
+<div class="topbar">
+    <div class="topbar-inner">
+        <div class="topbar-brand">SmilX</div>
 
-        <div class="nav-links">
+        <div class="topbar-links">
             <a href="/" target="_self">Home</a>
             <a href="#about" target="_self">About us</a>
             <a href="#program" target="_self">Program</a>
             <a href="#publications" target="_self">Publications</a>
         </div>
 
-        <div class="github-icon">
+        <div class="github-box">
             <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
                 <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
             </a>
         </div>
     </div>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True
+)
 
 
 # ==============================
-# Sidebar custom izquierdo
+# Sidebar custom
 # ==============================
-with st.container():
-    sidebar_placeholder = st.empty()
-
-with sidebar_placeholder.container():
-    st.markdown(f"""
+if expanded:
+    sidebar_html = f"""
     <div class="left-sidebar">
-        <div class="sidebar-inner">
-            <div class="sidebar-header">
-                <div class="sidebar-logo">{logo_text}</div>
-                <div style="width: 56px;"></div>
+        <div class="left-sidebar-inner">
+            <div class="sidebar-top">
+                <div class="sidebar-brand">{brand_text}</div>
+                <a class="toggle-link" href="?menu={toggle_target}" target="_self">{toggle_symbol}</a>
             </div>
-    """, unsafe_allow_html=True)
 
-    col1, col2 = st.columns([1, 4] if st.session_state.menu_expanded else [1, 1])
-
-    with col1:
-        if st.button(toggle_symbol, key="toggle_left_menu"):
-            toggle_menu()
-            st.rerun()
-
-    if st.session_state.menu_expanded:
-        st.markdown("""
-            <div class="sidebar-section-title">Menu</div>
+            <div class="sidebar-title">{menu_label}</div>
 
             <div class="sidebar-card">
                 Explore the different sections of SmilX.
             </div>
 
-            <div class="sidebar-menu">
+            <div class="sidebar-links">
                 <a href="/" target="_self">Home</a>
                 <a href="#about" target="_self">About us</a>
                 <a href="#program" target="_self">Program</a>
                 <a href="#publications" target="_self">Publications</a>
                 <a href="https://github.com/LuisOrz/SmilX" target="_blank">GitHub</a>
             </div>
-        """, unsafe_allow_html=True)
-    else:
-        st.markdown("""
-            <div class="sidebar-collapsed-center">
-                <div class="sidebar-mini-dot"></div>
-                <div class="sidebar-mini-dot"></div>
-                <div class="sidebar-mini-dot"></div>
-            </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("""
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """
+else:
+    sidebar_html = f"""
+    <div class="left-sidebar">
+        <div class="left-sidebar-inner">
+            <div class="sidebar-top">
+                <div class="sidebar-brand">{brand_text}</div>
+                <a class="toggle-link" href="?menu={toggle_target}" target="_self">{toggle_symbol}</a>
+            </div>
+
+            <div class="sidebar-collapsed">
+                <div class="sidebar-dot"></div>
+                <div class="sidebar-dot"></div>
+                <div class="sidebar-dot"></div>
+            </div>
+        </div>
+    </div>
+    """
+
+st.markdown(sidebar_html, unsafe_allow_html=True)
 
 
 # ==============================
@@ -442,51 +459,62 @@ def main():
     with st.spinner("Please wait..."):
         _ = chemical_space(a)
 
-    with st.container():
-        st.markdown("""
-        <div class="description-text" id="about">
-        By integrating five syntactic constraints—including branch limitations,
-        balanced parentheses, and aromaticity exclusion—TokenSMILES minimizes
-        redundant enumerations for alkanes and ensures valence and octet rule
-        compliance through semantic parsing.
+    st.markdown(
+        """
+<div class="description-text" id="about">
+By integrating five syntactic constraints—including branch limitations,
+balanced parentheses, and aromaticity exclusion—TokenSMILES minimizes
+redundant enumerations for alkanes and ensures valence and octet rule
+compliance through semantic parsing.
 
-        Implemented in SmilX, an open-source tool, TokenSMILES successfully
-        generates SMILES for classical organic systems.
-        </div>
-        """, unsafe_allow_html=True)
+Implemented in SmilX, an open-source tool, TokenSMILES successfully
+generates SMILES for classical organic systems.
+</div>
+""",
+        unsafe_allow_html=True
+    )
 
-        st.markdown("""
-        <div class="content-card" id="program">
-            <h3 style="margin-top:0;">Program</h3>
-            <p>
-                This section can contain the main workflow of the application,
-                conversion utilities, chemical-space generation, and all the
-                interactive tools you want to expose to the user.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+    st.markdown(
+        """
+<div class="content-card" id="program">
+    <h3>Program</h3>
+    <p>
+        This section can contain the main workflow of the application,
+        conversion utilities, chemical-space generation, and all the
+        interactive tools you want to expose to the user.
+    </p>
+</div>
+""",
+        unsafe_allow_html=True
+    )
 
-        st.markdown("""
-        <div class="content-card" id="publications">
-            <h3 style="margin-top:0;">Publications</h3>
-            <p>
-                Add here your related papers, documentation, references, or
-                external links associated with SmilX.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+    st.markdown(
+        """
+<div class="content-card" id="publications">
+    <h3>Publications</h3>
+    <p>
+        Add here your related papers, documentation, references, or
+        external links associated with SmilX.
+    </p>
+</div>
+""",
+        unsafe_allow_html=True
+    )
 
-    footer = st.container()
-    with footer:
-        st.divider()
-        st.markdown(
-            "**Web Designers: Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres**",
-            unsafe_allow_html=True
-        )
+    st.divider()
+
+    st.markdown(
+        """
+<div class="footer-text">
+<b>Web Designers: Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres</b>
+</div>
+""",
+        unsafe_allow_html=True
+    )
 
 
 # ==============================
-# Entry point
+# Punto de entrada
 # ==============================
 if __name__ == "__main__":
     main()
