@@ -6,11 +6,10 @@ from smilx_chemical_space import chemical_space
 
 from rdkit import Chem  # noqa: F401
 import streamlit as st
-from textwrap import dedent
 
 
 # ==============================
-# Configuración de la página
+# Configuración de página
 # ==============================
 st.set_page_config(
     page_title="SmilX",
@@ -20,10 +19,10 @@ st.set_page_config(
 
 
 # ==============================
-# Estado del menú
+# Estado del menú (default: comprimido)
 # ==============================
 if "menu_open" not in st.session_state:
-    st.session_state.menu_open = True
+    st.session_state.menu_open = False
 
 def toggle_menu():
     st.session_state.menu_open = not st.session_state.menu_open
@@ -34,17 +33,18 @@ def toggle_menu():
 # ==============================
 menu_open = st.session_state.menu_open
 sidebar_width = 260 if menu_open else 72
-content_left = sidebar_width + 20
+content_margin_left = sidebar_width + 18
 toggle_icon = "❮❮" if menu_open else "❯❯"
-brand_sidebar = "SmilX" if menu_open else "S"
 
 
 # ==============================
-# CSS
+# CSS principal
 # ==============================
-st.markdown(dedent(f"""
+st.markdown(f"""
 <style>
-/* ===== Ocultar UI nativa de Streamlit ===== */
+/* =========================
+   Ocultar UI nativa
+   ========================= */
 #MainMenu {{
     visibility: hidden;
 }}
@@ -55,24 +55,35 @@ footer {{
     visibility: hidden;
 }}
 
-/* ===== Base ===== */
+/* =========================
+   Fondo general NEGRO
+   ========================= */
 html, body, [class*="css"] {{
     font-family: Arial, Helvetica, sans-serif;
+    background: #030814;
+    color: white;
+}}
+
+body {{
+    background: #030814;
 }}
 
 .stApp {{
-    background: #ffffff;
+    background: #030814 !important;
+    color: white !important;
 }}
 
-/* MUY IMPORTANTE: no forzar width en img global */
+/* Contenedor principal */
 .stApp > div[data-testid="block-container"] {{
     max-width: 100% !important;
     padding-top: 84px !important;
-    padding-left: {content_left}px !important;
-    padding-right: 1.25rem !important;
+    padding-left: {content_margin_left}px !important;
+    padding-right: 1.2rem !important;
     padding-bottom: 2rem !important;
+    background: #030814 !important;
 }}
 
+/* NO tocar img global */
 .stApp svg,
 .stApp canvas,
 .stApp .plot-container,
@@ -80,22 +91,24 @@ html, body, [class*="css"] {{
     max-width: 100% !important;
 }}
 
-/* ===== Topbar ===== */
-.custom-topbar {{
+/* =========================
+   Barra superior blanca
+   ========================= */
+.topbar {{
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     height: 56px;
     background: #ffffff;
-    border-bottom: 1px solid #e9e9e9;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-bottom: 1px solid #e8e8e8;
     z-index: 9999;
     display: flex;
     align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }}
 
-.custom-topbar-inner {{
+.topbar-inner {{
     width: 100%;
     display: flex;
     align-items: center;
@@ -130,7 +143,7 @@ html, body, [class*="css"] {{
 }}
 
 .topbar-links a:hover {{
-    background: #f2f2f2;
+    background: #f1f1f1;
 }}
 
 .github-box {{
@@ -151,7 +164,7 @@ html, body, [class*="css"] {{
 }}
 
 .github-box a:hover {{
-    background: #f2f2f2;
+    background: #f1f1f1;
     transform: scale(1.04);
 }}
 
@@ -162,17 +175,20 @@ html, body, [class*="css"] {{
     object-fit: contain;
 }}
 
-/* ===== Sidebar ===== */
+/* =========================
+   Sidebar izquierdo oscuro
+   ========================= */
 .custom-sidebar {{
     position: fixed;
     top: 56px;
     left: 0;
     bottom: 0;
     width: {sidebar_width}px;
-    background: #fafafa;
-    border-right: 1px solid #e8e8e8;
+    background: #070d1b;
+    border-right: 1px solid #1a2235;
     z-index: 9998;
     overflow: hidden;
+    transition: width 0.25s ease;
 }}
 
 .custom-sidebar-inner {{
@@ -184,25 +200,25 @@ html, body, [class*="css"] {{
 .sidebar-brand {{
     font-size: 18px;
     font-weight: 800;
-    color: #111111;
-    margin-bottom: 18px;
+    color: #ffffff;
+    margin-bottom: 20px;
     white-space: nowrap;
 }}
 
 .sidebar-title {{
     font-size: 15px;
     font-weight: 800;
-    color: #111111;
+    color: #ffffff;
     margin: 8px 8px 10px 8px;
 }}
 
 .sidebar-card {{
     margin: 0 6px 14px 6px;
     padding: 12px 14px;
-    background: #ffffff;
-    border: 1px solid #e9e9e9;
+    background: #111c30;
+    border: 1px solid #1d2a44;
     border-radius: 12px;
-    color: #333333;
+    color: #d9e3f3;
     font-size: 14px;
     line-height: 1.45;
 }}
@@ -215,7 +231,7 @@ html, body, [class*="css"] {{
 
 .sidebar-links a {{
     text-decoration: none;
-    color: #111111;
+    color: #ffffff;
     font-size: 15px;
     font-weight: 700;
     padding: 12px 12px;
@@ -226,7 +242,7 @@ html, body, [class*="css"] {{
 }}
 
 .sidebar-links a:hover {{
-    background: #ececec;
+    background: #141f34;
 }}
 
 .sidebar-collapsed {{
@@ -234,43 +250,52 @@ html, body, [class*="css"] {{
     flex-direction: column;
     align-items: center;
     gap: 14px;
-    margin-top: 10px;
+    margin-top: 12px;
 }}
 
 .sidebar-dot {{
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #c9c9c9;
+    background: #4e617f;
 }}
 
-/* ===== Botón toggle ===== */
+/* =========================
+   Botón toggle nativo
+   ========================= */
 div[data-testid="stButton"] > button {{
-    width: 100%;
+    position: fixed;
+    top: 68px;
+    left: 12px;
+    z-index: 10000;
+    width: 48px;
+    height: 38px;
     border-radius: 10px;
-    border: 1px solid #dcdcdc;
-    background: #ffffff;
-    color: #111111;
+    border: 1px solid #27405d;
+    background: #111c30;
+    color: white;
     font-weight: 800;
-    padding: 0.45rem 0.75rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.22);
 }}
 
 div[data-testid="stButton"] > button:hover {{
-    background: #f3f3f3;
-    border-color: #c9c9c9;
+    background: #18263f;
+    border-color: #33547b;
 }}
 
-/* ===== Contenido ===== */
+/* =========================
+   Títulos y contenido
+   ========================= */
 .page-title {{
     font-size: 34px;
     font-weight: 800;
-    color: #111111;
+    color: #ffffff;
     margin: 0 0 8px 0;
 }}
 
 .page-subtitle {{
     font-size: 17px;
-    color: #5a5a5a;
+    color: #b9c4d6;
     margin-bottom: 24px;
 }}
 
@@ -281,40 +306,50 @@ div[data-testid="stButton"] > button:hover {{
     font-size: 16px;
     line-height: 1.7;
     text-align: justify;
-    background: #fafafa;
-    border: 1px solid #e9e9e9;
+    background: #0b1324;
+    border: 1px solid #1b263c;
     border-radius: 16px;
-    color: #222222;
+    color: #f4f7fb;
 }}
 
 .content-card {{
     max-width: 980px;
     margin: 20px auto;
     padding: 22px;
-    background: #ffffff;
-    border: 1px solid #e9e9e9;
+    background: #0b1324;
+    border: 1px solid #1b263c;
     border-radius: 16px;
-    color: #222222;
+    color: #ffffff;
 }}
 
 .content-card h3 {{
     margin-top: 0;
     margin-bottom: 10px;
     font-size: 24px;
+    color: #ffffff;
 }}
 
 .content-card p {{
     margin: 0;
     font-size: 16px;
     line-height: 1.65;
+    color: #d9e3f3;
 }}
 
 .footer-wrap {{
     max-width: 980px;
     margin: 0 auto;
+    color: #ffffff;
 }}
 
-/* ===== Responsive ===== */
+/* Forzar texto visible en markdown normal */
+.stMarkdown, .stText, p, span, label, div {{
+    color: inherit;
+}}
+
+/* =========================
+   Responsive
+   ========================= */
 @media (max-width: 900px) {{
     .topbar-links {{
         overflow-x: auto;
@@ -330,15 +365,15 @@ div[data-testid="stButton"] > button:hover {{
     }}
 }}
 </style>
-"""), unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 
 # ==============================
-# Topbar
+# Topbar blanca
 # ==============================
-st.markdown(dedent("""
-<div class="custom-topbar">
-    <div class="custom-topbar-inner">
+topbar_html = """
+<div class="topbar">
+    <div class="topbar-inner">
         <div class="topbar-brand">SmilX</div>
 
         <div class="topbar-links">
@@ -355,58 +390,57 @@ st.markdown(dedent("""
         </div>
     </div>
 </div>
-"""), unsafe_allow_html=True)
+"""
+st.markdown(topbar_html, unsafe_allow_html=True)
 
 
 # ==============================
-# Sidebar fijo
+# Sidebar oscuro
 # ==============================
 sidebar_placeholder = st.empty()
 
 if menu_open:
-    sidebar_html = dedent(f"""
-    <div class="custom-sidebar">
-        <div class="custom-sidebar-inner">
-            <div class="sidebar-brand">{brand_sidebar}</div>
-            <div class="sidebar-title">Menu</div>
-            <div class="sidebar-card">
-                Explore the different sections of SmilX.
-            </div>
-            <div class="sidebar-links">
-                <a href="/" target="_self">Home</a>
-                <a href="#about" target="_self">About us</a>
-                <a href="#program" target="_self">Program</a>
-                <a href="#publications" target="_self">Publications</a>
-                <a href="https://github.com/LuisOrz/SmilX" target="_blank">GitHub</a>
-            </div>
+    sidebar_html = """
+<div class="custom-sidebar">
+    <div class="custom-sidebar-inner">
+        <div class="sidebar-brand">SmilX</div>
+        <div class="sidebar-title">Menu</div>
+        <div class="sidebar-card">
+            Explore the different sections of SmilX.
+        </div>
+        <div class="sidebar-links">
+            <a href="/" target="_self">Home</a>
+            <a href="#about" target="_self">About us</a>
+            <a href="#program" target="_self">Program</a>
+            <a href="#publications" target="_self">Publications</a>
+            <a href="https://github.com/LuisOrz/SmilX" target="_blank">GitHub</a>
         </div>
     </div>
-    """)
+</div>
+"""
 else:
-    sidebar_html = dedent(f"""
-    <div class="custom-sidebar">
-        <div class="custom-sidebar-inner">
-            <div class="sidebar-brand">{brand_sidebar}</div>
-            <div class="sidebar-collapsed">
-                <div class="sidebar-dot"></div>
-                <div class="sidebar-dot"></div>
-                <div class="sidebar-dot"></div>
-            </div>
+    sidebar_html = """
+<div class="custom-sidebar">
+    <div class="custom-sidebar-inner">
+        <div class="sidebar-brand">SmilX</div>
+        <div class="sidebar-collapsed">
+            <div class="sidebar-dot"></div>
+            <div class="sidebar-dot"></div>
+            <div class="sidebar-dot"></div>
         </div>
     </div>
-    """)
+</div>
+"""
 
 sidebar_placeholder.markdown(sidebar_html, unsafe_allow_html=True)
 
 
 # ==============================
-# Botón toggle del menú
+# Botón toggle
 # ==============================
-toggle_col1, toggle_col2 = st.columns([1, 8])
-with toggle_col1:
-    if st.button(toggle_icon, key="toggle_menu_btn"):
-        toggle_menu()
-        st.rerun()
+if st.button(toggle_icon, key="toggle_menu_btn"):
+    toggle_menu()
+    st.rerun()
 
 
 # ==============================
@@ -424,50 +458,50 @@ def main():
     with st.spinner("Please wait..."):
         _ = chemical_space(a)
 
-    st.markdown(dedent("""
-    <div class="description-text" id="about">
-    By integrating five syntactic constraints—including branch limitations,
-    balanced parentheses, and aromaticity exclusion—TokenSMILES minimizes
-    redundant enumerations for alkanes and ensures valence and octet rule
-    compliance through semantic parsing.
+    st.markdown("""
+<div class="description-text" id="about">
+By integrating five syntactic constraints—including branch limitations,
+balanced parentheses, and aromaticity exclusion—TokenSMILES minimizes
+redundant enumerations for alkanes and ensures valence and octet rule
+compliance through semantic parsing.
 
-    Implemented in SmilX, an open-source tool, TokenSMILES successfully
-    generates SMILES for classical organic systems.
-    </div>
-    """), unsafe_allow_html=True)
+Implemented in SmilX, an open-source tool, TokenSMILES successfully
+generates SMILES for classical organic systems.
+</div>
+""", unsafe_allow_html=True)
 
-    st.markdown(dedent("""
-    <div class="content-card" id="program">
-        <h3>Program</h3>
-        <p>
-            This section can contain the main workflow of the application,
-            conversion utilities, chemical-space generation, and all the
-            interactive tools you want to expose to the user.
-        </p>
-    </div>
-    """), unsafe_allow_html=True)
+    st.markdown("""
+<div class="content-card" id="program">
+    <h3>Program</h3>
+    <p>
+        This section can contain the main workflow of the application,
+        conversion utilities, chemical-space generation, and all the
+        interactive tools you want to expose to the user.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
-    st.markdown(dedent("""
-    <div class="content-card" id="publications">
-        <h3>Publications</h3>
-        <p>
-            Add here your related papers, documentation, references, or
-            external links associated with SmilX.
-        </p>
-    </div>
-    """), unsafe_allow_html=True)
+    st.markdown("""
+<div class="content-card" id="publications">
+    <h3>Publications</h3>
+    <p>
+        Add here your related papers, documentation, references, or
+        external links associated with SmilX.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
     st.divider()
 
-    st.markdown(dedent("""
-    <div class="footer-wrap">
-        <b>Web Designers: Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres</b>
-    </div>
-    """), unsafe_allow_html=True)
+    st.markdown("""
+<div class="footer-wrap">
+    <b>Web Designers: Gabriela Yasmin Vidales Ayala & José Emmanuel Soberanis Cáceres</b>
+</div>
+""", unsafe_allow_html=True)
 
 
 # ==============================
-# Punto de entrada
+# Entry point
 # ==============================
 if __name__ == "__main__":
     main()
