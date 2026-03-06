@@ -371,8 +371,7 @@ if st.button(toggle_icon, key="toggle_menu_btn"):
 # Función principal
 # ==============================
 def main():
-    st.markdown('<div class="page-title">SmilX</div>', unsafe_allow_html=True)
-    
+  
     a = initial_parameters()
 
     with st.spinner("Please wait..."):
