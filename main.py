@@ -33,7 +33,7 @@ def toggle_menu():
 # ==============================
 menu_open = st.session_state.menu_open
 sidebar_width = 260 if menu_open else 72
-content_margin_left = sidebar_width + 32  # más espacio para no solapar
+content_margin_left = (sidebar_width + 24) if menu_open else (sidebar_width + 16)
 toggle_icon = "❮❮" if menu_open else "❯❯"
 
 
@@ -97,8 +97,17 @@ body {{ background: #030814; }}
     color: white !important;
 }}
 
-/* Contenedor principal */
-.stApp > div[data-testid="block-container"] {{
+/* Ocultar sidebar nativo de Streamlit */
+section[data-testid="stSidebar"] {{
+    display: none !important;
+}}
+
+/* Contenedor principal — múltiples selectores para cubrir todas las versiones de Streamlit */
+.stApp > div[data-testid="block-container"],
+div[data-testid="block-container"],
+.stMainBlockContainer,
+.main .block-container,
+section.main > div {{
     max-width: 100% !important;
     padding-top: 84px !important;
     padding-left: {content_margin_left}px !important;
@@ -106,6 +115,12 @@ body {{ background: #030814; }}
     padding-bottom: 2rem !important;
     background: #030814 !important;
     transition: padding-left 0.25s ease;
+}}
+
+/* Forzar también el stMain wrapper */
+.stMain {{
+    margin-left: {sidebar_width}px !important;
+    transition: margin-left 0.25s ease;
 }}
 
 .stApp svg,
