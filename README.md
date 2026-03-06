@@ -64,7 +64,7 @@ This repository contains the **official implementation of the SMILX / TokenSMILE
 
 SMILX can be used through the **online web application** or by running it locally.
 
-### Online (recommended)
+#### Online (recommended)
 
 Use the web interface to explore molecular isomers directly from a molecular formula:
 
@@ -72,9 +72,7 @@ https://smilx-isogenerator.streamlit.app/
 
 No installation is required.
 
----
-
-### Run Locally
+#### Run Locally
 
 Clone the repository and install dependencies:
 
@@ -105,7 +103,8 @@ pip install -r requirements.txt
 
 ## Authors
 
-Developed by: Filiberto Ortiz, Gabriela Vidales-Ayala, Emmanuel Soberanis, Amilcar Meneses, Alan Aspuru-Guzik, and Gabriel Merino.
+Developed by: Luis Armando Gonzalez-Ortiz, Lisset Noriega, Filiberto Ortiz, Gabriela Vidales-Ayala, Emmanuel Soberanis, Amilcar Meneses, Alan Aspuru-Guzik, and Gabriel Merino.
+
 Centro de Investigación y Estudios Avanzados (CINVESTAV) Mérida
 
 ------------------------------------------------------------------------
