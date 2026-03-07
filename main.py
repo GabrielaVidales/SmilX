@@ -188,15 +188,15 @@ section.main > div {{
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 38px; height: 38px;
+    width: 46px; height: 46px;
     border-radius: 10px;
     text-decoration: none;
     transition: background 0.2s ease, transform 0.2s ease;
 }}
 .github-box a:hover {{ background: #f1f1f1; transform: scale(1.04); }}
 .github-box img {{
-    width: 22px !important;
-    height: 22px !important;
+    width: 32px !important;
+    height: 32px !important;
     display: block;
     object-fit: contain;
 }}
@@ -268,13 +268,13 @@ section.main > div {{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
-    margin-top: 12px;
+    gap: 10px;
+    margin-top: 16px;
 }}
 .sidebar-dot {{
-    width: 10px; height: 10px;
+    width: 8px; height: 8px;
     border-radius: 50%;
-    background: #4e617f;
+    background: #3b82f6;
 }}
 
 /* =========================
@@ -312,7 +312,7 @@ div[data-testid="stButton"] > button:hover {{
     margin-bottom: 24px;
 }}
 .description-text {{
-    max-width: 980px;
+    max-width: 100%;
     margin: 12px 0;
     padding: 16px 20px;
     font-size: 16px;
@@ -369,7 +369,7 @@ div[data-testid="stButton"] > button:hover {{
             <a href="/" target="_self" class="active">Home</a>
             <a href="#about" target="_self">About us</a>
             <a href="#program" target="_self">Program</a>
-            <a href="#publications" target="_self">Publications</a>
+            <a href="/Publications" target="_self">Publications</a>
         </div>
         <div class="github-box">
             <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
