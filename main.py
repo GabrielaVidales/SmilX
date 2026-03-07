@@ -444,4 +444,4 @@ generates SMILES for classical organic systems.
 # Entry point
 # ==============================
 if __name__ == "__main__":
-    main()main()
+    main()
