@@ -50,7 +50,7 @@ if menu_open:
             <a href='/' target='_self'>Home</a>
             <a href='#about' target='_self'>About us</a>
             <a href='#program' target='_self'>Program</a>
-            <a href='/Publications' target='_self'>Publications</a>
+            <a href='#' onclick="window.parent.location.href='/Publications'; return false;">Publications</a>
             <a href='https://github.com/LuisOrz/SmilX' target='_blank'>GitHub</a>
         </div>
     </div>
@@ -95,6 +95,12 @@ body {{ background: #030814; }}
     color: white !important;
 }}
 
+/* Evitar desbordamiento horizontal */
+html, body, .stApp {{
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+}}
+
 /* Ocultar sidebar nativo de Streamlit */
 section[data-testid="stSidebar"] {{
     display: none !important;
@@ -113,6 +119,7 @@ section.main > div {{
     padding-bottom: 2rem !important;
     background: #030814 !important;
     transition: padding-left 0.25s ease;
+    box-sizing: border-box !important;
 }}
 
 /* Desplazar el contenido principal exactamente el ancho del sidebar */
@@ -120,6 +127,7 @@ section.main > div {{
     margin-left: {sidebar_width}px !important;
     transition: margin-left 0.25s ease;
     padding-left: 0 !important;
+    overflow-x: hidden !important;
 }}
 
 .stApp svg,
@@ -269,7 +277,7 @@ section.main > div {{
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    margin-top: 16px;
+    margin-top: 60px;
 }}
 .sidebar-dot {{
     width: 8px; height: 8px;
@@ -369,7 +377,7 @@ div[data-testid="stButton"] > button:hover {{
             <a href="/" target="_self" class="active">Home</a>
             <a href="#about" target="_self">About us</a>
             <a href="#program" target="_self">Program</a>
-            <a href="/Publications" target="_self">Publications</a>
+            <a href="#publications-nav" target="_self" id="pub-link" onclick="window.parent.location.href='/Publications'; return false;">Publications</a>
         </div>
         <div class="github-box">
             <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
@@ -390,6 +398,16 @@ div[data-testid="stButton"] > button:hover {{
 if st.button(toggle_icon, key="toggle_menu_btn"):
     toggle_menu()
     st.rerun()
+
+# ==============================
+# Navegación a Publications (oculta, activada por JS)
+# ==============================
+st.markdown("""
+<style>
+div[data-testid="stPageLink"] { display: none !important; }
+</style>
+""", unsafe_allow_html=True)
+st.page_link("pages/Publications.py", label="Publications", key="pub_nav")
 
 
 # ==============================
