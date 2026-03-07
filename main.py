@@ -50,7 +50,7 @@ if menu_open:
             <a href='/' target='_self'>Home</a>
             <a href='#about' target='_self'>About us</a>
             <a href='#program' target='_self'>Program</a>
-            <a href='#' onclick="window.parent.location.href='/Publications'; return false;">Publications</a>
+            <a href='javascript:void(0)' onclick="window.parent.location.pathname='/publications';">Publications</a>
             <a href='https://github.com/LuisOrz/SmilX' target='_blank'>GitHub</a>
         </div>
     </div>
@@ -377,7 +377,7 @@ div[data-testid="stButton"] > button:hover {{
             <a href="/" target="_self" class="active">Home</a>
             <a href="#about" target="_self">About us</a>
             <a href="#program" target="_self">Program</a>
-            <a href="#publications-nav" target="_self" id="pub-link" onclick="window.parent.location.href='/Publications'; return false;">Publications</a>
+            <a href="javascript:void(0)" onclick="window.parent.postMessage({type:'streamlit:setComponentValue', value: 'publications'}, '*'); window.parent.location.pathname='/publications';">Publications</a>
         </div>
         <div class="github-box">
             <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
@@ -398,16 +398,6 @@ div[data-testid="stButton"] > button:hover {{
 if st.button(toggle_icon, key="toggle_menu_btn"):
     toggle_menu()
     st.rerun()
-
-# ==============================
-# Navegación a Publications (oculta, activada por JS)
-# ==============================
-st.markdown("""
-<style>
-div[data-testid="stPageLink"] { display: none !important; }
-</style>
-""", unsafe_allow_html=True)
-st.page_link("pages/Publications.py", label="Publications")
 
 
 # ==============================
