@@ -46,7 +46,6 @@ if menu_open:
     <div class='custom-sidebar-inner'>
         <div class='sidebar-brand'>SmilX</div>
         <div class='sidebar-title'>Menu</div>
-        <div class='sidebar-card'>Explore the different sections of SmilX.</div>
         <div class='sidebar-links'>
             <a href='/' target='_self'>Home</a>
             <a href='#about' target='_self'>About us</a>
@@ -394,10 +393,6 @@ if st.button(toggle_icon, key="toggle_menu_btn"):
 # ==============================
 def main():
     st.markdown('<div class="page-title">SmilX</div>', unsafe_allow_html=True)
-    st.markdown(
-        '<div class="page-subtitle">SMILES generation and chemical space exploration platform.</div>',
-        unsafe_allow_html=True
-    )
 
     a = initial_parameters()
 
@@ -413,27 +408,6 @@ compliance through semantic parsing.
 
 Implemented in SmilX, an open-source tool, TokenSMILES successfully
 generates SMILES for classical organic systems.
-</div>
-""", unsafe_allow_html=True)
-
-    st.markdown("""
-<div class="content-card" id="program">
-    <h3>Program</h3>
-    <p>
-        This section can contain the main workflow of the application,
-        conversion utilities, chemical-space generation, and all the
-        interactive tools you want to expose to the user.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-    st.markdown("""
-<div class="content-card" id="publications">
-    <h3>Publications</h3>
-    <p>
-        Add here your related papers, documentation, references, or
-        external links associated with SmilX.
-    </p>
 </div>
 """, unsafe_allow_html=True)
 
