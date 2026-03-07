@@ -1,3 +1,6 @@
+pp · PY
+Copiar
+
 # ==============================
 # Imports
 # ==============================
@@ -46,11 +49,12 @@ if menu_open:
     <div class='custom-sidebar-inner'>
         <div class='sidebar-brand'>SmilX</div>
         <div class='sidebar-title'>Menu</div>
+        <div class='sidebar-card'>Explore the different sections of SmilX.</div>
         <div class='sidebar-links'>
             <a href='/' target='_self'>Home</a>
             <a href='#about' target='_self'>About us</a>
             <a href='#program' target='_self'>Program</a>
-            <a href='#publications' target='_self'>Publications</a>
+            <a href='/Publications' target='_self'>Publications</a>
             <a href='https://github.com/LuisOrz/SmilX' target='_blank'>GitHub</a>
         </div>
     </div>
@@ -175,6 +179,11 @@ section.main > div {{
     white-space: nowrap;
 }}
 .topbar-links a:hover {{ background: #f1f1f1; }}
+.topbar-links a.active {{
+    background: #111111;
+    color: #ffffff;
+    border-radius: 8px;
+}}
 .github-box {{
     margin-left: auto;
     display: flex;
@@ -357,10 +366,10 @@ div[data-testid="stButton"] > button:hover {{
     <div class="topbar-inner">
         <div class="topbar-brand">SmilX</div>
         <div class="topbar-links">
-            <a href="/" target="_self">Home</a>
+            <a href="/" target="_self" class="active">Home</a>
             <a href="#about" target="_self">About us</a>
             <a href="#program" target="_self">Program</a>
-            <a href="#publications" target="_self">Publications</a>
+            <a href="/Publications" target="_self">Publications</a>
         </div>
         <div class="github-box">
             <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
@@ -387,6 +396,12 @@ if st.button(toggle_icon, key="toggle_menu_btn"):
 # Función principal
 # ==============================
 def main():
+    st.markdown('<div class="page-title">SmilX</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="page-subtitle">SMILES generation and chemical space exploration platform.</div>',
+        unsafe_allow_html=True
+    )
+
     a = initial_parameters()
 
     with st.spinner("Please wait..."):
