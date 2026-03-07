@@ -407,7 +407,7 @@ st.markdown("""
 div[data-testid="stPageLink"] { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
-st.page_link("pages/Publications.py", label="Publications", key="pub_nav")
+st.page_link("pages/Publications.py", label="Publications")
 
 
 # ==============================
@@ -444,4 +444,4 @@ generates SMILES for classical organic systems.
 # Entry point
 # ==============================
 if __name__ == "__main__":
-    main()
+    main()main()
