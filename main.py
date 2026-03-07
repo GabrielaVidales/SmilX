@@ -377,7 +377,7 @@ div[data-testid="stButton"] > button:hover {{
             <a href="/" target="_self" class="active">Home</a>
             <a href="#about" target="_self">About us</a>
             <a href="#program" target="_self">Program</a>
-            <a href="javascript:void(0)" onclick="window.parent.postMessage({type:'streamlit:setComponentValue', value: 'publications'}, '*'); window.parent.location.pathname='/publications';">Publications</a>
+            <a href="javascript:void(0)" onclick="window.parent.location.pathname='/publications';">Publications</a>
         </div>
         <div class="github-box">
             <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
