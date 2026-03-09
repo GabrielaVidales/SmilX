@@ -96,9 +96,14 @@ body {{ background: #030814; }}
 }}
 
 /* Evitar desbordamiento horizontal */
-html, body, .stApp {{
+html, body {{
     overflow-x: hidden !important;
     max-width: 100vw !important;
+}}
+.stApp {{
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100vw !important;
 }}
 
 /* Ocultar sidebar nativo de Streamlit */
@@ -106,27 +111,31 @@ section[data-testid="stSidebar"] {{
     display: none !important;
 }}
 
-/* Contenedor principal — múltiples selectores para cubrir todas las versiones de Streamlit */
+/* Desplazar y recortar el contenido principal */
+.stMain {{
+    margin-left: {sidebar_width}px !important;
+    width: calc(100vw - {sidebar_width}px) !important;
+    max-width: calc(100vw - {sidebar_width}px) !important;
+    overflow-x: hidden !important;
+    transition: margin-left 0.25s ease, width 0.25s ease;
+    box-sizing: border-box !important;
+    padding-left: 0 !important;
+}}
+
+/* Contenedor interior */
 .stApp > div[data-testid="block-container"],
 div[data-testid="block-container"],
 .stMainBlockContainer,
 .main .block-container,
 section.main > div {{
+    width: 100% !important;
     max-width: 100% !important;
     padding-top: 84px !important;
     padding-left: {content_margin_left}px !important;
     padding-right: 24px !important;
     padding-bottom: 2rem !important;
     background: #030814 !important;
-    transition: padding-left 0.25s ease;
     box-sizing: border-box !important;
-}}
-
-/* Desplazar el contenido principal exactamente el ancho del sidebar */
-.stMain {{
-    margin-left: {sidebar_width}px !important;
-    transition: margin-left 0.25s ease;
-    padding-left: 0 !important;
     overflow-x: hidden !important;
 }}
 
@@ -358,6 +367,32 @@ div[data-testid="stButton"] > button:hover {{
     color: #ffffff;
 }}
 .stMarkdown, .stText, p, span, label, div {{ color: inherit; }}
+
+/* Forzar que todo el texto respete el ancho del contenedor */
+.stMain * {{
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}}
+.stMain p,
+.stMain span,
+.stMain label,
+.stMain div,
+.stMain h1,
+.stMain h2,
+.stMain h3 {{
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+}}
+/* Excepciones: elementos que necesitan nowrap */
+.stMain button,
+.stMain input,
+.stMain select,
+.topbar-brand,
+.topbar-links a,
+.sidebar-links a {{
+    white-space: nowrap !important;
+}}
 
 /* =========================
    Responsive
