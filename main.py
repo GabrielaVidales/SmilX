@@ -461,10 +461,13 @@ if st.button(toggle_icon, key="toggle_menu_btn"):
 # Función principal
 # ==============================
 def main():
-    a = initial_parameters()
-
-    with st.spinner("Please wait..."):
-        _ = chemical_space(a)
+    try:
+        a = initial_parameters()
+    
+        with st.spinner("Please wait..."):
+            _ = chemical_space(a)
+    except:
+        st.error("Check molecular formula")
 
     st.markdown("""
 <div class="description-text" id="about">
