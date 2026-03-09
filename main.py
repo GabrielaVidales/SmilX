@@ -115,7 +115,7 @@ section.main > div {{
     max-width: 100% !important;
     padding-top: 84px !important;
     padding-left: {content_margin_left}px !important;
-    padding-right: 1.2rem !important;
+    padding-right: {content_margin_left}px !important;
     padding-bottom: 2rem !important;
     background: #030814 !important;
     transition: padding-left 0.25s ease;
