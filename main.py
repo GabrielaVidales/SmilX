@@ -115,7 +115,7 @@ section.main > div {{
     max-width: 100% !important;
     padding-top: 84px !important;
     padding-left: {content_margin_left}px !important;
-    padding-right: {content_margin_left}px !important;
+    padding-right: 24px !important;
     padding-bottom: 2rem !important;
     background: #030814 !important;
     transition: padding-left 0.25s ease;
@@ -366,6 +366,28 @@ div[data-testid="stButton"] > button:hover {{
     .topbar-links {{ overflow-x: auto; }}
     .topbar-links a {{ font-size: 13px; padding: 7px 9px; }}
     .topbar-brand {{ font-size: 17px; }}
+}}
+
+@media (max-width: 600px) {{
+    .custom-sidebar {{
+        width: 48px !important;
+    }}
+    .stMain {{
+        margin-left: 48px !important;
+        max-width: calc(100vw - 48px) !important;
+        overflow-x: hidden !important;
+    }}
+    .stApp > div[data-testid="block-container"],
+    div[data-testid="block-container"],
+    .stMainBlockContainer {{
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }}
+    .topbar-links a {{ display: none; }}
+    .topbar-brand {{ font-size: 16px; }}
+    .description-text {{ font-size: 14px; padding: 12px; }}
 }}
 </style>
 
