@@ -465,7 +465,7 @@ def main():
         a = initial_parameters()
     
         with st.spinner("Please wait..."):
-            _ = chemical_space(a)
+            _ = chemical_space_classic(a)
     except:
         st.error("Check molecular formula")
 
