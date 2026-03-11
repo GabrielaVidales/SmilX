@@ -481,7 +481,7 @@ class smilx_atom_substitution:
         #progress_bar.close()
           
 #----------------------------------------------------------------------------------------------
-class chemical_space:
+class chemical_space_classic:
     def __init__(self, parameters):
         dest_filename = parameters.filename_output_pkl
         create_file_pkl(dest_filename)
