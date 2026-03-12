@@ -506,7 +506,7 @@ class chemical_space_classic:
         list_smiles = get_list_smiles_from_pickle_file(parameters.filename_output_pkl)
         get_smiles_from_pickle_file(parameters.filename_output_pkl, parameters.filename_output_smi)
         st.write(f"******************************Exploration completed: {count_smiles} isomers found******************************")
-        with open(f"{parameters.filename_output_smi}", "w") as file:
+        with open(f"{parameters.filename_output_smi}", "r") as file:
             st.download_button(
                 label="Download SMILES",
                 data=file,
