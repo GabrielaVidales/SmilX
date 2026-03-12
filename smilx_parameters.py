@@ -76,9 +76,13 @@ class initial_parameters:
           self.str_molecular_formula += f'{i_element}{self.molecular_formula[i_element]}'
 #----------------------------------------------------------------------------------- Section 2
   def write_name_output_file(self):
-    self.filename_output_pkl = self.str_molecular_formula + '.pkl'
-    self.filename_output_smi = self.str_molecular_formula + '.smi'
-    self.filename_output_xyz = self.str_molecular_formula + '.xyz'
+    label_carbenes = ""
+    if self.opt_carbenes:
+      label_carbenes = "_with_carbenes"
+
+    self.filename_output_pkl = self.str_molecular_formula + label_carbenes + '.pkl'
+    self.filename_output_smi = self.str_molecular_formula + label_carbenes + '.smi'
+    self.filename_output_xyz = self.str_molecular_formula + label_carbenes + '.xyz'
 #----------------------------------------------------------------------------------- Section 3
   def get_syntax_rules(self):
     if self.n_heavy_atoms in {1, 2, 3}:
