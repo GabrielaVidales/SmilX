@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center">
-SMILX (TokenSMILES Framework)
+SmilX (TokenSMILES Framework)
 </h1>
 
 <p align="center">
@@ -28,11 +28,11 @@ SMILX (TokenSMILES Framework)
 
 ---
 
-## What is SMILX?
+## What is SmilX?
 
-**SMILX is a software designed to explore the chemical space of isomers using the SMILES language under grammar constraints.**
+**SmilX is a software designed to explore the chemical space of isomers using the SMILES language under grammar constraints.**
 
-Given a **molecular formula**, SMILX systematically constructs chemically valid molecular graphs by applying a **grammar-driven generation process**, ensuring consistency with chemical rules such as:
+Given a **molecular formula**, SmilX systematically constructs chemically valid molecular graphs by applying a **grammar-driven generation process**, ensuring consistency with chemical rules such as:
 
 - valence constraints  
 - connectivity  
@@ -41,7 +41,7 @@ Given a **molecular formula**, SMILX systematically constructs chemically valid 
 
 This approach enables the systematic enumeration of candidate molecular isomers.
 
-This repository contains the **official implementation of the SMILX / TokenSMILES framework**, developed at:
+This repository contains the **official implementation of the SmilX / TokenSMILES framework**, developed at:
 
 **Centro de Investigación y Estudios Avanzados (CINVESTAV) Mérida**
 
@@ -54,7 +54,7 @@ This repository contains the **official implementation of the SMILX / TokenSMILE
 - Enumeration of valid unsaturation patterns (double bonds, triple bonds, rings)
 - Grammar-based construction of carbon skeletons and branching
 - Cycle formation (ring closures) with validity checks
-- Heteroatom substitution under valence constraints Supported elements: N O S P B F Cl Br I 
+- Heteroatom substitution under valence constraints Supported elements: N, O, S, P, B, F, Cl, Br, I 
 - Interactive exploration via **Streamlit**  
 - RDKit-friendly workflow for downstream cheminformatics tasks
 
@@ -62,7 +62,7 @@ This repository contains the **official implementation of the SMILX / TokenSMILE
 
 ## Usage
 
-SMILX can be used through the **online web application** or by running it locally.
+SmilX can be used through the **online web application** or by running it locally.
 
 - #### Online (recommended)
 
@@ -88,7 +88,7 @@ pip install -r requirements.txt
 
 ## Project Structure
 
-    SMILX
+    SmilX
     │
     ├── logo_smilx.png
     ├── requirements.txt
