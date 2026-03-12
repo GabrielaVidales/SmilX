@@ -5,6 +5,7 @@ import pickle
 import copy
 from tqdm import tqdm
 from smilx_chemistry_tools import standard_smiles
+from smilx_chemistry_tools import smiles_carbened
 from rdkit import Chem
 from rdkit.Chem import AllChem
 import streamlit as st
