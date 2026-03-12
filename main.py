@@ -3,7 +3,6 @@
 # ==============================
 from smilx_parameters import initial_parameters
 from smilx_chemical_space import chemical_space_classic
-
 from rdkit import Chem  # noqa: F401
 import streamlit as st
 
@@ -467,8 +466,7 @@ def main():
         with st.spinner("Please wait..."):
             _ = chemical_space_classic(parameters)
     except:
-        label_error = f"Error in molecular formula syntax: {parameters.str_molecular_formula}"
-        st.error(label_error)
+        st.error("Error in molecular formula syntax")
 
     st.markdown("""
 <div class="description-text" id="about">
