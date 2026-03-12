@@ -466,7 +466,7 @@ def main():
         with st.spinner("Please wait..."):
             _ = chemical_space_classic(parameters)
     except:
-        st.error("Error in molecular formula syntax")
+        st.error("Error in the molecular formula syntax")
 
     st.markdown("""
 <div class="description-text" id="about">
