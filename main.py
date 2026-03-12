@@ -3,6 +3,7 @@
 # ==============================
 from smilx_parameters import initial_parameters
 from smilx_chemical_space import chemical_space_classic
+from smilx_chemical_space import chemical_space_carbenes
 from rdkit import Chem  # noqa: F401
 import streamlit as st
 
