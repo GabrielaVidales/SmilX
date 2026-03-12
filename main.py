@@ -464,12 +464,12 @@ def main():
     try:
         parameters = initial_parameters()
 
-        if not(parameters.opt_carbenes):
+        if not(parameters.opt_carbenes) or parameters.molecular_formula['hdi'] == 0:
             with st.spinner("Please wait..."):
                 _ = chemical_space_classic(parameters)
         else:
             with st.spinner("Please wait..."):
-                _ = chemical_space_classic(parameters)
+                _ = chemical_space_carbenes(parameters)
     except:
         st.error("Error in the molecular formula syntax")
 
