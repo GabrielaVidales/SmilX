@@ -403,7 +403,7 @@ class standard_smiles:
                   smiles_replaced.append(copy.deepcopy(new_instance))
         return smiles_replaced
 #-----------------------------------------------------------------------------------class SmilesCarbened
-class SmilesCarbened:
+class smiles_carbened:
     def __init__(self, string_smiles):
         self.smiles = copy.deepcopy(string_smiles)
 
