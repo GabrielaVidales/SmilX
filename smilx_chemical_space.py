@@ -753,7 +753,7 @@ def get_list_cycled_smiles(list_smiles):
 
     return filter_canonical_smiles(list_new_smiles)
 #------------------------------------------------------------------------------------------------
-def get_all_possible_dehydrogenations(smiles, bond):
+def get_all_possibles_dehydrogenations(smiles, bond):
     list_possible_dehydrogenations = []
     new_smiles = copy.deepcopy(smiles)
 
@@ -1188,7 +1188,6 @@ class chemical_space_carbenes:
 
     for i_formula in self.molecular_formulas_carbenes:
 
-        current_formula += 1
         list_smiles_0, list_smiles_1 = [], []
 
         for i_smiles in list_smiles_alkanes:
