@@ -1221,6 +1221,7 @@ class chemical_space_carbenes:
           list_smiles_final.append(''.join(i_smiles.smiles))
     #------------------------------------------------------------------------------------ Section 8
     st.write(f"******************************Exploration completed: {len(list_smiles_final)} isomers found******************************")
+    """
     with open(f"{parameters.filename_output_smi}", "r") as file:
       st.download_button(
           label="Download SMILES",
@@ -1234,6 +1235,6 @@ class chemical_space_carbenes:
         html_grid = mg.data
         st.components.v1.html(html_grid, height=600, scrolling=True)
     except:
-        st.write("")
+        st.write("")"""
         
 
