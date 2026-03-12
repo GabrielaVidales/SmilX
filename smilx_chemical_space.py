@@ -1234,6 +1234,6 @@ class chemical_space_carbenes:
         html_grid = mg.data
         st.components.v1.html(html_grid, height=600, scrolling=True)
     except:
-        st.write(f"******************************Exploration completed: {len(list_smiles_final)} isomers found******************************")
+        st.write("")
         
 
