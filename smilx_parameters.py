@@ -5,7 +5,6 @@ import streamlit as st
 class initial_parameters:
 #----------------------------------------------------------------------------------- Section 0
   def __init__(self):
-    import streamlit as st
 
     col1, col2, col3 = st.columns(3)
     with col2:
