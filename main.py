@@ -467,7 +467,10 @@ def main():
         with st.spinner("Please wait..."):
             _ = chemical_space_classic(parameters)
     except:
-        st.error("Check molecular formula")
+        if self.molecular_formula == none:
+            st.error("Review the hydrogen deficiency index, HDI, in the molecular formula")
+        else
+            st.error(f"Error in molecular formula syntax: {parameters.str_molecular_formula}")
 
     st.markdown("""
 <div class="description-text" id="about">
