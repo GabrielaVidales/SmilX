@@ -402,4 +402,336 @@ class standard_smiles:
                   new_instance.replace_atom(i_element, i_pos)
                   smiles_replaced.append(copy.deepcopy(new_instance))
         return smiles_replaced
-#-------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------class SmilesCarbened
+class SmilesCarbened:
+    def __init__(self, string_smiles):
+        self.smiles = copy.deepcopy(string_smiles)
+
+        self.get_type_smiles()
+        self.get_atoms_from_smiles()
+        self.get_connectivity()
+        self.get_list_adjacency()
+        self.get_list_hydrogens()
+        self.get_list_degrees()
+
+        self.molecular_formula = {}
+        self.rings = 0
+
+        self.charges = [0 for _ in range(len(self.atoms))]
+        self.charge = 0
+
+        self.index_cycles = []
+
+
+    # Get the SMILES type
+    def get_type_smiles(self):
+        self.class_smiles = ""
+
+        if "(" in "".join(self.smiles):
+            self.type_smiles = "Branched"
+        else:
+            self.type_smiles = "Linear"
+
+    # Get a list of atoms from SMILES
+    def get_atoms_from_smiles(self):
+        self.atoms = []
+
+        atom_patterns = [
+            'Cl', 'Br', 'Si', '[C]', '[CH]', 'C', 'N', 'O', 'S',
+            'P', 'B', 'F', 'I'
+        ]
+
+        for iword in self.smiles:
+            for atom in atom_patterns:
+                if atom in iword:
+                    if atom in ['[C]', '[CH]']:
+                        self.atoms.append('[C]')
+                    else:
+                        self.atoms.append(atom)
+                    break
+
+    def get_connectivity(self):
+        self.bonds = {}
+
+        def rank_level_smiles():
+            list_levels = []
+            level = 0
+
+            for i_word in self.smiles:
+                if "(" not in i_word and ")" not in i_word:
+                    list_levels.append(level)
+                else:
+                    if "(" in i_word and ")" not in i_word:
+                        level += 1
+                        list_levels.append(level)
+                    elif "(" in i_word and ")" in i_word:
+                        level += 1
+                        list_levels.append(level)
+                        level -= 1
+                    elif "(" not in i_word and ")" in i_word:
+                        list_levels.append(level)
+                        level -= 1
+
+            return list_levels
+
+        # -----------------------------------------------------------------------
+        # Get linear connectivity
+        rank_levels = rank_level_smiles()
+        level = 0
+
+        for i_level in range(len(rank_levels)):
+            if ")" in self.smiles[i_level]:
+                level -= 1
+                continue
+
+            level = rank_levels[i_level]
+
+            for j_level in range(i_level + 1, len(rank_levels)):
+                if rank_levels[j_level] == rank_levels[i_level]:
+                    if "=" in self.smiles[j_level]:
+                        self.bonds[(i_level, j_level)] = "="
+                    elif "#" in self.smiles[j_level]:
+                        self.bonds[(i_level, j_level)] = "#"
+                    else:
+                        self.bonds[(i_level, j_level)] = ""
+                    break
+                else:
+                    if level == rank_levels[i_level] and "(" in self.smiles[j_level]:
+                        level += 1
+
+                        if "=" in self.smiles[j_level]:
+                            self.bonds[(i_level, j_level)] = "="
+                        elif "#" in self.smiles[j_level]:
+                            self.bonds[(i_level, j_level)] = "#"
+                        else:
+                            self.bonds[(i_level, j_level)] = ""
+
+                        if ")" in self.smiles[j_level]:
+                            level -= 1
+                    else:
+                        if level != rank_levels[i_level] and "(" in self.smiles[j_level]:
+                            level += 1
+                        if level != rank_levels[i_level] and ")" in self.smiles[j_level]:
+                            level -= 1
+
+        # -----------------------------------------------------------------------
+        # Get non-linear connectivity
+        list_nonlinear_connectivity = []
+
+        for i_word in self.smiles:
+            flag = 0
+            connectors = []
+
+            for i_symbol in i_word:
+                if i_symbol.isdigit() and flag == 0:
+                    connectors.append(i_symbol)
+                elif i_symbol == "%" and flag == 0:
+                    percent = "%"
+                    flag = 2
+                elif flag == 2 or flag == 1:
+                    percent += i_symbol
+                    if flag == 1:
+                        connectors.append(percent)
+                    flag -= 1
+
+            list_nonlinear_connectivity.append(connectors)
+
+        for i_index in range(len(list_nonlinear_connectivity) - 1):
+            for i_connector in list_nonlinear_connectivity[i_index]:
+                for j_index in range(i_index + 1, len(list_nonlinear_connectivity)):
+                    if i_connector in list_nonlinear_connectivity[j_index]:
+                        self.bonds[(i_index, j_index)] = ""
+                        list_nonlinear_connectivity[j_index].remove(i_connector)
+                        break
+
+    def get_list_adjacency(self):
+        self.adjacency = []
+
+        list_nodes = list(
+            set([i_bond[0] for i_bond in self.bonds] + [j_bond[1] for j_bond in self.bonds])
+        )
+
+        list_adjacency = [[] for _ in range(len(list_nodes))]
+        self.adjacency = dict(zip(list_nodes, list_adjacency))
+
+        for i_bond in self.bonds:
+            self.adjacency[i_bond[0]].append(i_bond[1])
+            self.adjacency[i_bond[1]].append(i_bond[0])
+
+
+def get_list_hydrogens(self):
+    self.hydrogens = []
+
+    list_bonds = [0 for _ in range(len(self.atoms))]
+    dic_bonds = {"": 1, "=": 2, "#": 3}
+
+    for i_bond in self.bonds:
+        bond_order = dic_bonds[self.bonds[i_bond]]
+        list_bonds[i_bond[0]] += bond_order
+        list_bonds[i_bond[1]] += bond_order
+
+    for i_pos in range(len(self.atoms)):
+        atom = self.atoms[i_pos]
+        bonds = list_bonds[i_pos]
+
+        if atom == "C":
+            if bonds > 4:
+                self.hydrogens.append(0)
+            else:
+                self.hydrogens.append(4 - bonds)
+
+        elif atom == "S":
+            if bonds in {2, 4, 6}:
+                self.hydrogens.append(0)
+            elif bonds in {1, 3, 5}:
+                self.hydrogens.append(1)
+
+        elif atom == "P":
+            if bonds in {3, 5, 6}:
+                self.hydrogens.append(0)
+            elif bonds in {2, 4}:
+                self.hydrogens.append(1)
+            elif bonds == 1:
+                self.hydrogens.append(2)
+
+        elif atom == "N":
+            if bonds in {3, 4, 5, 6}:
+                self.hydrogens.append(0)
+            elif bonds == 2:
+                self.hydrogens.append(1)
+            elif bonds == 1:
+                self.hydrogens.append(2)
+
+        elif atom in {"O", "[C]"}:
+            if bonds in {2, 3, 4, 5, 6}:
+                self.hydrogens.append(0)
+            elif bonds == 1:
+                self.hydrogens.append(1)
+
+        elif atom in {"Cl", "Br", "I", "F"}:
+            self.hydrogens.append(0)
+
+    def get_list_degrees(self):
+        self.degrees = [0 for _ in range(len(self.smiles))]
+
+        bond_weights = {"": 1, "=": 2, "#": 3}
+
+        for i_bond in self.bonds:
+            weight = bond_weights[self.bonds[i_bond]]
+            self.degrees[i_bond[0]] += weight
+            self.degrees[i_bond[1]] += weight
+
+
+    def update_list_hydrogen_atoms(self):
+        self.molecular_formula['H'] = sum(self.hydrogens)
+
+#------------------------------------------------------------------------------------------------------------Transformation chemical methods
+    def dehydrogenate(self, bond):
+        if (
+            self.hydrogens[bond[0]] > 0
+            and self.hydrogens[bond[1]] > 0
+            and self.molecular_formula['hdi'] > 0
+        ):
+            if self.bonds[bond] == '':
+                self.bonds[bond] = '='
+                self.smiles[bond[1]] = self.smiles[bond[1]].replace('C', '=C')
+
+            elif self.bonds[bond] == '=':
+                self.bonds[bond] = '#'
+                self.smiles[bond[1]] = self.smiles[bond[1]].replace('=C', '#C')
+
+            self.molecular_formula['hdi'] -= 1
+            self.hydrogens[bond[0]] -= 1
+            self.hydrogens[bond[1]] -= 1
+            self.degrees[bond[0]] += 1
+            self.degrees[bond[1]] += 1
+
+    def cycle(self, atoms, type_ring):
+        if (
+            self.hydrogens[atoms[0]] >= type_ring
+            and self.hydrogens[atoms[1]] >= type_ring
+            and self.molecular_formula["hdi"] > 0
+            and atoms not in self.bonds
+        ):
+            symbol_ring = {1: "", 2: "=", 3: "#"}
+            ring = self.rings + 1
+
+            self.rings += 1
+            self.adyacency[atoms[0]].append(atoms[1])
+            self.adyacency[atoms[1]].append(atoms[0])
+
+            self.bonds[atoms] = symbol_ring[type_ring]
+
+            self.hydrogens[atoms[0]] -= type_ring
+            self.hydrogens[atoms[1]] -= type_ring
+
+            self.degrees[atoms[0]] += 1
+            self.degrees[atoms[1]] += 1
+
+            self.molecular_formula["hdi"] -= type_ring
+
+            if ring < 10:
+                self.smiles[atoms[0]] = self.smiles[atoms[0]].replace(
+                    "C", f"C{ring}"
+                )
+                self.smiles[atoms[1]] = self.smiles[atoms[1]].replace(
+                    "C", f"C{symbol_ring[type_ring]}{ring}"
+                )
+            else:
+                self.smiles[atoms[0]] = self.smiles[atoms[0]].replace(
+                    "C", f"C%{ring}"
+                )
+                self.smiles[atoms[1]] = self.smiles[atoms[1]].replace(
+                    "C", f"C{symbol_ring[type_ring]}%{ring}"
+                )
+
+    def substitution_carbon_dehydrogenation(self, atom, position):
+        valences = {
+            "C": 4, "Si": 4, "O": 2, "S": 2, "[C]": 2,
+            "N": 3, "P": 3, "B": 3,
+            "Cl": 1, "Br": 1, "I": 1, "F": 1
+        }
+
+        if atom != "C" and self.degrees[position] <= valences[atom]:
+            self.molecular_formula[atom] -= 1
+            self.hydrogens[position] = valences[atom] - self.degrees[position]
+            self.atoms[position] = atom
+
+            self.smiles[position] = self.smiles[position].replace("C", atom)
+
+            if atom == "[C]" and self.hydrogens[position] == 1:
+                self.smiles[position] = self.smiles[position].replace("C", "CH")
+        else:
+            self.molecular_formula[atom] -= 1
+
+        self.update_list_hydrogen_atoms()
+#----------------------------------------------------------------------------------------------------------------------------------------
+"""
+    def Get_Atom_Hybridization(self):
+        VALUE_PI_BOND={'':0,'=':1,'#':2}
+        VALUE_HIBRIDATION={4:'sp3',3:'sp2',2:'sp'}
+        LIST_STERIC_NUMBER=np.array([0 for i in range(len(self.ATOMS))])
+        # CONSTUIR UNA LISTA PARA LOS ENLACES PI
+        LIST_PI_BOND=[0 for i in range(len(self.ATOMS))]
+        for iBOND in self.BONDS:
+            LIST_PI_BOND[iBOND[0]]+=VALUE_PI_BOND[self.BONDS[iBOND]]
+            LIST_PI_BOND[iBOND[1]]+=VALUE_PI_BOND[self.BONDS[iBOND]]
+        #------------------------------------------------------------------------------Add SIGMA BONDS
+        # AÑADIR LA CANTIDA DE ENLACES SIGMA DEL TIPO A-A
+            LIST_STERIC_NUMBER[iBOND[0]]+=1
+            LIST_STERIC_NUMBER[iBOND[1]]+=1
+        # AÑADIR LA CANTIDA DE ENLACES SIGMA DEL TIPO A-H
+        LIST_STERIC_NUMBER+=np.array(self.HYDROGENS)
+        #-----------------------------------------------------------------------------Add lone electrons
+        # AÑADIR LA CANTIDA DE PARES DE ELECTRONES LIBRES
+        for iPOS in range(len(self.ATOMS)):
+            if self.ATOMS[iPOS]!='C':
+                LIST_STERIC_NUMBER[iPOS]+=int((8-2*(LIST_STERIC_NUMBER[iPOS]+LIST_PI_BOND[iPOS]))/2)
+        #-----------------------------------------------------------------------------Establish Hybridizations
+        # ESTABLECER HIBRIDACIONES PARA CADA ÁTOMO
+        self.HIBRIDATIONS=[]
+        for iNUMBER in LIST_STERIC_NUMBER:
+            if iNUMBER>1:
+                self.HIBRIDATIONS.append(VALUE_HIBRIDATION[iNUMBER])
+            else:
+                self.HIBRIDATIONS.append(False)"""
