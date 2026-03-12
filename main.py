@@ -8,7 +8,7 @@ import streamlit as st
 
 
 # ==============================
-# Configuración de página
+# Website configuration
 # ==============================
 st.set_page_config(
     page_title="SmilX",
@@ -18,7 +18,7 @@ st.set_page_config(
 
 
 # ==============================
-# Estado del menú (default: comprimido)
+# Menu status (default: compressed)
 # ==============================
 if "menu_open" not in st.session_state:
     st.session_state.menu_open = False
@@ -28,7 +28,7 @@ def toggle_menu():
 
 
 # ==============================
-# Variables dinámicas
+# Dynamic variables
 # ==============================
 menu_open = st.session_state.menu_open
 sidebar_width = 260 if menu_open else 72
@@ -37,7 +37,7 @@ toggle_icon = "❮❮" if menu_open else "❯❯"
 
 
 # ==============================
-# HTML del sidebar (se construye antes del f-string para evitar SyntaxError)
+# Sidebar HTML (built before the f-string to avoid SyntaxError)
 # ==============================
 if menu_open:
     sidebar_html = """
@@ -68,8 +68,8 @@ else:
 
 
 # ==============================
-# CSS + Topbar + Sidebar en UN SOLO bloque
-# (Esto evita que Streamlit muestre el HTML como texto crudo)
+# CSS + Topbar + Sidebar in ONE block
+# (This prevents Streamlit from displaying HTML as raw text)
 # ==============================
 st.markdown(f"""
 <style>
@@ -146,7 +146,7 @@ section.main > div {{
 }}
 
 /* =========================
-   Barra superior blanca
+   White top bar
    ========================= */
 .topbar {{
     position: fixed;
@@ -449,7 +449,7 @@ div[data-testid="stButton"] > button:hover {{
 
 
 # ==============================
-# Botón toggle
+# Toggle button
 # ==============================
 if st.button(toggle_icon, key="toggle_menu_btn"):
     toggle_menu()
@@ -457,7 +457,7 @@ if st.button(toggle_icon, key="toggle_menu_btn"):
 
 
 # ==============================
-# Función principal
+# Main function
 # ==============================
 def main():
     try:
