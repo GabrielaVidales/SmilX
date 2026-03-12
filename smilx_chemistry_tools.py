@@ -404,6 +404,7 @@ class standard_smiles:
         return smiles_replaced
 #-----------------------------------------------------------------------------------class SmilesCarbened
 class smiles_carbened:
+
     def __init__(self, string_smiles):
         self.smiles = copy.deepcopy(string_smiles)
 
@@ -559,57 +560,57 @@ class smiles_carbened:
             self.adjacency[i_bond[1]].append(i_bond[0])
 
 
-def get_list_hydrogens(self):
-    self.hydrogens = []
+    def get_list_hydrogens(self):
+        self.hydrogens = []
 
-    list_bonds = [0 for _ in range(len(self.atoms))]
-    dic_bonds = {"": 1, "=": 2, "#": 3}
+        list_bonds = [0 for _ in range(len(self.atoms))]
+        dic_bonds = {"": 1, "=": 2, "#": 3}
 
-    for i_bond in self.bonds:
-        bond_order = dic_bonds[self.bonds[i_bond]]
-        list_bonds[i_bond[0]] += bond_order
-        list_bonds[i_bond[1]] += bond_order
+        for i_bond in self.bonds:
+            bond_order = dic_bonds[self.bonds[i_bond]]
+            list_bonds[i_bond[0]] += bond_order
+            list_bonds[i_bond[1]] += bond_order
 
-    for i_pos in range(len(self.atoms)):
-        atom = self.atoms[i_pos]
-        bonds = list_bonds[i_pos]
+        for i_pos in range(len(self.atoms)):
+            atom = self.atoms[i_pos]
+            bonds = list_bonds[i_pos]
 
-        if atom == "C":
-            if bonds > 4:
+            if atom == "C":
+                if bonds > 4:
+                    self.hydrogens.append(0)
+                else:
+                    self.hydrogens.append(4 - bonds)
+
+            elif atom == "S":
+                if bonds in {2, 4, 6}:
+                    self.hydrogens.append(0)
+                elif bonds in {1, 3, 5}:
+                    self.hydrogens.append(1)
+
+            elif atom == "P":
+                if bonds in {3, 5, 6}:
+                    self.hydrogens.append(0)
+                elif bonds in {2, 4}:
+                    self.hydrogens.append(1)
+                elif bonds == 1:
+                    self.hydrogens.append(2)
+
+            elif atom == "N":
+                if bonds in {3, 4, 5, 6}:
+                    self.hydrogens.append(0)
+                elif bonds == 2:
+                    self.hydrogens.append(1)
+                elif bonds == 1:
+                    self.hydrogens.append(2)
+
+            elif atom in {"O", "[C]"}:
+                if bonds in {2, 3, 4, 5, 6}:
+                    self.hydrogens.append(0)
+                elif bonds == 1:
+                    self.hydrogens.append(1)
+
+            elif atom in {"Cl", "Br", "I", "F"}:
                 self.hydrogens.append(0)
-            else:
-                self.hydrogens.append(4 - bonds)
-
-        elif atom == "S":
-            if bonds in {2, 4, 6}:
-                self.hydrogens.append(0)
-            elif bonds in {1, 3, 5}:
-                self.hydrogens.append(1)
-
-        elif atom == "P":
-            if bonds in {3, 5, 6}:
-                self.hydrogens.append(0)
-            elif bonds in {2, 4}:
-                self.hydrogens.append(1)
-            elif bonds == 1:
-                self.hydrogens.append(2)
-
-        elif atom == "N":
-            if bonds in {3, 4, 5, 6}:
-                self.hydrogens.append(0)
-            elif bonds == 2:
-                self.hydrogens.append(1)
-            elif bonds == 1:
-                self.hydrogens.append(2)
-
-        elif atom in {"O", "[C]"}:
-            if bonds in {2, 3, 4, 5, 6}:
-                self.hydrogens.append(0)
-            elif bonds == 1:
-                self.hydrogens.append(1)
-
-        elif atom in {"Cl", "Br", "I", "F"}:
-            self.hydrogens.append(0)
 
     def get_list_degrees(self):
         self.degrees = [0 for _ in range(len(self.smiles))]
@@ -657,8 +658,8 @@ def get_list_hydrogens(self):
             ring = self.rings + 1
 
             self.rings += 1
-            self.adyacency[atoms[0]].append(atoms[1])
-            self.adyacency[atoms[1]].append(atoms[0])
+            self.adjacency[atoms[0]].append(atoms[1])
+            self.adjacency[atoms[1]].append(atoms[0])
 
             self.bonds[atoms] = symbol_ring[type_ring]
 
@@ -705,33 +706,3 @@ def get_list_hydrogens(self):
             self.molecular_formula[atom] -= 1
 
         self.update_list_hydrogen_atoms()
-#----------------------------------------------------------------------------------------------------------------------------------------
-"""
-    def Get_Atom_Hybridization(self):
-        VALUE_PI_BOND={'':0,'=':1,'#':2}
-        VALUE_HIBRIDATION={4:'sp3',3:'sp2',2:'sp'}
-        LIST_STERIC_NUMBER=np.array([0 for i in range(len(self.ATOMS))])
-        # CONSTUIR UNA LISTA PARA LOS ENLACES PI
-        LIST_PI_BOND=[0 for i in range(len(self.ATOMS))]
-        for iBOND in self.BONDS:
-            LIST_PI_BOND[iBOND[0]]+=VALUE_PI_BOND[self.BONDS[iBOND]]
-            LIST_PI_BOND[iBOND[1]]+=VALUE_PI_BOND[self.BONDS[iBOND]]
-        #------------------------------------------------------------------------------Add SIGMA BONDS
-        # AÑADIR LA CANTIDA DE ENLACES SIGMA DEL TIPO A-A
-            LIST_STERIC_NUMBER[iBOND[0]]+=1
-            LIST_STERIC_NUMBER[iBOND[1]]+=1
-        # AÑADIR LA CANTIDA DE ENLACES SIGMA DEL TIPO A-H
-        LIST_STERIC_NUMBER+=np.array(self.HYDROGENS)
-        #-----------------------------------------------------------------------------Add lone electrons
-        # AÑADIR LA CANTIDA DE PARES DE ELECTRONES LIBRES
-        for iPOS in range(len(self.ATOMS)):
-            if self.ATOMS[iPOS]!='C':
-                LIST_STERIC_NUMBER[iPOS]+=int((8-2*(LIST_STERIC_NUMBER[iPOS]+LIST_PI_BOND[iPOS]))/2)
-        #-----------------------------------------------------------------------------Establish Hybridizations
-        # ESTABLECER HIBRIDACIONES PARA CADA ÁTOMO
-        self.HIBRIDATIONS=[]
-        for iNUMBER in LIST_STERIC_NUMBER:
-            if iNUMBER>1:
-                self.HIBRIDATIONS.append(VALUE_HIBRIDATION[iNUMBER])
-            else:
-                self.HIBRIDATIONS.append(False)"""
