@@ -1180,7 +1180,7 @@ class chemical_space_carbenes:
     list_smiles_alkanes = []
 
     for i_alkane in get_possible_alkanes(parameters.molecular_formula):
-        new_smiles = SmilesCarbened(i_alkane)
+        new_smiles = smiles_carbened(i_alkane)
         list_smiles_alkanes.append(new_smiles)
     #---------------------------------------------------------------------------------------- Section 3
     list_smiles_totals = []
