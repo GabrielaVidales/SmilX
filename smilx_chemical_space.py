@@ -1184,7 +1184,7 @@ class chemical_space_carbenes:
         list_smiles_alkanes.append(new_smiles)
     #---------------------------------------------------------------------------------------- Section 3
     list_smiles_totals = []
-    list_smiles_final=[]
+    list_smiles = []
 
     for i_formula in self.molecular_formulas_carbenes:
 
@@ -1218,10 +1218,9 @@ class chemical_space_carbenes:
     #------------------------------------------------------------------------------------ Section 7
         list_smiles_totals += copy.deepcopy(list_smiles_0)
         for i_smiles in list_smiles_0:
-          list_smiles_final.append(''.join(i_smiles.smiles))
+          list_smiles.append(''.join(i_smiles.smiles))
     #------------------------------------------------------------------------------------ Section 8
-    st.write(f"******************************Exploration completed: {len(list_smiles_final)} isomers found******************************")
-    st.write(f"{parameters.filename_output_smi}")
+    st.write(f"******************************Exploration completed: {len(list_smiles)} isomers found******************************")
     """
     with open(f"{parameters.filename_output_smi}", "r") as file:
       st.download_button(
@@ -1231,7 +1230,7 @@ class chemical_space_carbenes:
           mime="text/smi",
           )
     """
-    df = pd.DataFrame({"smi": list_smiles_final, "id": range(1, len(list_smiles_final) + 1)})
+    df = pd.DataFrame({"smi": list_smiles, "id": range(1, len(list_smiles) + 1)})
     mg = mols2grid.display(df, smiles_col="smi", subset=["id", "img", "smi"], n_cols=6, size = (130, 90))        
     html_grid = mg.data
     st.components.v1.html(html_grid, height=600, scrolling=True)
