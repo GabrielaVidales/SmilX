@@ -462,9 +462,13 @@ if st.button(toggle_icon, key="toggle_menu_btn"):
 def main():
     try:
         parameters = initial_parameters()
-    
-        with st.spinner("Please wait..."):
-            _ = chemical_space_classic(parameters)
+
+        if not(parameters.opt_carbenes):
+            with st.spinner("Please wait..."):
+                _ = chemical_space_classic(parameters)
+        else:
+            with st.spinner("Please wait..."):
+                _ = chemical_space_classic(parameters)
     except:
         st.error("Error in the molecular formula syntax")
 
