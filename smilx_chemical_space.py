@@ -1221,7 +1221,7 @@ class chemical_space_carbenes:
           list_smiles_final.append(''.join(i_smiles.smiles))
     #------------------------------------------------------------------------------------ Section 8
     st.write(f"******************************Exploration completed: {len(list_smiles_final)} isomers found******************************")
-
+    """
     with open(f"{parameters.filename_output_smi}", "r") as file:
       st.download_button(
           label="Download SMILES",
@@ -1230,12 +1230,10 @@ class chemical_space_carbenes:
           mime="text/smi",
           )
     """
-    try:
-        df = pd.DataFrame({"smi": list_smiles_final, "id": range(1, len(list_smiles_final) + 1)})
-        mg = mols2grid.display(df, smiles_col="smi", subset=["id", "img", "smi"], n_cols=6, size = (130, 90))        
-        html_grid = mg.data
-        st.components.v1.html(html_grid, height=600, scrolling=True)
-    except:
-        st.write("")"""
+    df = pd.DataFrame({"smi": list_smiles_final, "id": range(1, len(list_smiles_final) + 1)})
+    mg = mols2grid.display(df, smiles_col="smi", subset=["id", "img", "smi"], n_cols=6, size = (130, 90))        
+    html_grid = mg.data
+    st.components.v1.html(html_grid, height=600, scrolling=True)
+
         
 
