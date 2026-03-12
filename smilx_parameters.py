@@ -37,6 +37,7 @@ class initial_parameters:
   def ask_molecular_formula(self):
     try:
       self.str_molecular_formula = st.text_input("Enter the molecular formula (e.g. C6H6, C2H5NO2): ", value="C6H14", key="first")
+      self.opt_carbenes = st.checkbox("Search with carbenes")
       self.get_molecular_formula()
       self.is_valid_molecular_formula = True
       self.count_atoms_from_molecular_formula(self.molecular_formula)
