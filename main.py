@@ -462,10 +462,10 @@ if st.button(toggle_icon, key="toggle_menu_btn"):
 # ==============================
 def main():
     try:
-        a = initial_parameters()
+        parameters = initial_parameters()
     
         with st.spinner("Please wait..."):
-            _ = chemical_space_classic(a)
+            _ = chemical_space_classic(parameters)
     except:
         st.error("Check molecular formula")
 
