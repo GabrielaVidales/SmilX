@@ -110,6 +110,18 @@ section[data-testid="stSidebar"] {{
     display: none !important;
 }}
 
+/* Asegurar que NADA de Streamlit tape el topbar */
+.stApp,
+.stMain,
+.stApp > div,
+div[data-testid="block-container"],
+.stMainBlockContainer,
+iframe,
+[data-testid="stIFrame"] {{
+    z-index: 0 !important;
+    isolation: auto !important;
+}}
+
 /* Desplazar y recortar el contenido principal */
 .stMain {{
     margin-left: {sidebar_width}px !important;
@@ -146,8 +158,7 @@ section.main > div {{
     max-width: 100% !important;
 }}
 
-/* Asegurar que los componentes de Streamlit tengan posición relativa
-   para no solaparse con el contenido siguiente */
+/* Posición relativa para no solaparse con contenido siguiente */
 .stApp .element-container,
 .stApp [data-testid="stVerticalBlock"] > div {{
     position: relative !important;
@@ -155,7 +166,7 @@ section.main > div {{
 }}
 
 /* =========================
-   White top bar
+   White top bar — SIEMPRE ENCIMA
    ========================= */
 .topbar {{
     position: fixed;
@@ -163,10 +174,8 @@ section.main > div {{
     height: 56px;
     background: #ffffff !important;
     border-bottom: 1px solid #e8e8e8;
-    z-index: 2147483647;       
+    z-index: 2147483647 !important;
     isolation: isolate;
-    border-bottom: 1px solid #e8e8e8;
-    z-index: 9999;
     display: flex;
     align-items: center;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -343,7 +352,7 @@ div[data-testid="stButton"] > button:hover {{
 /* FIX: separación entre el grid y el texto inferior */
 .description-text {{
     max-width: 100%;
-    margin: 48px 0 12px 0;   /* margen superior aumentado para separar del grid */
+    margin: 48px 0 12px 0;
     padding: 16px 20px;
     font-size: 16px;
     line-height: 1.7;
@@ -352,9 +361,9 @@ div[data-testid="stButton"] > button:hover {{
     border: 1px solid #1b263c;
     border-radius: 16px;
     color: #f4f7fb;
-    position: relative;       /* evita solapamiento con elementos previos */
+    position: relative;
     z-index: 1;
-    clear: both;              /* limpia cualquier float del grid */
+    clear: both;
 }}
 
 .content-card {{
