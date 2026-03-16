@@ -161,7 +161,10 @@ section.main > div {{
     position: fixed;
     top: 0; left: 0; right: 0;
     height: 56px;
-    background: #ffffff;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e8e8e8;
+    z-index: 2147483647;       
+    isolation: isolate;
     border-bottom: 1px solid #e8e8e8;
     z-index: 9999;
     display: flex;
