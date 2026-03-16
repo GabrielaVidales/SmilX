@@ -1174,7 +1174,7 @@ def get_possible_alkanes(molecular_formula):
 def get_smiles_carened_from_list(file_name, list_smiles):
     with open(file_name, 'r') as file:
         for  i_smiles in list_smiles:
-            file.write(i_smiles + \n")
+            file.write(i_smiles + "\n")
 
 class chemical_space_carbenes:
 
