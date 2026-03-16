@@ -7,7 +7,7 @@ st.set_page_config(
 )
 
 # ==============================
-# CSS + Topbar
+# CSS + Topbar (active: Publications)
 # ==============================
 st.markdown("""
 <style>
@@ -27,7 +27,6 @@ body { background: #030814; }
     color: white !important;
     overflow-x: hidden !important;
 }
-
 .stApp > div[data-testid="block-container"],
 div[data-testid="block-container"],
 .stMainBlockContainer,
@@ -39,7 +38,6 @@ div[data-testid="block-container"],
     width: 100% !important;
 }
 
-/* ── Topbar sticky ── */
 .topbar-wrap {
     margin: 0 -1rem 0 -1rem;
     position: sticky;
@@ -63,18 +61,8 @@ div[data-testid="block-container"],
     padding: 0 24px;
     box-sizing: border-box;
 }
-.topbar-brand {
-    font-size: 20px;
-    font-weight: 800;
-    color: #111111;
-    white-space: nowrap;
-}
-.topbar-links {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-left: 12px;
-}
+.topbar-brand { font-size: 20px; font-weight: 800; color: #111111; white-space: nowrap; }
+.topbar-links { display: flex; align-items: center; gap: 4px; margin-left: 12px; }
 .topbar-links a {
     text-decoration: none;
     color: #111111;
@@ -84,12 +72,10 @@ div[data-testid="block-container"],
     border-radius: 8px;
     transition: background 0.2s ease;
     white-space: nowrap;
+    cursor: pointer;
 }
 .topbar-links a:hover { background: #f1f1f1; }
-.topbar-links a.active {
-    background: #111111;
-    color: #ffffff;
-}
+.topbar-links a.active { background: #111111; color: #ffffff; }
 .github-box { margin-left: auto; display: flex; align-items: center; }
 .github-box a {
     display: inline-flex; align-items: center; justify-content: center;
@@ -99,18 +85,8 @@ div[data-testid="block-container"],
 .github-box a:hover { background: #f1f1f1; }
 .github-box img { width: 26px; height: 26px; display: block; }
 
-/* ── Page content ── */
-.page-content {
-    padding: 36px 0 2rem 0;
-}
-.page-title {
-    font-size: 32px;
-    font-weight: 800;
-    color: #ffffff;
-    margin: 0 0 32px 0;
-}
+.page-title { font-size: 32px; font-weight: 800; color: #ffffff; margin: 36px 0 32px 0; }
 
-/* ── Publication cards ── */
 .pub-card {
     background: #0b1324;
     border: 1px solid #1b263c;
@@ -123,63 +99,40 @@ div[data-testid="block-container"],
     border-color: #3b82f6;
     box-shadow: 0 4px 24px rgba(59,130,246,0.10);
 }
-.pub-title {
-    font-size: 18px;
-    font-weight: 800;
-    color: #ffffff;
-    margin: 0 0 10px 0;
-    line-height: 1.4;
-}
-.pub-authors {
-    font-size: 14px;
-    color: #b9c4d6;
-    margin: 0 0 8px 0;
-    line-height: 1.6;
-}
-.pub-journal {
-    font-size: 14px;
-    color: #7ea8d8;
-    font-style: italic;
-    margin: 0 0 6px 0;
-}
-.pub-doi {
-    font-size: 13px;
-    color: #4b6580;
-    margin: 0 0 16px 0;
-}
+.pub-title { font-size: 18px; font-weight: 800; color: #ffffff; margin: 0 0 10px 0; line-height: 1.4; }
+.pub-authors { font-size: 14px; color: #b9c4d6; margin: 0 0 8px 0; line-height: 1.6; }
+.pub-journal { font-size: 14px; color: #7ea8d8; font-style: italic; margin: 0 0 6px 0; }
+.pub-doi { font-size: 13px; color: #4b6580; margin: 0 0 16px 0; }
 .pub-doi span { color: #5b8fbf; }
 .pub-btn {
-    display: inline-block;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 7px 18px;
-    border-radius: 8px;
-    border: 1px solid #1b263c;
-    color: #d9e3f3;
-    background: #111c30;
+    display: inline-block; text-decoration: none;
+    font-size: 13px; font-weight: 700; padding: 7px 18px;
+    border-radius: 8px; border: 1px solid #1b263c;
+    color: #d9e3f3; background: #111c30;
     transition: background 0.2s ease, border-color 0.2s ease;
 }
-.pub-btn:hover {
-    background: #1a2f52;
-    border-color: #3b82f6;
-    color: #ffffff;
-}
+.pub-btn:hover { background: #1a2f52; border-color: #3b82f6; color: #ffffff; }
 
 .footer-wrap { margin: 0 auto; color: #ffffff; }
 .stMarkdown, .stText, p, span, label, div { color: inherit; }
 </style>
 
-<!-- ── TOPBAR ── -->
+<script>
+function smilxNav(path) {
+    var origin = (window.top || window).location.origin;
+    (window.top || window).location.href = origin + path;
+}
+</script>
+
 <div class="topbar-wrap">
   <div class="topbar">
     <div class="topbar-inner">
       <span class="topbar-brand">SmilX</span>
       <div class="topbar-links">
-        <a href="/" target="_self">Explore</a>
-        <a href="/About" target="_self">About</a>
-        <a href="/Team" target="_self">Team</a>
-        <a href="javascript:void(0)" onclick="var b=window.top.location.href.split('/')[0]+'//'+window.top.location.host; window.top.location.href=b+'/Publications';" class="active">Publications</a>
+        <a href="javascript:void(0)" onclick="smilxNav('/')">Explore</a>
+        <a href="javascript:void(0)" onclick="smilxNav('/About')">About</a>
+        <a href="javascript:void(0)" onclick="smilxNav('/Team')">Team</a>
+        <a href="javascript:void(0)" onclick="smilxNav('/Publications')" class="active">Publications</a>
       </div>
       <div class="github-box">
         <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
@@ -233,11 +186,10 @@ publications = [
     },
 ]
 
-
 # ==============================
 # Page body
 # ==============================
-st.markdown('<div class="page-content"><div class="page-title">Publications 📑</div></div>', unsafe_allow_html=True)
+st.markdown('<div class="page-title">Publications 📑</div>', unsafe_allow_html=True)
 
 for pub in publications:
     st.markdown(f"""
