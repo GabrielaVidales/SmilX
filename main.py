@@ -38,7 +38,7 @@ toggle_icon = "❮❮" if menu_open else "❯❯"
 
 
 # ==============================
-# Sidebar HTML (built before the f-string to avoid SyntaxError)
+# Sidebar HTML
 # ==============================
 if menu_open:
     sidebar_html = """
@@ -69,19 +69,19 @@ else:
 
 
 # ==============================
-# CSS + Topbar + Sidebar in ONE block
+# CSS inside the page (for content styling)
 # ==============================
 st.markdown(f"""
 <style>
 /* =========================
-   Ocultar UI nativa
+   Ocultar UI nativa de Streamlit
    ========================= */
 #MainMenu {{ visibility: hidden; }}
 header {{ visibility: hidden; }}
 footer {{ visibility: hidden; }}
 
 /* =========================
-   Fondo general NEGRO
+   Fondo general
    ========================= */
 html, body, [class*="css"] {{
     font-family: Arial, Helvetica, sans-serif;
@@ -93,8 +93,6 @@ body {{ background: #030814; }}
     background: #030814 !important;
     color: white !important;
 }}
-
-/* Evitar desbordamiento horizontal */
 html, body {{
     overflow-x: hidden !important;
     max-width: 100vw !important;
@@ -105,24 +103,12 @@ html, body {{
     width: 100vw !important;
 }}
 
-/* Ocultar sidebar nativo de Streamlit */
+/* Ocultar sidebar nativo */
 section[data-testid="stSidebar"] {{
     display: none !important;
 }}
 
-/* Asegurar que NADA de Streamlit tape el topbar */
-.stApp,
-.stMain,
-.stApp > div,
-div[data-testid="block-container"],
-.stMainBlockContainer,
-iframe,
-[data-testid="stIFrame"] {{
-    z-index: 0 !important;
-    isolation: auto !important;
-}}
-
-/* Desplazar y recortar el contenido principal */
+/* Desplazar contenido principal */
 .stMain {{
     margin-left: {sidebar_width}px !important;
     width: calc(100vw - {sidebar_width}px) !important;
@@ -150,7 +136,6 @@ section.main > div {{
     overflow-x: hidden !important;
 }}
 
-/* Asegurar que los elementos del grid no desborden */
 .stApp svg,
 .stApp canvas,
 .stApp .plot-container,
@@ -158,84 +143,10 @@ section.main > div {{
     max-width: 100% !important;
 }}
 
-/* Posición relativa para no solaparse con contenido siguiente */
 .stApp .element-container,
 .stApp [data-testid="stVerticalBlock"] > div {{
     position: relative !important;
     z-index: 0 !important;
-}}
-
-/* =========================
-   White top bar — SIEMPRE ENCIMA
-   ========================= */
-.topbar {{
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 56px;
-    background: #ffffff !important;
-    border-bottom: 1px solid #e8e8e8;
-    z-index: 2147483647 !important;
-    isolation: isolate;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}}
-.topbar-inner {{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 14px;
-    box-sizing: border-box;
-}}
-.topbar-brand {{
-    font-size: 20px;
-    font-weight: 800;
-    color: #111111;
-    white-space: nowrap;
-}}
-.topbar-links {{
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: 8px;
-}}
-.topbar-links a {{
-    text-decoration: none;
-    color: #111111;
-    font-size: 15px;
-    font-weight: 700;
-    padding: 8px 12px;
-    border-radius: 8px;
-    transition: background 0.2s ease;
-    white-space: nowrap;
-}}
-.topbar-links a:hover {{ background: #f1f1f1; }}
-.topbar-links a.active {{
-    background: #111111;
-    color: #ffffff;
-    border-radius: 8px;
-}}
-.github-box {{
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-}}
-.github-box a {{
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 46px; height: 46px;
-    border-radius: 10px;
-    text-decoration: none;
-    transition: background 0.2s ease, transform 0.2s ease;
-}}
-.github-box a:hover {{ background: #f1f1f1; transform: scale(1.04); }}
-.github-box img {{
-    width: 32px !important;
-    height: 32px !important;
-    display: block;
-    object-fit: contain;
 }}
 
 /* =========================
@@ -262,27 +173,12 @@ section.main > div {{
     color: #ffffff;
     margin-bottom: 20px;
     white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}}
-.sidebar-open .sidebar-brand {{
-    opacity: 1;
 }}
 .sidebar-title {{
     font-size: 15px;
     font-weight: 800;
     color: #ffffff;
     margin: 8px 8px 10px 8px;
-}}
-.sidebar-card {{
-    margin: 0 6px 24px 6px;
-    padding: 12px 14px;
-    background: #111c30;
-    border: 1px solid #1d2a44;
-    border-radius: 12px;
-    color: #d9e3f3;
-    font-size: 14px;
-    line-height: 1.45;
 }}
 .sidebar-links {{
     display: flex;
@@ -315,7 +211,7 @@ section.main > div {{
 }}
 
 /* =========================
-   Botón toggle nativo
+   Botón toggle
    ========================= */
 div[data-testid="stButton"] > button {{
     position: fixed;
@@ -335,7 +231,7 @@ div[data-testid="stButton"] > button:hover {{
 }}
 
 /* =========================
-   Títulos y contenido
+   Contenido
    ========================= */
 .page-title {{
     font-size: 34px;
@@ -348,8 +244,6 @@ div[data-testid="stButton"] > button:hover {{
     color: #b9c4d6;
     margin-bottom: 24px;
 }}
-
-/* FIX: separación entre el grid y el texto inferior */
 .description-text {{
     max-width: 100%;
     margin: 48px 0 12px 0;
@@ -365,7 +259,6 @@ div[data-testid="stButton"] > button:hover {{
     z-index: 1;
     clear: both;
 }}
-
 .content-card {{
     max-width: 980px;
     margin: 12px 0;
@@ -394,7 +287,6 @@ div[data-testid="stButton"] > button:hover {{
 }}
 .stMarkdown, .stText, p, span, label, div {{ color: inherit; }}
 
-/* Forzar que todo el texto respete el ancho del contenedor */
 .stMain * {{
     max-width: 100% !important;
     box-sizing: border-box !important;
@@ -410,68 +302,136 @@ div[data-testid="stButton"] > button:hover {{
     overflow-wrap: break-word !important;
     white-space: normal !important;
 }}
-/* Excepciones: elementos que necesitan nowrap */
 .stMain button,
 .stMain input,
 .stMain select,
-.topbar-brand,
-.topbar-links a,
 .sidebar-links a {{
     white-space: nowrap !important;
 }}
 
-/* =========================
-   Responsive
-   ========================= */
-@media (max-width: 900px) {{
-    .topbar-links {{ overflow-x: auto; }}
-    .topbar-links a {{ font-size: 13px; padding: 7px 9px; }}
-    .topbar-brand {{ font-size: 17px; }}
-}}
-
 @media (max-width: 600px) {{
-    .custom-sidebar {{
-        width: 48px !important;
-    }}
+    .custom-sidebar {{ width: 48px !important; }}
     .stMain {{
         margin-left: 48px !important;
         max-width: calc(100vw - 48px) !important;
-        overflow-x: hidden !important;
     }}
-    .stApp > div[data-testid="block-container"],
-    div[data-testid="block-container"],
-    .stMainBlockContainer {{
-        padding-left: 8px !important;
-        padding-right: 8px !important;
-        max-width: 100% !important;
-        overflow-x: hidden !important;
-    }}
-    .topbar-links a {{ display: none; }}
-    .topbar-brand {{ font-size: 16px; }}
     .description-text {{ font-size: 14px; padding: 12px; }}
 }}
 </style>
 
-<!-- ======== TOPBAR ======== -->
-<div class="topbar">
-    <div class="topbar-inner">
-        <div class="topbar-brand">SmilX</div>
-        <div class="topbar-links">
-            <a href="/" target="_self" class="active">Explore</a>
-            <a href="#about" target="_self">About</a>
-            <a href="#team" target="_self">Team</a>
-            <a href="javascript:void(0)" onclick="var b=window.top.location.href.split('/')[0]+'//'+window.top.location.host; window.top.location.href=b+'/Publications';">Publications</a>
-        </div>
-        <div class="github-box">
-            <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
-                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
-            </a>
-        </div>
-    </div>
-</div>
-
-<!-- ======== SIDEBAR ======== -->
+<!-- ======== SIDEBAR (inside iframe, fixed to page) ======== -->
 {sidebar_html}
+
+<!-- ======== TOPBAR: injected into parent document via JS ======== -->
+<script>
+(function() {{
+    var WIN = window.parent || window;
+    var DOC = WIN.document;
+
+    // Remove previous topbar if exists (on reruns)
+    var old = DOC.getElementById('smilx-topbar');
+    if (old) old.remove();
+    var oldStyle = DOC.getElementById('smilx-topbar-style');
+    if (oldStyle) oldStyle.remove();
+
+    // Inject CSS into parent
+    var style = DOC.createElement('style');
+    style.id = 'smilx-topbar-style';
+    style.textContent = `
+        #smilx-topbar {{
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 56px;
+            background: #ffffff;
+            border-bottom: 1px solid #e8e8e8;
+            z-index: 2147483647;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            font-family: Arial, Helvetica, sans-serif;
+        }}
+        #smilx-topbar .tb-inner {{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 14px;
+            box-sizing: border-box;
+        }}
+        #smilx-topbar .tb-brand {{
+            font-size: 20px;
+            font-weight: 800;
+            color: #111111;
+            white-space: nowrap;
+            text-decoration: none;
+        }}
+        #smilx-topbar .tb-links {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 8px;
+        }}
+        #smilx-topbar .tb-links a {{
+            text-decoration: none;
+            color: #111111;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+            white-space: nowrap;
+        }}
+        #smilx-topbar .tb-links a:hover {{ background: #f1f1f1; }}
+        #smilx-topbar .tb-links a.active {{
+            background: #111111;
+            color: #ffffff;
+        }}
+        #smilx-topbar .tb-github {{
+            margin-left: auto;
+        }}
+        #smilx-topbar .tb-github a {{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 46px; height: 46px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }}
+        #smilx-topbar .tb-github a:hover {{ background: #f1f1f1; }}
+        #smilx-topbar .tb-github img {{
+            width: 28px; height: 28px;
+            display: block;
+        }}
+        @media (max-width: 600px) {{
+            #smilx-topbar .tb-links a {{ display: none; }}
+            #smilx-topbar .tb-brand {{ font-size: 16px; }}
+        }}
+    `;
+    DOC.head.appendChild(style);
+
+    // Inject topbar HTML into parent body
+    var bar = DOC.createElement('div');
+    bar.id = 'smilx-topbar';
+    bar.innerHTML = `
+        <div class="tb-inner">
+            <span class="tb-brand">SmilX</span>
+            <div class="tb-links">
+                <a href="/" class="active">Explore</a>
+                <a href="#about">About</a>
+                <a href="#team">Team</a>
+                <a href="javascript:void(0)" onclick="var b=location.href.split('/')[0]+'//'+location.host; location.href=b+'/Publications';">Publications</a>
+            </div>
+            <div class="tb-github">
+                <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+                </a>
+            </div>
+        </div>
+    `;
+    DOC.body.insertBefore(bar, DOC.body.firstChild);
+}})();
+</script>
 """, unsafe_allow_html=True)
 
 
@@ -487,7 +447,6 @@ if st.button(toggle_icon, key="toggle_menu_btn"):
 # Main function
 # ==============================
 def main():
-    #try:
     parameters = initial_parameters()
 
     if not(parameters.opt_carbenes) or parameters.molecular_formula['hdi'] == 0:
@@ -496,10 +455,8 @@ def main():
     else:
         with st.spinner("Please wait..."):
             _ = chemical_space_carbenes(parameters)
-    #except:
-        #st.error("Error in the molecular formula syntax")
 
-    # FIX: spacer para separar el grid del texto inferior
+    # Spacer para separar el grid del texto inferior
     st.markdown("<div style='clear:both; margin-top: 48px;'></div>", unsafe_allow_html=True)
 
     st.markdown("""
