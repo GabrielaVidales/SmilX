@@ -1171,6 +1171,12 @@ def get_possible_alkanes(molecular_formula):
 
             return filter_smiles_duplicates(list_0)
 
+def get_smiles_carened_from_list(file_name, list_smiles):
+    with open(file_name, 'rb') as file, open(name_output, 'w', encoding='utf-8') as file2:
+        for  i_smiles in list_smiles:
+            file2.write(f"{datos.smiles}\n")
+    delete_file(file_name)
+
 class chemical_space_carbenes:
 
   def __init__(self, parameters):
@@ -1220,6 +1226,7 @@ class chemical_space_carbenes:
         for i_smiles in list_smiles_0:
           list_smiles.append(''.join(i_smiles.smiles))
     #------------------------------------------------------------------------------------ Section 8
+    get_smiles_carened_from_list(parameters.filename_output_smi, list_smiles)
     st.write(f"******************************Exploration completed: {len(list_smiles)} isomers found******************************")
     with open(f"{parameters.filename_output_smi}", "r+") as file:
         st.download_button(
