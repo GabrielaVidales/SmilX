@@ -507,7 +507,7 @@ class chemical_space_classic:
         get_smiles_from_pickle_file(parameters.filename_output_pkl, parameters.filename_output_smi)
         st.write(f"******************************Exploration completed: {count_smiles} isomers found******************************")
         with open(f"{parameters.filename_output_smi}", "r") as file:
-            col1, col2 = st.columns(2)
+            col1, col2 = st.columns([1,1,6])
             with col1:
                 st.download_button(
                     label="Download SMILES",
@@ -1243,7 +1243,7 @@ class chemical_space_carbenes:
     get_smiles_carened_from_list(parameters.filename_output_smi, list_smiles)
     st.write(f"******************************Exploration completed: {len(list_smiles)} isomers found******************************")
     with open(f"{parameters.filename_output_smi}", "r+") as file:
-        col1, col2 = st.columns(2)
+        col1, col2 = st.columns([1,1,6])
         with col1:
             st.download_button(
                 label="Download SMILES",
