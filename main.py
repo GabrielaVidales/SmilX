@@ -201,11 +201,11 @@ div[data-testid="block-container"],
 # ==============================
 # Navigation — Streamlit handles routing natively
 # ==============================
- pg = st.navigation([
-    #st.Page("exploration.py", title="Explore"),
-    st.Page("about.py",       title="About"),
-    st.Page("Team.py",        title="Team"),
-    st.Page("Publications.py", title="Publications"),
-], position="top")
+# pg = st.navigation([
+    # st.Page("exploration.py", title="Explore"),
+    # st.Page("about.py",       title="About"),
+    # st.Page("Team.py",        title="Team"),
+    # st.Page("Publications.py", title="Publications"),
+# ], position="top")
 
 pg.run()
