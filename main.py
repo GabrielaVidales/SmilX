@@ -461,17 +461,17 @@ if st.button(toggle_icon, key="toggle_menu_btn"):
 # Main function
 # ==============================
 def main():
-    try:
-        parameters = initial_parameters()
+    #try:
+    parameters = initial_parameters()
 
-        if not(parameters.opt_carbenes) or parameters.molecular_formula['hdi'] == 0:
-            with st.spinner("Please wait..."):
-                _ = chemical_space_classic(parameters)
-        else:
-            with st.spinner("Please wait..."):
-                _ = chemical_space_carbenes(parameters)
-    except:
-        st.error("Error in the molecular formula syntax")
+    if not(parameters.opt_carbenes) or parameters.molecular_formula['hdi'] == 0:
+        with st.spinner("Please wait..."):
+            _ = chemical_space_classic(parameters)
+    else:
+        with st.spinner("Please wait..."):
+            _ = chemical_space_carbenes(parameters)
+    #except:
+        #st.error("Error in the molecular formula syntax")
 
     st.markdown("""
 <div class="description-text" id="about">
