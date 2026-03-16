@@ -20,26 +20,14 @@ st.set_page_config(
 
 # ==============================
 # CSS global + Topbar
-# Strategy: the topbar is rendered as the very first element inside
-# Streamlit's block-container. We use position:sticky + top:0 so it
-# sticks to the top of the SCROLLABLE container (the page), which
-# works reliably inside iframes unlike position:fixed.
 # ==============================
 st.markdown("""
 <style>
-/* =========================
-   Ocultar UI nativa de Streamlit
-   ========================= */
 #MainMenu { visibility: hidden; }
 header { visibility: hidden; }
 footer { visibility: hidden; }
-
-/* Ocultar sidebar nativo */
 section[data-testid="stSidebar"] { display: none !important; }
 
-/* =========================
-   Fondo general
-   ========================= */
 html, body, [class*="css"] {
     font-family: Arial, Helvetica, sans-serif;
     background: #030814;
@@ -52,7 +40,6 @@ body { background: #030814; }
     overflow-x: hidden !important;
 }
 
-/* Quitar padding-top que Streamlit agrega por defecto */
 .stApp > div[data-testid="block-container"],
 div[data-testid="block-container"],
 .stMainBlockContainer,
@@ -64,12 +51,8 @@ div[data-testid="block-container"],
     width: 100% !important;
 }
 
-/* =========================
-   TOPBAR sticky
-   ========================= */
+/* ── Topbar sticky ── */
 .topbar-wrap {
-    /* Negative margin compensa el padding del block-container
-       para que la barra llegue al borde */
     margin: 0 -1rem 0 -1rem;
     position: sticky;
     top: 0;
@@ -97,6 +80,7 @@ div[data-testid="block-container"],
     font-weight: 800;
     color: #111111;
     white-space: nowrap;
+    text-decoration: none;
 }
 .topbar-links {
     display: flex;
@@ -134,18 +118,9 @@ div[data-testid="block-container"],
     transition: background 0.2s ease;
 }
 .github-box a:hover { background: #f1f1f1; }
-.github-box img {
-    width: 26px;
-    height: 26px;
-    display: block;
-}
+.github-box img { width: 26px; height: 26px; display: block; }
 
-/* =========================
-   Contenido general
-   ========================= */
-.page-content {
-    padding: 24px 0 2rem 0;
-}
+/* ── Contenido ── */
 .description-text {
     max-width: 100%;
     margin: 48px 0 12px 0;
@@ -159,10 +134,7 @@ div[data-testid="block-container"],
     color: #f4f7fb;
     clear: both;
 }
-.footer-wrap {
-    margin: 0 auto;
-    color: #ffffff;
-}
+.footer-wrap { margin: 0 auto; color: #ffffff; }
 .stMarkdown, .stText, p, span, label, div { color: inherit; }
 
 @media (max-width: 600px) {
@@ -179,9 +151,9 @@ div[data-testid="block-container"],
             <span class="topbar-brand">SmilX</span>
             <div class="topbar-links">
                 <a href="/" target="_self" class="active">Explore</a>
-                <a href="#about" target="_self">About</a>
-                <a href="#team" target="_self">Team</a>
-                <a href="javascript:void(0)" onclick="var b=window.top.location.href.split('/')[0]+'//'+window.top.location.host; window.top.location.href=b+'/Publications';">Publications</a>
+                <a href="/About" target="_self">About</a>
+                <a href="/Team" target="_self">Team</a>
+                <a href="/Publications" target="_self">Publications</a>
             </div>
             <div class="github-box">
                 <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
