@@ -69,7 +69,10 @@ else:
 
 
 # ==============================
-# CSS inside the page (for content styling)
+# CSS + Topbar + Sidebar
+# KEY FIX: the topbar uses position:sticky on a wrapper that lives
+# at the very top of the Streamlit block-container, so it scrolls
+# with the page top and never gets covered by Plotly/canvas layers.
 # ==============================
 st.markdown(f"""
 <style>
@@ -92,20 +95,29 @@ body {{ background: #030814; }}
 .stApp {{
     background: #030814 !important;
     color: white !important;
-}}
-html, body {{
     overflow-x: hidden !important;
-    max-width: 100vw !important;
-}}
-.stApp {{
-    overflow-x: hidden !important;
-    max-width: 100vw !important;
-    width: 100vw !important;
 }}
 
 /* Ocultar sidebar nativo */
 section[data-testid="stSidebar"] {{
     display: none !important;
+}}
+
+/* =========================
+   KEY FIX: desactivar cualquier transform/filter/will-change
+   en los ancestros del topbar para que position:fixed
+   funcione relativo al viewport y no al iframe-container.
+   ========================= */
+.stApp,
+.stApp > div,
+.stMain,
+div[data-testid="block-container"],
+.stMainBlockContainer {{
+    transform: none !important;
+    filter: none !important;
+    will-change: auto !important;
+    perspective: none !important;
+    contain: none !important;
 }}
 
 /* Desplazar contenido principal */
@@ -127,7 +139,7 @@ div[data-testid="block-container"],
 section.main > div {{
     width: 100% !important;
     max-width: 100% !important;
-    padding-top: 84px !important;
+    padding-top: 72px !important;
     padding-left: {content_margin_left}px !important;
     padding-right: 24px !important;
     padding-bottom: 2rem !important;
@@ -143,10 +155,91 @@ section.main > div {{
     max-width: 100% !important;
 }}
 
+/* Bajar z-index de elementos internos de Streamlit
+   para que no tapen el topbar */
 .stApp .element-container,
-.stApp [data-testid="stVerticalBlock"] > div {{
-    position: relative !important;
+.stApp [data-testid="stVerticalBlock"] > div,
+.stApp .js-plotly-plot,
+.stApp .plotly,
+.stApp iframe {{
     z-index: 0 !important;
+    position: relative !important;
+}}
+
+/* =========================
+   TOPBAR — fixed al viewport
+   ========================= */
+.topbar {{
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 56px;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e8e8e8;
+    z-index: 99999999 !important;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    /* Crear stacking context propio sin transform */
+    isolation: isolate;
+}}
+.topbar-inner {{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    box-sizing: border-box;
+}}
+.topbar-brand {{
+    font-size: 20px;
+    font-weight: 800;
+    color: #111111;
+    white-space: nowrap;
+}}
+.topbar-links {{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 8px;
+}}
+.topbar-links a {{
+    text-decoration: none;
+    color: #111111;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    white-space: nowrap;
+}}
+.topbar-links a:hover {{ background: #f1f1f1; }}
+.topbar-links a.active {{
+    background: #111111;
+    color: #ffffff;
+    border-radius: 8px;
+}}
+.github-box {{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}}
+.github-box a {{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px; height: 46px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+}}
+.github-box a:hover {{ background: #f1f1f1; }}
+.github-box img {{
+    width: 28px !important;
+    height: 28px !important;
+    display: block;
+    object-fit: contain;
 }}
 
 /* =========================
@@ -233,17 +326,6 @@ div[data-testid="stButton"] > button:hover {{
 /* =========================
    Contenido
    ========================= */
-.page-title {{
-    font-size: 34px;
-    font-weight: 800;
-    color: #ffffff;
-    margin: 0 0 8px 0;
-}}
-.page-subtitle {{
-    font-size: 17px;
-    color: #b9c4d6;
-    margin-bottom: 24px;
-}}
 .description-text {{
     max-width: 100%;
     margin: 48px 0 12px 0;
@@ -258,27 +340,6 @@ div[data-testid="stButton"] > button:hover {{
     position: relative;
     z-index: 1;
     clear: both;
-}}
-.content-card {{
-    max-width: 980px;
-    margin: 12px 0;
-    padding: 22px;
-    background: #0b1324;
-    border: 1px solid #1b263c;
-    border-radius: 16px;
-    color: #ffffff;
-}}
-.content-card h3 {{
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 24px;
-    color: #ffffff;
-}}
-.content-card p {{
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.65;
-    color: #d9e3f3;
 }}
 .footer-wrap {{
     max-width: 980px;
@@ -315,123 +376,32 @@ div[data-testid="stButton"] > button:hover {{
         margin-left: 48px !important;
         max-width: calc(100vw - 48px) !important;
     }}
+    .topbar-links a {{ display: none; }}
+    .topbar-brand {{ font-size: 16px; }}
     .description-text {{ font-size: 14px; padding: 12px; }}
 }}
 </style>
 
-<!-- ======== SIDEBAR (inside iframe, fixed to page) ======== -->
-{sidebar_html}
-
-<!-- ======== TOPBAR: injected into parent document via JS ======== -->
-<script>
-(function() {{
-    var WIN = window.parent || window;
-    var DOC = WIN.document;
-
-    // Remove previous topbar if exists (on reruns)
-    var old = DOC.getElementById('smilx-topbar');
-    if (old) old.remove();
-    var oldStyle = DOC.getElementById('smilx-topbar-style');
-    if (oldStyle) oldStyle.remove();
-
-    // Inject CSS into parent
-    var style = DOC.createElement('style');
-    style.id = 'smilx-topbar-style';
-    style.textContent = `
-        #smilx-topbar {{
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            height: 56px;
-            background: #ffffff;
-            border-bottom: 1px solid #e8e8e8;
-            z-index: 2147483647;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            font-family: Arial, Helvetica, sans-serif;
-        }}
-        #smilx-topbar .tb-inner {{
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0 14px;
-            box-sizing: border-box;
-        }}
-        #smilx-topbar .tb-brand {{
-            font-size: 20px;
-            font-weight: 800;
-            color: #111111;
-            white-space: nowrap;
-            text-decoration: none;
-        }}
-        #smilx-topbar .tb-links {{
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-left: 8px;
-        }}
-        #smilx-topbar .tb-links a {{
-            text-decoration: none;
-            color: #111111;
-            font-size: 15px;
-            font-weight: 700;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: background 0.2s ease;
-            white-space: nowrap;
-        }}
-        #smilx-topbar .tb-links a:hover {{ background: #f1f1f1; }}
-        #smilx-topbar .tb-links a.active {{
-            background: #111111;
-            color: #ffffff;
-        }}
-        #smilx-topbar .tb-github {{
-            margin-left: auto;
-        }}
-        #smilx-topbar .tb-github a {{
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 46px; height: 46px;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: background 0.2s ease;
-        }}
-        #smilx-topbar .tb-github a:hover {{ background: #f1f1f1; }}
-        #smilx-topbar .tb-github img {{
-            width: 28px; height: 28px;
-            display: block;
-        }}
-        @media (max-width: 600px) {{
-            #smilx-topbar .tb-links a {{ display: none; }}
-            #smilx-topbar .tb-brand {{ font-size: 16px; }}
-        }}
-    `;
-    DOC.head.appendChild(style);
-
-    // Inject topbar HTML into parent body
-    var bar = DOC.createElement('div');
-    bar.id = 'smilx-topbar';
-    bar.innerHTML = `
-        <div class="tb-inner">
-            <span class="tb-brand">SmilX</span>
-            <div class="tb-links">
-                <a href="/" class="active">Explore</a>
-                <a href="#about">About</a>
-                <a href="#team">Team</a>
-                <a href="javascript:void(0)" onclick="var b=location.href.split('/')[0]+'//'+location.host; location.href=b+'/Publications';">Publications</a>
-            </div>
-            <div class="tb-github">
-                <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
-                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
-                </a>
-            </div>
+<!-- ======== TOPBAR ======== -->
+<div class="topbar">
+    <div class="topbar-inner">
+        <div class="topbar-brand">SmilX</div>
+        <div class="topbar-links">
+            <a href="/" target="_self" class="active">Explore</a>
+            <a href="#about" target="_self">About</a>
+            <a href="#team" target="_self">Team</a>
+            <a href="javascript:void(0)" onclick="var b=window.top.location.href.split('/')[0]+'//'+window.top.location.host; window.top.location.href=b+'/Publications';">Publications</a>
         </div>
-    `;
-    DOC.body.insertBefore(bar, DOC.body.firstChild);
-}})();
-</script>
+        <div class="github-box">
+            <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- ======== SIDEBAR ======== -->
+{sidebar_html}
 """, unsafe_allow_html=True)
 
 
