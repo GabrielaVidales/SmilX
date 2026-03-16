@@ -507,12 +507,27 @@ class chemical_space_classic:
         get_smiles_from_pickle_file(parameters.filename_output_pkl, parameters.filename_output_smi)
         st.write(f"******************************Exploration completed: {count_smiles} isomers found******************************")
         with open(f"{parameters.filename_output_smi}", "r") as file:
+            col1, col2 = st.columns(2)
+            with col1:
+                st.download_button(
+                    label="Download SMILES",
+                    data=file,
+                    file_name=f"{parameters.filename_output_smi}",
+                    mime="text/smi",
+                )
+            
+            with col2:
+                st.link_button(
+                    "Convert to 3D with ELAYA",
+                    "https://elaya-smiles.onrender.com/"
+                )
+            """
             st.download_button(
                 label="Download SMILES",
                 data=file,
                 file_name=f"{parameters.filename_output_smi}",
                 mime="text/smi",
-                )
+                )"""
         df = pd.DataFrame({"smi": list_smiles, "id": range(1, len(list_smiles) + 1)})
         mg = mols2grid.display(df, smiles_col="smi", subset=["id", "img", "smi"], n_cols=6, size = (130, 90))        
         html_grid = mg.data
