@@ -33,7 +33,7 @@ def toggle_menu():
 # ==============================
 menu_open = st.session_state.menu_open
 sidebar_width = 260 if menu_open else 72
-content_margin_left = 24  # padding interno fijo, el desplazamiento lo hace stMain
+content_margin_left = 24
 toggle_icon = "❮❮" if menu_open else "❯❯"
 
 
@@ -47,9 +47,9 @@ if menu_open:
         <div class='sidebar-brand'>SmilX</div>
         <div class='sidebar-title'>Menu</div>
         <div class='sidebar-links'>
-            <a href='/' target='_self'>Home</a>
-            <a href='#about' target='_self'>About us</a>
-            <a href='#program' target='_self'>Program</a>
+            <a href='/' target='_self'>Explore</a>
+            <a href='#about' target='_self'>About</a>
+            <a href='#team' target='_self'>Team</a>
             <a href='javascript:void(0)' onclick="var b=window.top.location.href.split('/')[0]+'//'+window.top.location.host; window.top.location.href=b+'/Publications';">Publications</a>
             <a href='https://github.com/LuisOrz/SmilX' target='_blank'>GitHub</a>
         </div>
@@ -70,7 +70,6 @@ else:
 
 # ==============================
 # CSS + Topbar + Sidebar in ONE block
-# (This prevents Streamlit from displaying HTML as raw text)
 # ==============================
 st.markdown(f"""
 <style>
@@ -139,11 +138,20 @@ section.main > div {{
     overflow-x: hidden !important;
 }}
 
+/* Asegurar que los elementos del grid no desborden */
 .stApp svg,
 .stApp canvas,
 .stApp .plot-container,
 .stApp .element-container {{
     max-width: 100% !important;
+}}
+
+/* Asegurar que los componentes de Streamlit tengan posición relativa
+   para no solaparse con el contenido siguiente */
+.stApp .element-container,
+.stApp [data-testid="stVerticalBlock"] > div {{
+    position: relative !important;
+    z-index: 0 !important;
 }}
 
 /* =========================
@@ -328,9 +336,11 @@ div[data-testid="stButton"] > button:hover {{
     color: #b9c4d6;
     margin-bottom: 24px;
 }}
+
+/* FIX: separación entre el grid y el texto inferior */
 .description-text {{
     max-width: 100%;
-    margin: 12px 0;
+    margin: 48px 0 12px 0;   /* margen superior aumentado para separar del grid */
     padding: 16px 20px;
     font-size: 16px;
     line-height: 1.7;
@@ -339,7 +349,11 @@ div[data-testid="stButton"] > button:hover {{
     border: 1px solid #1b263c;
     border-radius: 16px;
     color: #f4f7fb;
+    position: relative;       /* evita solapamiento con elementos previos */
+    z-index: 1;
+    clear: both;              /* limpia cualquier float del grid */
 }}
+
 .content-card {{
     max-width: 980px;
     margin: 12px 0;
@@ -431,9 +445,9 @@ div[data-testid="stButton"] > button:hover {{
     <div class="topbar-inner">
         <div class="topbar-brand">SmilX</div>
         <div class="topbar-links">
-            <a href="/" target="_self" class="active">Home</a>
-            <a href="#about" target="_self">About us</a>
-            <a href="#program" target="_self">Program</a>
+            <a href="/" target="_self" class="active">Explore</a>
+            <a href="#about" target="_self">About</a>
+            <a href="#team" target="_self">Team</a>
             <a href="javascript:void(0)" onclick="var b=window.top.location.href.split('/')[0]+'//'+window.top.location.host; window.top.location.href=b+'/Publications';">Publications</a>
         </div>
         <div class="github-box">
@@ -472,6 +486,9 @@ def main():
             _ = chemical_space_carbenes(parameters)
     #except:
         #st.error("Error in the molecular formula syntax")
+
+    # FIX: spacer para separar el grid del texto inferior
+    st.markdown("<div style='clear:both; margin-top: 48px;'></div>", unsafe_allow_html=True)
 
     st.markdown("""
 <div class="description-text" id="about">
