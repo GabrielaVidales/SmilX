@@ -411,6 +411,17 @@ div[data-testid="stButton"] > button:hover {{
     white-space: nowrap !important;
 }}
 
+/* Forzar que nada de Streamlit tape el topbar */
+.stApp,
+.stMain,
+div[data-testid="block-container"],
+.stMainBlockContainer,
+iframe,
+[data-testid="stIFrame"] {
+    z-index: 0 !important;
+    isolation: auto !important;
+}
+
 /* =========================
    Responsive
    ========================= */
