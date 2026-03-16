@@ -19,192 +19,92 @@ st.set_page_config(
 
 
 # ==============================
-# Menu status (default: compressed)
+# CSS global + Topbar
+# Strategy: the topbar is rendered as the very first element inside
+# Streamlit's block-container. We use position:sticky + top:0 so it
+# sticks to the top of the SCROLLABLE container (the page), which
+# works reliably inside iframes unlike position:fixed.
 # ==============================
-if "menu_open" not in st.session_state:
-    st.session_state.menu_open = False
-
-def toggle_menu():
-    st.session_state.menu_open = not st.session_state.menu_open
-
-
-# ==============================
-# Dynamic variables
-# ==============================
-menu_open = st.session_state.menu_open
-sidebar_width = 260 if menu_open else 72
-content_margin_left = 24
-toggle_icon = "❮❮" if menu_open else "❯❯"
-
-
-# ==============================
-# Sidebar HTML
-# ==============================
-if menu_open:
-    sidebar_html = """
-<div class='custom-sidebar'>
-    <div class='custom-sidebar-inner'>
-        <div class='sidebar-brand'>SmilX</div>
-        <div class='sidebar-title'>Menu</div>
-        <div class='sidebar-links'>
-            <a href='/' target='_self'>Explore</a>
-            <a href='#about' target='_self'>About</a>
-            <a href='#team' target='_self'>Team</a>
-            <a href='javascript:void(0)' onclick="var b=window.top.location.href.split('/')[0]+'//'+window.top.location.host; window.top.location.href=b+'/Publications';">Publications</a>
-            <a href='https://github.com/LuisOrz/SmilX' target='_blank'>GitHub</a>
-        </div>
-    </div>
-</div>"""
-else:
-    sidebar_html = """
-<div class='custom-sidebar'>
-    <div class='custom-sidebar-inner'>
-        <div class='sidebar-collapsed'>
-            <div class='sidebar-dot'></div>
-            <div class='sidebar-dot'></div>
-            <div class='sidebar-dot'></div>
-        </div>
-    </div>
-</div>"""
-
-
-# ==============================
-# CSS + Topbar + Sidebar
-# KEY FIX: the topbar uses position:sticky on a wrapper that lives
-# at the very top of the Streamlit block-container, so it scrolls
-# with the page top and never gets covered by Plotly/canvas layers.
-# ==============================
-st.markdown(f"""
+st.markdown("""
 <style>
 /* =========================
    Ocultar UI nativa de Streamlit
    ========================= */
-#MainMenu {{ visibility: hidden; }}
-header {{ visibility: hidden; }}
-footer {{ visibility: hidden; }}
+#MainMenu { visibility: hidden; }
+header { visibility: hidden; }
+footer { visibility: hidden; }
+
+/* Ocultar sidebar nativo */
+section[data-testid="stSidebar"] { display: none !important; }
 
 /* =========================
    Fondo general
    ========================= */
-html, body, [class*="css"] {{
+html, body, [class*="css"] {
     font-family: Arial, Helvetica, sans-serif;
     background: #030814;
     color: white;
-}}
-body {{ background: #030814; }}
-.stApp {{
+}
+body { background: #030814; }
+.stApp {
     background: #030814 !important;
     color: white !important;
     overflow-x: hidden !important;
-}}
+}
 
-/* Ocultar sidebar nativo */
-section[data-testid="stSidebar"] {{
-    display: none !important;
-}}
-
-/* =========================
-   KEY FIX: desactivar cualquier transform/filter/will-change
-   en los ancestros del topbar para que position:fixed
-   funcione relativo al viewport y no al iframe-container.
-   ========================= */
-.stApp,
-.stApp > div,
-.stMain,
-div[data-testid="block-container"],
-.stMainBlockContainer {{
-    transform: none !important;
-    filter: none !important;
-    will-change: auto !important;
-    perspective: none !important;
-    contain: none !important;
-}}
-
-/* Desplazar contenido principal */
-.stMain {{
-    margin-left: {sidebar_width}px !important;
-    width: calc(100vw - {sidebar_width}px) !important;
-    max-width: calc(100vw - {sidebar_width}px) !important;
-    overflow-x: hidden !important;
-    transition: margin-left 0.25s ease, width 0.25s ease;
-    box-sizing: border-box !important;
-    padding-left: 0 !important;
-}}
-
-/* Contenedor interior */
+/* Quitar padding-top que Streamlit agrega por defecto */
 .stApp > div[data-testid="block-container"],
 div[data-testid="block-container"],
 .stMainBlockContainer,
-.main .block-container,
-section.main > div {{
+.main .block-container {
+    padding-top: 0 !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    max-width: 100% !important;
     width: 100% !important;
-    max-width: 100% !important;
-    padding-top: 72px !important;
-    padding-left: {content_margin_left}px !important;
-    padding-right: 24px !important;
-    padding-bottom: 2rem !important;
-    background: #030814 !important;
-    box-sizing: border-box !important;
-    overflow-x: hidden !important;
-}}
-
-.stApp svg,
-.stApp canvas,
-.stApp .plot-container,
-.stApp .element-container {{
-    max-width: 100% !important;
-}}
-
-/* Bajar z-index de elementos internos de Streamlit
-   para que no tapen el topbar */
-.stApp .element-container,
-.stApp [data-testid="stVerticalBlock"] > div,
-.stApp .js-plotly-plot,
-.stApp .plotly,
-.stApp iframe {{
-    z-index: 0 !important;
-    position: relative !important;
-}}
+}
 
 /* =========================
-   TOPBAR — fixed al viewport
+   TOPBAR sticky
    ========================= */
-.topbar {{
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
+.topbar-wrap {
+    /* Negative margin compensa el padding del block-container
+       para que la barra llegue al borde */
+    margin: 0 -1rem 0 -1rem;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+.topbar {
     height: 56px;
-    background: #ffffff !important;
+    background: #ffffff;
     border-bottom: 1px solid #e8e8e8;
-    z-index: 99999999 !important;
     display: flex;
     align-items: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    /* Crear stacking context propio sin transform */
-    isolation: isolate;
-}}
-.topbar-inner {{
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    width: 100%;
+}
+.topbar-inner {
     width: 100%;
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 0 14px;
+    padding: 0 24px;
     box-sizing: border-box;
-}}
-.topbar-brand {{
+}
+.topbar-brand {
     font-size: 20px;
     font-weight: 800;
     color: #111111;
     white-space: nowrap;
-}}
-.topbar-links {{
+}
+.topbar-links {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-left: 8px;
-}}
-.topbar-links a {{
+    gap: 4px;
+    margin-left: 12px;
+}
+.topbar-links a {
     text-decoration: none;
     color: #111111;
     font-size: 15px;
@@ -213,120 +113,40 @@ section.main > div {{
     border-radius: 8px;
     transition: background 0.2s ease;
     white-space: nowrap;
-}}
-.topbar-links a:hover {{ background: #f1f1f1; }}
-.topbar-links a.active {{
+}
+.topbar-links a:hover { background: #f1f1f1; }
+.topbar-links a.active {
     background: #111111;
     color: #ffffff;
-    border-radius: 8px;
-}}
-.github-box {{
+}
+.github-box {
     margin-left: auto;
     display: flex;
     align-items: center;
-}}
-.github-box a {{
+}
+.github-box a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 46px; height: 46px;
-    border-radius: 10px;
+    width: 40px; height: 40px;
+    border-radius: 8px;
     text-decoration: none;
-    transition: background 0.2s ease, transform 0.2s ease;
-}}
-.github-box a:hover {{ background: #f1f1f1; }}
-.github-box img {{
-    width: 28px !important;
-    height: 28px !important;
-    display: block;
-    object-fit: contain;
-}}
-
-/* =========================
-   Sidebar izquierdo oscuro
-   ========================= */
-.custom-sidebar {{
-    position: fixed;
-    top: 56px; left: 0; bottom: 0;
-    width: {sidebar_width}px;
-    background: #070d1b;
-    border-right: 1px solid #1a2235;
-    z-index: 9998;
-    overflow: hidden;
-    transition: width 0.25s ease;
-}}
-.custom-sidebar-inner {{
-    padding: 14px 10px;
-    height: 100%;
-    box-sizing: border-box;
-}}
-.sidebar-brand {{
-    font-size: 18px;
-    font-weight: 800;
-    color: #ffffff;
-    margin-bottom: 20px;
-    white-space: nowrap;
-}}
-.sidebar-title {{
-    font-size: 15px;
-    font-weight: 800;
-    color: #ffffff;
-    margin: 8px 8px 10px 8px;
-}}
-.sidebar-links {{
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}}
-.sidebar-links a {{
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 700;
-    padding: 12px 12px;
-    margin: 0 6px;
-    border-radius: 10px;
     transition: background 0.2s ease;
-    white-space: nowrap;
-}}
-.sidebar-links a:hover {{ background: #141f34; }}
-.sidebar-collapsed {{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 60px;
-}}
-.sidebar-dot {{
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #3b82f6;
-}}
+}
+.github-box a:hover { background: #f1f1f1; }
+.github-box img {
+    width: 26px;
+    height: 26px;
+    display: block;
+}
 
 /* =========================
-   Botón toggle
+   Contenido general
    ========================= */
-div[data-testid="stButton"] > button {{
-    position: fixed;
-    top: 68px; left: 12px;
-    z-index: 10000;
-    width: 48px; height: 38px;
-    border-radius: 10px;
-    border: 1px solid #27405d;
-    background: #111c30;
-    color: white;
-    font-weight: 800;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.22);
-}}
-div[data-testid="stButton"] > button:hover {{
-    background: #18263f;
-    border-color: #33547b;
-}}
-
-/* =========================
-   Contenido
-   ========================= */
-.description-text {{
+.page-content {
+    padding: 24px 0 2rem 0;
+}
+.description-text {
     max-width: 100%;
     margin: 48px 0 12px 0;
     padding: 16px 20px;
@@ -337,80 +157,41 @@ div[data-testid="stButton"] > button:hover {{
     border: 1px solid #1b263c;
     border-radius: 16px;
     color: #f4f7fb;
-    position: relative;
-    z-index: 1;
     clear: both;
-}}
-.footer-wrap {{
-    max-width: 980px;
+}
+.footer-wrap {
     margin: 0 auto;
     color: #ffffff;
-}}
-.stMarkdown, .stText, p, span, label, div {{ color: inherit; }}
+}
+.stMarkdown, .stText, p, span, label, div { color: inherit; }
 
-.stMain * {{
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-}}
-.stMain p,
-.stMain span,
-.stMain label,
-.stMain div,
-.stMain h1,
-.stMain h2,
-.stMain h3 {{
-    word-break: break-word !important;
-    overflow-wrap: break-word !important;
-    white-space: normal !important;
-}}
-.stMain button,
-.stMain input,
-.stMain select,
-.sidebar-links a {{
-    white-space: nowrap !important;
-}}
-
-@media (max-width: 600px) {{
-    .custom-sidebar {{ width: 48px !important; }}
-    .stMain {{
-        margin-left: 48px !important;
-        max-width: calc(100vw - 48px) !important;
-    }}
-    .topbar-links a {{ display: none; }}
-    .topbar-brand {{ font-size: 16px; }}
-    .description-text {{ font-size: 14px; padding: 12px; }}
-}}
+@media (max-width: 600px) {
+    .topbar-links a { font-size: 13px; padding: 6px 8px; }
+    .topbar-brand { font-size: 17px; }
+    .description-text { font-size: 14px; padding: 12px; }
+}
 </style>
 
 <!-- ======== TOPBAR ======== -->
-<div class="topbar">
-    <div class="topbar-inner">
-        <div class="topbar-brand">SmilX</div>
-        <div class="topbar-links">
-            <a href="/" target="_self" class="active">Explore</a>
-            <a href="#about" target="_self">About</a>
-            <a href="#team" target="_self">Team</a>
-            <a href="javascript:void(0)" onclick="var b=window.top.location.href.split('/')[0]+'//'+window.top.location.host; window.top.location.href=b+'/Publications';">Publications</a>
-        </div>
-        <div class="github-box">
-            <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
-                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
-            </a>
+<div class="topbar-wrap">
+    <div class="topbar">
+        <div class="topbar-inner">
+            <span class="topbar-brand">SmilX</span>
+            <div class="topbar-links">
+                <a href="/" target="_self" class="active">Explore</a>
+                <a href="#about" target="_self">About</a>
+                <a href="#team" target="_self">Team</a>
+                <a href="javascript:void(0)" onclick="var b=window.top.location.href.split('/')[0]+'//'+window.top.location.host; window.top.location.href=b+'/Publications';">Publications</a>
+            </div>
+            <div class="github-box">
+                <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+                </a>
+            </div>
         </div>
     </div>
 </div>
-
-<!-- ======== SIDEBAR ======== -->
-{sidebar_html}
 """, unsafe_allow_html=True)
-
-
-# ==============================
-# Toggle button
-# ==============================
-if st.button(toggle_icon, key="toggle_menu_btn"):
-    toggle_menu()
-    st.rerun()
 
 
 # ==============================
