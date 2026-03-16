@@ -19,9 +19,40 @@ st.set_page_config(
 
 
 # ==============================
-# CSS global + Topbar
+# Shared topbar snippet (active: Explore)
+# Navigation uses window.top to escape Streamlit's iframe
 # ==============================
-st.markdown("""
+TOPBAR = """
+<script>
+function smilxNav(path) {
+    var base = (window.top || window).location.href.split('#')[0].split('?')[0];
+    // Remove trailing page segment, keep only origin
+    var origin = (window.top || window).location.origin || base.split('/').slice(0,3).join('/');
+    (window.top || window).location.href = origin + path;
+}
+</script>
+
+<div class="topbar-wrap">
+    <div class="topbar">
+        <div class="topbar-inner">
+            <span class="topbar-brand">SmilX</span>
+            <div class="topbar-links">
+                <a href="javascript:void(0)" onclick="smilxNav('/')" class="active">Explore</a>
+                <a href="javascript:void(0)" onclick="smilxNav('/About')">About</a>
+                <a href="javascript:void(0)" onclick="smilxNav('/Team')">Team</a>
+                <a href="javascript:void(0)" onclick="smilxNav('/Publications')">Publications</a>
+            </div>
+            <div class="github-box">
+                <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+"""
+
+TOPBAR_CSS = """
 <style>
 #MainMenu { visibility: hidden; }
 header { visibility: hidden; }
@@ -51,7 +82,6 @@ div[data-testid="block-container"],
     width: 100% !important;
 }
 
-/* ── Topbar sticky ── */
 .topbar-wrap {
     margin: 0 -1rem 0 -1rem;
     position: sticky;
@@ -80,7 +110,6 @@ div[data-testid="block-container"],
     font-weight: 800;
     color: #111111;
     white-space: nowrap;
-    text-decoration: none;
 }
 .topbar-links {
     display: flex;
@@ -97,30 +126,22 @@ div[data-testid="block-container"],
     border-radius: 8px;
     transition: background 0.2s ease;
     white-space: nowrap;
+    cursor: pointer;
 }
 .topbar-links a:hover { background: #f1f1f1; }
 .topbar-links a.active {
     background: #111111;
     color: #ffffff;
 }
-.github-box {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-}
+.github-box { margin-left: auto; display: flex; align-items: center; }
 .github-box a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px; height: 40px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background 0.2s ease;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 8px;
+    text-decoration: none; transition: background 0.2s ease;
 }
 .github-box a:hover { background: #f1f1f1; }
 .github-box img { width: 26px; height: 26px; display: block; }
 
-/* ── Contenido ── */
 .description-text {
     max-width: 100%;
     margin: 48px 0 12px 0;
@@ -143,27 +164,9 @@ div[data-testid="block-container"],
     .description-text { font-size: 14px; padding: 12px; }
 }
 </style>
+"""
 
-<!-- ======== TOPBAR ======== -->
-<div class="topbar-wrap">
-    <div class="topbar">
-        <div class="topbar-inner">
-            <span class="topbar-brand">SmilX</span>
-            <div class="topbar-links">
-                <a href="/" target="_self" class="active">Explore</a>
-                <a href="/About" target="_self">About</a>
-                <a href="/Team" target="_self">Team</a>
-                <a href="/Publications" target="_self">Publications</a>
-            </div>
-            <div class="github-box">
-                <a href="https://github.com/LuisOrz/SmilX" target="_blank" rel="noopener">
-                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub">
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+st.markdown(TOPBAR_CSS + TOPBAR, unsafe_allow_html=True)
 
 
 # ==============================
@@ -179,7 +182,6 @@ def main():
         with st.spinner("Please wait..."):
             _ = chemical_space_carbenes(parameters)
 
-    # Spacer para separar el grid del texto inferior
     st.markdown("<div style='clear:both; margin-top: 48px;'></div>", unsafe_allow_html=True)
 
     st.markdown("""
