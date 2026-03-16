@@ -518,7 +518,7 @@ class chemical_space_classic:
             
             with col2:
                 st.link_button(
-                    "Convert 3D with ELAYA",
+                    "3D with ELAYA",
                     "https://elaya-smiles.onrender.com/"
                 )
             """
@@ -1254,7 +1254,7 @@ class chemical_space_carbenes:
         
         with col2:
             st.link_button(
-                "Convert 3D with ELAYA",
+                "3D with ELAYA",
                 "https://elaya-smiles.onrender.com/"
             )
         """
